@@ -70,4 +70,5 @@ def cli():
 
 
 if __name__ == "__main__":
+    print("!!!THIS IS THE CORRECT TEST VERSION (MSR26) FIXING ONLY W003!!!")
     cli()
