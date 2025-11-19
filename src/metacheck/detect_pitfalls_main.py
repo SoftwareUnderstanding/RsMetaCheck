@@ -4,33 +4,37 @@ from typing import Iterable, Union
 from metacheck.utils.pitfall_utils import extract_programming_languages
 from metacheck.utils.json_ld_utils import create_pitfall_jsonld, save_individual_pitfall_jsonld
 
-from metacheck.scripts.p001 import detect_version_mismatch
-from metacheck.scripts.p002 import detect_license_template_placeholders
-from metacheck.scripts.w003 import detect_unversioned_requirements
-from metacheck.scripts.w004 import detect_outdated_datemodified
-from metacheck.scripts.p005 import detect_multiple_authors_single_field_pitfall
-from metacheck.scripts.p006 import detect_readme_homepage_pitfall
-from metacheck.scripts.p007 import detect_reference_publication_archive_pitfall
-from metacheck.scripts.p008 import detect_local_file_license_pitfall
-from metacheck.scripts.w010 import detect_programming_language_no_version_pitfall
-from metacheck.scripts.p011 import detect_citation_missing_reference_publication_pitfall
-from metacheck.scripts.w012 import detect_multiple_requirements_string_warning
-from metacheck.scripts.p013 import detect_invalid_software_requirement_pitfall
-from metacheck.scripts.w014 import detect_identifier_name_warning
-from metacheck.scripts.w015 import detect_empty_identifier_warning
-from metacheck.scripts.p016 import detect_coderepository_homepage_pitfall
-from metacheck.scripts.p017 import detect_copyright_only_license
-from metacheck.scripts.p018 import detect_issue_tracker_format_pitfall
-from metacheck.scripts.p019 import detect_outdated_download_url_pitfall
-from metacheck.scripts.p020 import detect_development_status_url_pitfall
-from metacheck.scripts.w021 import detect_author_name_list_warning
-from metacheck.scripts.p022 import detect_license_no_version_pitfall
-from metacheck.scripts.p023 import detect_git_remote_shorthand_pitfall
-from metacheck.scripts.p024 import detect_bare_doi_pitfall
-from metacheck.scripts.p025 import detect_ci_404_pitfall
-from metacheck.scripts.p026 import detect_different_repository_pitfall
-from metacheck.scripts.p027 import detect_codemeta_version_mismatch_pitfall
-from metacheck.scripts.p028 import detect_raw_swhid_pitfall
+# Pitfalls
+from metacheck.scripts.pitfalls.p001 import detect_version_mismatch
+from metacheck.scripts.pitfalls.p002 import detect_license_template_placeholders
+from metacheck.scripts.pitfalls.p003 import detect_multiple_authors_single_field_pitfall
+from metacheck.scripts.pitfalls.p004 import detect_readme_homepage_pitfall
+from metacheck.scripts.pitfalls.p005 import detect_reference_publication_archive_pitfall
+from metacheck.scripts.pitfalls.p006 import detect_local_file_license_pitfall
+from metacheck.scripts.pitfalls.p007 import detect_citation_missing_reference_publication_pitfall
+from metacheck.scripts.pitfalls.p008 import detect_invalid_software_requirement_pitfall
+from metacheck.scripts.pitfalls.p009 import detect_coderepository_homepage_pitfall
+from metacheck.scripts.pitfalls.p010 import detect_copyright_only_license
+from metacheck.scripts.pitfalls.p011 import detect_issue_tracker_format_pitfall
+from metacheck.scripts.pitfalls.p012 import detect_outdated_download_url_pitfall
+from metacheck.scripts.pitfalls.p013 import detect_license_no_version_pitfall
+from metacheck.scripts.pitfalls.p014 import detect_bare_doi_pitfall
+from metacheck.scripts.pitfalls.p015 import detect_ci_404_pitfall
+from metacheck.scripts.pitfalls.p016 import detect_different_repository_pitfall
+from metacheck.scripts.pitfalls.p017 import detect_codemeta_version_mismatch_pitfall
+from metacheck.scripts.pitfalls.p018 import detect_raw_swhid_pitfall
+
+# Warnings
+from metacheck.scripts.warnings.w001 import detect_unversioned_requirements
+from metacheck.scripts.warnings.w002 import detect_outdated_datemodified
+from metacheck.scripts.warnings.w003 import detect_dual_license_missing_codemeta_pitfall
+from metacheck.scripts.warnings.w004 import detect_programming_language_no_version_pitfall
+from metacheck.scripts.warnings.w005 import detect_multiple_requirements_string_warning
+from metacheck.scripts.warnings.w006 import detect_identifier_name_warning
+from metacheck.scripts.warnings.w007 import detect_empty_identifier_warning
+from metacheck.scripts.warnings.w008 import detect_author_name_list_warning
+from metacheck.scripts.warnings.w009 import detect_development_status_url_pitfall
+from metacheck.scripts.warnings.w010 import detect_git_remote_shorthand_pitfall
 
 
 def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[str, Path], output_file: Union[str, Path]):
@@ -75,180 +79,187 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
                 "languages": {}
             },
             {
-                "warning_code": "W003",
-                "warning_desc": "Software requirements in metadata files don't have version specifications",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "warning_code": "W004",
-                "warning_desc": "The dateModified in codemeta.json is outdated compared to the actual repository last update date",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "pitfall_code": "P005",
+                "pitfall_code": "P003",
                 "pitfall_desc": "Metadata files have multiple authors in single field instead of a list",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P006",
+                "pitfall_code": "P004",
                 "pitfall_desc": "In codemeta.json README property pointing to their homepage/wiki instead of README file",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P007",
+                "pitfall_code": "P005",
                 "pitfall_desc": "codemeta.json referencePublication refers to software archive instead of paper",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P008",
+                "pitfall_code": "P006",
                 "pitfall_desc": "The metadata file has License pointing to a local file instead of stating the name",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "warning_code": "W010",
-                "warning_desc": "Programming languages in codemeta.json do not have versions",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "pitfall_code": "P011",
+                "pitfall_code": "P007",
                 "pitfall_desc": "CITATION.cff does not have referencePublication even though it's referenced in codemeta.json",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "warning_code": "W012",
-                "warning_desc": "The metadata file softwareRequirements have more than one req, but it's written as one string",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "pitfall_code": "P013",
+                "pitfall_code": "P008",
                 "pitfall_desc": "The metadata file softwareRequirement points to an invalid page",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "warning_code": "W014",
-                "warning_desc": "codemeta.json Identifier is a name instead of a valid unique identifier, but an identifier exist",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "warning_code": "W015",
-                "warning_desc": "codemeta.json Identifier is empty",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "pitfall_code": "P016",
+                "pitfall_code": "P009",
                 "pitfall_desc": "The metadata file coderepository points to their homepage",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P017",
+                "pitfall_code": "P010",
                 "pitfall_desc": "LICENSE file only contains copyright information without actual license terms",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P018",
+                "pitfall_code": "P011",
                 "pitfall_desc": "codemeta.json IssueTracker violates the expected URL format",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P019",
+                "pitfall_code": "P012",
                 "pitfall_desc": "codemeta.json downloadURL is outdated",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P020",
-                "pitfall_desc": "codemeta.json developmentStatus is a URL instead of a string",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "warning_code": "W021",
-                "warning_desc": "The metadata file GivenName is a list instead of a string",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "pitfall_code": "P022",
+                "pitfall_code": "P013",
                 "pitfall_desc": "The metadata file License does not have the specific version",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P023",
-                "pitfall_desc": "The metadata file codeRepository uses Git remote-style shorthand instead of full URL",
-                "count": 0,
-                "percentage": 0.0,
-                "languages": {}
-            },
-            {
-                "pitfall_code": "P024",
+                "pitfall_code": "P014",
                 "pitfall_desc": "codemeta.json uses bare DOIs in the identifier field instead of full https://doi.org/ URL",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P025",
+                "pitfall_code": "P015",
                 "pitfall_desc": "In codemeta.json contIntegration link returns 404",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P026",
+                "pitfall_code": "P016",
                 "pitfall_desc": "The metadata file codeRepository does not point to the same repository",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P027",
+                "pitfall_code": "P017",
                 "pitfall_desc": "codemeta.json version does not match the package's",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
             },
             {
-                "pitfall_code": "P028",
+                "pitfall_code": "P018",
                 "pitfall_desc": "codemeta.json Identifier uses raw SWHIDs without their resolvable URL",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}
-            }
+            },
+            {
+                "warning_code": "W001",
+                "warning_desc": "Software requirements in metadata files don't have version specifications",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "warning_code": "W002",
+                "warning_desc": "The dateModified in codemeta.json is outdated compared to the actual repository last update date",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "warning_code": "W003",
+                "warning_desc": "Codemeta.json repository has multiple licenses but only one is listed",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "warning_code": "W004",
+                "warning_desc": "Programming languages in codemeta.json do not have versions",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "warning_code": "W005",
+                "warning_desc": "The metadata file softwareRequirements have more than one req, but it's written as one string",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "warning_code": "W006",
+                "warning_desc": "codemeta.json Identifier is a name instead of a valid unique identifier, but an identifier exist",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "warning_code": "W007",
+                "warning_desc": "codemeta.json Identifier is empty",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "warning_code": "W008",
+                "warning_desc": "The metadata file GivenName is a list instead of a string",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "pitfall_code": "W009",
+                "pitfall_desc": "codemeta.json developmentStatus is a URL instead of a string",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
+                "pitfall_code": "W010",
+                "pitfall_desc": "The metadata file codeRepository uses Git remote-style shorthand instead of full URL",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
         ]
     }
 
@@ -260,33 +271,34 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
     pitfall_counts = [0] * 27
 
     pitfall_detectors = [
-        (detect_version_mismatch, "P001"),
-        (detect_license_template_placeholders, "P002"),
-        (detect_unversioned_requirements, "W003"),
-        (detect_outdated_datemodified, "W004"),
-        (detect_multiple_authors_single_field_pitfall, "P005"),
-        (detect_readme_homepage_pitfall, "P006"),
-        (detect_reference_publication_archive_pitfall, "P007"),
-        (detect_local_file_license_pitfall, "P008"),
-        (detect_programming_language_no_version_pitfall, "W010"),
-        (detect_citation_missing_reference_publication_pitfall, "P011"),
-        (detect_multiple_requirements_string_warning, "W012"),
-        (detect_invalid_software_requirement_pitfall, "P013"),
-        (detect_identifier_name_warning, "W014"),
-        (detect_empty_identifier_warning, "W015"),
-        (detect_coderepository_homepage_pitfall, "P016"),
-        (detect_copyright_only_license, "P017"),
-        (detect_issue_tracker_format_pitfall, "P018"),
-        (detect_outdated_download_url_pitfall, "P019"),
-        (detect_development_status_url_pitfall, "P020"),
-        (detect_author_name_list_warning, "W021"),
-        (detect_license_no_version_pitfall, "P022"),
-        (detect_git_remote_shorthand_pitfall, "P023"),
-        (detect_bare_doi_pitfall, "P024"),
-        (detect_ci_404_pitfall, "P025"),
-        (detect_different_repository_pitfall, "P026"),
-        (detect_codemeta_version_mismatch_pitfall, "P027"),
-        (detect_raw_swhid_pitfall, "P028")
+        (detect_version_mismatch, "P001"),  # Index 0 -> P001
+        (detect_license_template_placeholders, "P002"),  # Index 1 -> P002  
+        (detect_multiple_authors_single_field_pitfall, "P003"),  # Index 2 -> P003
+        (detect_readme_homepage_pitfall, "P004"),  # Index 3 -> P004
+        (detect_reference_publication_archive_pitfall, "P005"),  # Index 4 -> P005
+        (detect_local_file_license_pitfall, "P006"),  # Index 5 -> P006
+        (detect_citation_missing_reference_publication_pitfall, "P007"),  # Index 6 -> P007
+        (detect_invalid_software_requirement_pitfall, "P008"),  # Index 7 -> P008
+        (detect_coderepository_homepage_pitfall, "P009"),  # Index 8 -> P009
+        (detect_copyright_only_license, "P010"),  # Index 9 -> P010
+        (detect_issue_tracker_format_pitfall, "P011"),  # Index 10 -> P011
+        (detect_outdated_download_url_pitfall, "P012"),  # Index 11 -> P012
+        (detect_license_no_version_pitfall, "P013"),  # Index 12 -> P013
+        (detect_bare_doi_pitfall, "P014"),  # Index 13 -> P014
+        (detect_ci_404_pitfall, "P015"),  # Index 14 -> P015
+        (detect_different_repository_pitfall, "P016"),  # Index 15 -> P016
+        (detect_codemeta_version_mismatch_pitfall, "P017"),  # Index 16 -> P017
+        (detect_raw_swhid_pitfall, "P018"),  # Index 17 -> P018
+        (detect_unversioned_requirements, "W001"),  # Index 18 -> W001
+        (detect_outdated_datemodified, "W002"),  # Index 19 -> W002
+        (detect_dual_license_missing_codemeta_pitfall, "W003"),
+        (detect_programming_language_no_version_pitfall, "W004"),  # Index 20 -> W004
+        (detect_multiple_requirements_string_warning, "W005"),  # Index 21 -> W005
+        (detect_identifier_name_warning, "W006"),  # Index 22 -> W006
+        (detect_empty_identifier_warning, "W007"),  # Index 23 -> W007
+        (detect_author_name_list_warning, "W008"),  # Index 24 -> W008
+        (detect_development_status_url_pitfall, "W009"),  # Index 25 -> W009
+        (detect_git_remote_shorthand_pitfall, "W010"),  # Index 26 -> W010
     ]
 
     for json_file in json_files:
