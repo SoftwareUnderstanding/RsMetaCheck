@@ -7,7 +7,7 @@ def detect_dual_license_missing_codemeta_pitfall(somef_data: Dict, file_name: st
     Detect when repository has multiple licenses but codemeta.json only lists one.
     """
     result = {
-        "has_pitfall": False,
+        "has_warning": False,
         "file_name": file_name,
         "has_dual_license_indicator": False,
         "codemeta_license_count": 0,
@@ -25,13 +25,13 @@ def detect_dual_license_missing_codemeta_pitfall(somef_data: Dict, file_name: st
         r"dual[\s-]?licen[cs]ed?",
         r"dually[\s-]?licen[cs]ed?",
         r"multiple[\s-]?licen[cs]es?",
-        r"licen[cs]ed?\s+under.*(?:and|or)",
-        r"choose.*licen[cs]e",
-        r"either.*licen[cs]e",
+        r"(?:is|are)\s+licen[cs]ed?\s+under.*(?:and|or).*licen[cs]e", 
+        r"choose.*(?:between|from).*licen[cs]e",  
+        r"either.*or.*licen[cs]e",  
         r"\d+\..*licen[cs]e.*\n.*\d+\..*licen[cs]e",
         r"licen[cs]e.*options?",
-        r"available\s+under.*licen[cs]es?"
-    ]
+        r"available\s+under.*(?:two|multiple|either).*licen[cs]es?" 
+]
 
     has_dual_license_indicator = False
     dual_license_source = None
@@ -59,6 +59,6 @@ def detect_dual_license_missing_codemeta_pitfall(somef_data: Dict, file_name: st
     result["dual_license_source"] = dual_license_source
 
     if has_dual_license_indicator and codemeta_license_count <= 1:
-        result["has_pitfall"] = True
+        result["has_warning"] = True
 
     return result

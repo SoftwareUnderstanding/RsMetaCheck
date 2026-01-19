@@ -253,6 +253,16 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
             identifier_value = pitfall_result.get('identifier_value') or 'unknown'
             return f"{evidence_base}codemeta.json Identifier uses raw SWHID without resolvable URL: '{identifier_value}'"
 
+    elif pitfall_code == "P019":
+        if "inconsistencies" in pitfall_result:
+            inconsistency = pitfall_result["inconsistencies"][0]
+            source_fewer = inconsistency.get('source_with_fewer', 'unknown')
+            count_fewer = inconsistency.get('fewer_count', 0)
+            source_more = inconsistency.get('source_with_more', 'unknown')
+            count_more = inconsistency.get('more_count', 0)
+            return f"{evidence_base}Author count mismatch: {source_fewer} has {count_fewer} while {source_more} has {count_more}"
+        return f"{evidence_base}Inconsistent author counts found across metadata files"
+
     # Warnings
     elif pitfall_code == "W001":
         if "unversioned_requirements" in pitfall_result:
@@ -288,9 +298,9 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
         return f"{evidence_base}codemeta.json Programming languages in metadata do not have version specifications"
 
     elif pitfall_code == "W005":
-        if "requirements_string" in pitfall_result:
+        if "requirement_string" in pitfall_result:
             metadata_source = extract_metadata_source(pitfall_result)
-            requirements_string = pitfall_result.get('requirements_string') or 'unknown'
+            requirements_string = pitfall_result.get('requirement_string') or 'unknown'
             return f"{evidence_base}{metadata_source} Multiple requirements written as single string: '{requirements_string}'"
 
     elif pitfall_code == "W006":
@@ -348,6 +358,7 @@ def get_pitfall_category(pitfall_code: str) -> str:
         "P016": "metadatafile",  # metadata file codeRepository different repo
         "P017": "codemeta",  # codemeta.json version mismatch
         "P018": "codemeta",  # codemeta.json raw SWHIDs
+        "P019": "metadatafile",  # inconsistent author counts
 
         # Warnings
         "W001": "metadatafile",  # metadata file requirements
@@ -389,6 +400,7 @@ def get_suggestion_text(pitfall_code: str) -> str:
         "P016": "Make sure that the codeRepository URL in your metadata exactly matches the repository hosting your source code.",
         "P017": "You need to synchronize all version references across metadata and build configuration files.",
         "P018": "Always use the full resolvable SWHID URL (e.g., https://archive.softwareheritage.org/swh:1:dir:abcd.../). This will ensure that both humans and machines can access the archived software snapshot directly",
+        "P019": "Ensure that the number of authors is consistent across all metadata files. Inconsistencies may signal that some contributors are missing in certain files.",
 
         # Warnings
         "W001": "Add version numbers to your dependencies. This provides stability for users and allows reproducibility across different environments.",
@@ -491,7 +503,6 @@ def save_individual_pitfall_jsonld(jsonld_data: Dict, output_dir: Path, file_nam
     output_file = output_dir / f"{base_name}_pitfalls.jsonld"
 
     try:
-        # Convert any sets to lists before JSON serialization
         serializable_data = convert_sets_to_lists(jsonld_data)
 
         with open(output_file, 'w', encoding='utf-8') as f:
