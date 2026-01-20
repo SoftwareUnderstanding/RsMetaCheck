@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1050222589.svg)](https://doi.org/10.5281/zenodo.18313677)
+
 # Research Software MetaCheck (a Pitfall/Warning Detection Tool)
 
 This project provides an automated tool for detecting common metadata quality issues (pitfalls & Warnings)
