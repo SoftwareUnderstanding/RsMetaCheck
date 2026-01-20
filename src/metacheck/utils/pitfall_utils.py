@@ -1,4 +1,5 @@
 import re
+import os
 from typing import Dict, List
 
 
@@ -84,13 +85,11 @@ def extract_metadata_source_filename(source_path: str) -> str:
     if not source_path:
         return "metadata files"
 
-    # Define metadata file patterns to look for
-    metadata_files = ["codemeta.json", "DESCRIPTION", "composer.json", "package.json",
-                      "pom.xml", "pyproject.toml", "requirements.txt", "setup.py"]
-
-    # Check for exact filename matches first
-    for meta_file in metadata_files:
-        if meta_file in source_path:
-            return meta_file
-
-    return "metadata files"
+    # Extract filename from path
+    filename = os.path.basename(source_path)
+    
+    # If basename is empty or just root, fallback
+    if not filename:
+        return "metadata files"
+        
+    return filename

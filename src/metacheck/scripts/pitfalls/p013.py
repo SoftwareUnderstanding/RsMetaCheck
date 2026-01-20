@@ -26,12 +26,12 @@ def detect_license_no_version_pitfall(somef_data: Dict, file_name: str) -> Dict:
                         "requirements.txt", "setup.py"]
 
     versioned_patterns = {
-        "GPL": r"GPL[-\s]?\d+(\.\d+)?",
-        "LGPL": r"LGPL[-\s]?\d+(\.\d+)?",
-        "AGPL": r"AGPL[-\s]?\d+(\.\d+)?",
-        "Apache": r"Apache[-\s]?\d+(\.\d+)?",
-        "CC": r"CC[- ]BY[-\s]?\d+(\.\d+)?",
-        "BSD": r"BSD[-\s]\d+[-\s]Clause"
+        "GPL": r"\bGPL[-\s]?\d+(\.\d+)?",
+        "LGPL": r"\bLGPL[-\s]?\d+(\.\d+)?",
+        "AGPL": r"\bAGPL[-\s]?\d+(\.\d+)?",
+        "Apache": r"\bApache[-\s]?\d+(\.\d+)?",
+        "CC": r"\bCC[- ]BY[-\s]?\d+(\.\d+)?",
+        "BSD": r"\bBSD[-\s]\d+[-\s]Clause"
     }
 
     for entry in license_entries:
@@ -52,14 +52,17 @@ def detect_license_no_version_pitfall(somef_data: Dict, file_name: str) -> Dict:
 
                     if "0BSD" in license_value:
                         continue
+                    
+                    if "LICENSEREF-" in license_upper:
+                        continue
 
                     for license_name, version_pattern in versioned_patterns.items():
-                        if license_name in license_upper:
+                        if re.search(rf"\b{license_name}\b", license_upper):
                             if not re.search(version_pattern, license_upper, re.IGNORECASE):
                                 result["has_pitfall"] = True
                                 result["license_value"] = license_value
                                 result["source"] = source
                                 result["metadata_source_file"] = extract_metadata_source_filename(source)
-                                return result  # Stop at first match
+                                return result
 
     return result

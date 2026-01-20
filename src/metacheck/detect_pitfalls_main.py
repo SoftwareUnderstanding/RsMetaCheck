@@ -23,6 +23,7 @@ from metacheck.scripts.pitfalls.p015 import detect_ci_404_pitfall
 from metacheck.scripts.pitfalls.p016 import detect_different_repository_pitfall
 from metacheck.scripts.pitfalls.p017 import detect_codemeta_version_mismatch_pitfall
 from metacheck.scripts.pitfalls.p018 import detect_raw_swhid_pitfall
+from metacheck.scripts.pitfalls.p019 import detect_inconsistent_author_count
 
 # Warnings
 from metacheck.scripts.warnings.w001 import detect_unversioned_requirements
@@ -191,6 +192,13 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
                 "languages": {}
             },
             {
+                "pitfall_code": "P019",
+                "pitfall_desc": "Inconsistent author counts found across metadata files",
+                "count": 0,
+                "percentage": 0.0,
+                "languages": {}
+            },
+            {
                 "warning_code": "W001",
                 "warning_desc": "Software requirements in metadata files don't have version specifications",
                 "count": 0,
@@ -268,7 +276,7 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
     total_repos = 0
     repos_with_target_languages = 0
     jsonld_files_created = 0
-    pitfall_counts = [0] * 27
+    pitfall_counts = [0] * 29
 
     pitfall_detectors = [
         (detect_version_mismatch, "P001"),  # Index 0 -> P001
@@ -289,16 +297,17 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
         (detect_different_repository_pitfall, "P016"),  # Index 15 -> P016
         (detect_codemeta_version_mismatch_pitfall, "P017"),  # Index 16 -> P017
         (detect_raw_swhid_pitfall, "P018"),  # Index 17 -> P018
-        (detect_unversioned_requirements, "W001"),  # Index 18 -> W001
-        (detect_outdated_datemodified, "W002"),  # Index 19 -> W002
+        (detect_inconsistent_author_count, "P019"),  # Index 18 -> P019
+        (detect_unversioned_requirements, "W001"),  # Index 19 -> W001
+        (detect_outdated_datemodified, "W002"),  # Index 20 -> W002
         (detect_dual_license_missing_codemeta_pitfall, "W003"),
-        (detect_programming_language_no_version_pitfall, "W004"),  # Index 20 -> W004
-        (detect_multiple_requirements_string_warning, "W005"),  # Index 21 -> W005
-        (detect_identifier_name_warning, "W006"),  # Index 22 -> W006
-        (detect_empty_identifier_warning, "W007"),  # Index 23 -> W007
-        (detect_author_name_list_warning, "W008"),  # Index 24 -> W008
-        (detect_development_status_url_pitfall, "W009"),  # Index 25 -> W009
-        (detect_git_remote_shorthand_pitfall, "W010"),  # Index 26 -> W010
+        (detect_programming_language_no_version_pitfall, "W004"),  # Index 21 -> W004
+        (detect_multiple_requirements_string_warning, "W005"),  # Index 22 -> W005
+        (detect_identifier_name_warning, "W006"),  # Index 23 -> W006
+        (detect_empty_identifier_warning, "W007"),  # Index 24 -> W007
+        (detect_author_name_list_warning, "W008"),  # Index 25 -> W008
+        (detect_development_status_url_pitfall, "W009"),  # Index 26 -> W009
+        (detect_git_remote_shorthand_pitfall, "W010"),  # Index 27 -> W010
     ]
 
     for json_file in json_files:

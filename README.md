@@ -1,14 +1,14 @@
 # Research Software MetaCheck (a Pitfall/Warning Detection Tool)
 
 This project provides an automated tool for detecting common metadata quality issues (pitfalls & Warnings)
-in software repositories. The tool analyzes SoMEF (Software Metadata Extraction Framework) output 
+in software repositories. The tool analyzes SoMEF (Software Metadata Extraction Framework) output
 files to identify various problems in repository metadata
 files such as `codemeta.json`, `package.json`, `setup.py`, `DESCRIPTION`, and others.
 
 ## Overview
 
-MetaCheck identifies **27 different types of metadata quality issues** across multiple programming languages 
-(Python, Java, C++, C, R, Rust). These pitfalls range from version mismatches and 
+MetaCheck identifies **29 different types of metadata quality issues** across multiple programming languages
+(Python, Java, C++, C, R, Rust). These pitfalls range from version mismatches and
 license template placeholders to broken URLs and improperly formatted metadata fields.
 
 ### Supported Pitfall Types
@@ -32,48 +32,54 @@ The tool detects the following categories of issues:
   - `re` (built-in)
   - `somef` (For extracting metadata from the repositories)
 
-## Setup and Usage
+## Installation
 
-### 1. Prepare SoMEF Output Files
+### Using Poetry (Recommended)
 
-You first need to run:
-`pip install git+https://github.com/Anas-Elhounsri/RsMetaCheck.git
-`
-  
-Then run `somef configure` and add you GitHub authentication token which will be used by somef 
-to extract the metadata, you can still not include an authentication token and still use SOMEF. 
-However, you may be limited to a series of requests per hour depending on the batch size of 
-repositories you want to analyze.
+1. **Clone the repository**:
 
-### 2. Directory Structure [NEEDS AN UPDATE]
+   ```bash
+   git clone https://github.com/Anas-Elhounsri/RsMetaCheck.git
+   cd RsMetaCheck
+   ```
+
+2. **Install with Poetry**:
+
+   ```bash
+   poetry install
+   ```
+
+3. **Configure SoMEF** (optional but recommended):
+   ```bash
+   poetry run somef configure
+   ```
+   Add your GitHub authentication token to avoid API rate limits when analyzing repositories in batches.
+
+### Using pip
+
+Alternatively, you can install directly from GitHub:
+
+```bash
+pip install git+https://github.com/Anas-Elhounsri/RsMetaCheck.git
 ```
-project/ detect_pitfalls_main.py 
-        +-- somef_outputs/ # Directory containing SoMEF JSON files   
-            +-- repository1.json   
-            +-- repository2.json   
-            +-- ... 
-        +-- scripts/ # Individual pitfall detector modules   
-            +-- p001.py   
-            +-- p002.py   
-            +-- ... 
-        +-- all_pitfalls_results.json # Generated output file
 
+## Usage
+
+### Run the Detection Tool
+
+#### Analyze a Single Repository
+
+```bash
+poetry run rsmetacheck --input https://github.com/tidyverse/tidyverse
 ```
 
-### 3. Run the Detection Tool
+#### Analyze Multiple Repositories from a JSON File
 
-After a successful setup, execute the package from the command line if you want to analyze one repository:
+```bash
+poetry run rsmetacheck --input repositories.json
+```
 
-`python -m metacheck.cli --input https://github.com/tidyverse/tidyverse  
-`
-  
-or if you wish to analyze in batches, you need to run
-
-`python -m metacheck.cli --input repositories.json
-`
-  
-where repositories.json in this case is the **PATH** to the JSON file of your choice that contains 
-a list of repositories, and it needs to be structured like the following:
+The `repositories.json` file should be structured as follows:
 
 ```json
 {
@@ -84,62 +90,52 @@ a list of repositories, and it needs to be structured like the following:
   ]
 }
 ```
-if the PATH is not defined, the command will look something like this:
-  
-`python -m metacheck.cli --input your_path/repositories.json
-`
 
-and the results will be stored in the current directory like the following:
+#### Customize Output Paths
 
-```
-./somef_outputs/
-./pitfalls_outputs/
-./analysis_results.json
+```bash
+poetry run rsmetacheck --input repositories.json \
+  --pitfalls-output ./results/pitfalls \
+  --analysis-output ./results/summary.json
 ```
 
-if the path is defined, the command will look something like this:
+#### Skip SoMEF and Analyze Existing Outputs
 
-`python -m metacheck.cli \ --input repositories.json \ --pitfalls-output ./results/pitfalls \ --analysis-output ./results/summary.json
-`
+If you've already run SoMEF separately:
 
-The results will be like the following:
-```
-./somef_outputs/
-./results/pitfalls/
-./results/summary.json
+```bash
+poetry run rsmetacheck --skip-somef --input somef_outputs/*.json
 ```
 
-If you have already ran SoMEF individually before running this package and wish to run the analysis, you can skip SoMEF by running this command:
-  
-`python -m metacheck.cli --skip-somef --input somef_outputs/*.json
-`  
+Or for multiple paths:
 
-or if you wish to run for multiple paths:
+```bash
+poetry run rsmetacheck --skip-somef --input my_somef_outputs_1/*.json my_somef_outputs_2/*.json
+```
 
-`python -m metacheck.cli --skip-somef --input my_somef_outputs_1/*.json my_somef_outputs_2/*.json
-`
-### 4. Output
+### Output
 
 The tool will:
+
 - Process all JSON files in the `somef_outputs` (by default created by the tool) directory
 - Display progress messages showing detected pitfalls
-- Generate JSON-LD files of detailed Pitfalls and Warnings detected by the tool in  `output_1_pitfalls.jsonld`, 
-`output_2_pitfalls.jsonld`, etc... in `pitfalls` (by default created by the tool) directory
+- Generate JSON-LD files of detailed Pitfalls and Warnings detected by the tool in `output_1_pitfalls.jsonld`,
+  `output_2_pitfalls.jsonld`, etc... in `pitfalls` (by default created by the tool) directory
 - Generate a comprehensive report in `all_pitfalls_results.json`
 
 The output file contains:
+
 - EVERSE standardized JSON-LD output of each repository
 - Summary statistics of analyzed repositories
 - Count and percentage for each pitfall type
 - Language-specific breakdown for repositories with target languages
 
-
 ## Troubleshooting
 
 ### Common Issues
 
-1. **"There is no valid repository URL" error**: Ensure the JSON file that contains the repositories 
-has a valid structure and that you are inputing the correct path
+1. **"There is no valid repository URL" error**: Ensure the JSON file that contains the repositories
+   has a valid structure and that you are inputing the correct path
 2. **Network timeouts**: Some pitfalls validate URLs and may time out this is normal behavior
 
 ### Performance Notes
@@ -150,6 +146,6 @@ has a valid structure and that you are inputing the correct path
 
 ## Contributing
 
-The system is designed with modularity in mind. Each pitfall detector is implemented as a 
-separate module in the `scripts/` directory, making it easy to add new pitfall types or modify 
+The system is designed with modularity in mind. Each pitfall detector is implemented as a
+separate module in the `scripts/` directory, making it easy to add new pitfall types or modify
 existing detection logic.
