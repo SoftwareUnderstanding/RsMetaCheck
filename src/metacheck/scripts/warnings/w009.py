@@ -31,7 +31,7 @@ def detect_development_status_url_pitfall(somef_data: Dict, file_name: str) -> D
     Detect when codemeta.json developmentStatus is a URL instead of a string.
     """
     result = {
-        "has_pitfall": False,
+        "has_warning": False,
         "file_name": file_name,
         "development_status": None,
         "source": None,
@@ -54,7 +54,7 @@ def detect_development_status_url_pitfall(somef_data: Dict, file_name: str) -> D
                 dev_status = entry["result"]["value"]
 
                 if is_url(dev_status):
-                    result["has_pitfall"] = True
+                    result["has_warning"] = True
                     result["development_status"] = dev_status
                     result["source"] = source
                     result["is_url"] = True
