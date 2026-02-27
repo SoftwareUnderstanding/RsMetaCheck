@@ -52,44 +52,43 @@ def extract_software_info_from_somef(somef_data: Dict) -> Dict:
 
 def get_pitfall_description(pitfall_code: str) -> str:
     """
-    Get the description for a given pitfall/warning code.
+    Get the description of how a given pitfall/warning is detected.
     """
     descriptions = {
         # Pitfalls (P001-P018)
-        "P001": "The metadata file (codemeta or other) has a version which does not correspond to the version used in the latest release",
-        "P002": "LICENSE file contains template placeholders like <program>, <year>, <name of author> that were not replaced",
-        "P003": "Metadata files have multiple authors in single field instead of a list",
-        "P004": "In codemeta.json README property pointing to their homepage/wiki instead of README file",
-        "P005": "codemeta.json referencePublication refers to software archive instead of paper",
-        "P006": "The metadata file has License pointing to a local file instead of stating the name",
-        "P007": "CITATION.cff does not have referencePublication even though it's referenced in codemeta.json",
-        "P008": "The metadata file softwareRequirement points to an invalid page",
-        "P009": "The metadata file coderepository points to their homepage",
-        "P010": "LICENSE file only contains copyright information without actual license terms",
-        "P011": "codemeta.json IssueTracker violates the expected URL format",
-        "P012": "codemeta.json downloadURL is outdated",
-        "P013": "The metadata file License does not have the specific version",
-        "P014": "codemeta.json uses bare DOIs in the identifier field instead of full https://doi.org/ URL",
-        "P015": "In codemeta.json contIntegration link returns 404",
-        "P016": "The metadata file codeRepository does not point to the same repository",
-        "P017": "codemeta.json version does not match the package's",
-        "P018": "codemeta.json Identifier uses raw SWHIDs without their resolvable URL",
+        "P001": "Compares the version found in the metadata file with the latest repository release tag.",
+        "P002": "Searches for common template placeholders (e.g., <program>, <year>) within the LICENSE file.",
+        "P003": "Analyzes author fields in metadata to see if multiple distinct authors are merged into a single string.",
+        "P004": "Checks the README property in codemeta.json to see if it links to a homepage or wiki rather than the actual README file.",
+        "P005": "Checks the referencePublication in codemeta.json to verify it points to a paper rather than a software archive.",
+        "P006": "Checks if the License property in the metadata file points to a local file path instead of an SPDX license identifier.",
+        "P007": "Checks CITATION.cff for a referencePublication when codemeta.json includes one but the CFF file does not.",
+        "P008": "Validates the URLs provided in the softwareRequirement field to ensure they return a successful HTTP status.",
+        "P009": "Checks if the codeRepository field points to a project homepage rather than the actual source code repository.",
+        "P010": "Analyzes the LICENSE file to determine if it only contains a copyright notice without any actual usage terms.",
+        "P011": "Validates the IssueTracker URL format in codemeta.json against expected provider patterns (e.g., GitHub issues).",
+        "P012": "Validates the downloadURL in codemeta.json to ensure the link is active and valid.",
+        "P013": "Checks if the declared License in the metadata lacks a specific version number.",
+        "P014": "Checks the identifier field in codemeta.json to see if it uses a bare DOI string instead of a full HTTPS URL.",
+        "P015": "Sends a request to the contIntegration URL in codemeta.json to verify it does not return a 404 Not Found error.",
+        "P016": "Compares the origin repository URL with the codeRepository URL in the metadata file to ensure they match.",
+        "P017": "Compares the version field in codemeta.json against the package manager version.",
+        "P018": "Checks the Identifier field in codemeta.json to see if it contains raw SWHIDs instead of their resolvable URLs.",
 
         # Warnings (W001-W010)
-        "W001": "Software requirements in metadata files don't have version specifications",
-        "W002": "The dateModified in codemeta.json is outdated compared to the actual repository last update date",
-        "W003": "Codemeta.json repository has multiple licenses but only one is listed",
-        "W004": "Programming languages in codemeta.json do not have versions",
-        "W005": "The metadata file softwareRequirements have more than one req, but it's written as one string",
-        "W006": "codemeta.json Identifier is a name instead of a valid unique identifier, but an identifier exist",
-        "W007": "codemeta.json Identifier is empty",
-        "W008": "The metadata file GivenName is a list instead of a string",
-        "W009": "codemeta.json developmentStatus is a URL instead of a string",
-        "W010": "The metadata file codeRepository uses Git remote-style shorthand instead of full URL",
+        "W001": "Analyzes software requirements in metadata to see if they lack explicit version constraints.",
+        "W002": "Compares the dateModified field against the last updated date of the actual repository.",
+        "W003": "Detects if multiple distinct licenses are found in the repository but only a single license is declared in codemeta.json.",
+        "W004": "Checks programming language declarations in codemeta.json to see if they lack specific version numbers.",
+        "W005": "Checks if the softwareRequirements field contains multiple dependencies combined into a single continuous string.",
+        "W006": "Checks if the existing identifier in codemeta.json is a plain name rather than an actual unique identifier (URL).",
+        "W007": "Checks if the Identifier field in codemeta.json is empty or completely missing.",
+        "W008": "Checks the GivenName field in the metadata file to ensure it is stored as a simple string rather than a parsed list.",
+        "W009": "Checks if the developmentStatus in codemeta.json is provided as a URL instead of a descriptive string.",
+        "W010": "Checks if the codeRepository URL uses Git remote-style shorthand (e.g., git@github.com:...) instead of a full HTTPS URL.",
     }
 
-    return descriptions.get(pitfall_code, f"Description for {pitfall_code}")
-
+    return descriptions.get(pitfall_code, f"Detection process for {pitfall_code}")
 
 def extract_metadata_source(pitfall_result: Dict) -> str:
     """
@@ -453,7 +452,7 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
     description_info = extract_description_info(somef_data)
 
     jsonld_output = {
-        "@context": "https://w3id.org/example/metacheck/0.2.0/",
+        "@context": "[IN PROCESS]",
         "@type": "SoftwareQualityAssessment",
         "name": f"Quality Assessment for {software_info['name']}",
         "description": description_info,
