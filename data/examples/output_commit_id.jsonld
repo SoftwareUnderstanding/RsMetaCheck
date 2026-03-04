@@ -1,0 +1,62 @@
+{
+  "@context": "[IN PROCESS]",
+  "@type": "SoftwareQualityAssessment",
+  "name": "Quality Assessment for SoftwareUnderstanding/ScientificSoftwareKG",
+  "description": "A repository for posting updates on scientific software knowledge graphs",
+  "creator": {
+    "@type": "schema:Person",
+    "name": "Anonymous",
+    "email": "example@email.com"
+  },
+  "dateCreated": "2026-03-04T11:45:36Z",
+  "license": {
+    "@id": "https://opensource.org/license/mit"
+  },
+  "assessedSoftware": {
+    "@type": "schema:SoftwareApplication",
+    "name": "SoftwareUnderstanding/ScientificSoftwareKG",
+    "softwareVersion": "Unknown",
+    "url": "https://github.com/SoftwareUnderstanding/ScientificSoftwareKG",
+    "commitId": "962da14cd629eb6a0363e70f56a92cc07aab21e0"
+  },
+  "checks": [
+    {
+      "@type": "CheckResult",
+      "assessesIndicator": {
+        "@id": "https://w3id.org/example/metacheck/i/indicators/codemeta"
+      },
+      "checkingSoftware": {
+        "@type": "schema:SoftwareApplication",
+        "name": "metacheck",
+        "@id": "https://w3id.org/example/metacheck/tools/",
+        "softwareVersion": "0.2.0"
+      },
+      "process": "Compares the dateModified field against the last updated date of the actual repository.",
+      "status": {
+        "@id": "schema:CompletedActionStatus"
+      },
+      "output": "true",
+      "evidence": "W002 detected: codemeta.json dateModified '2021-06-09T00:00:00' is outdated compared to repository date '2026-02-17T14:51:46'",
+      "suggestion": "You need to align the version in your metadata file with your latest release tag. Automating this synchronization as part of your release process is highly recommended."
+    },
+    {
+      "@type": "CheckResult",
+      "assessesIndicator": {
+        "@id": "https://w3id.org/example/metacheck/i/indicators/codemeta"
+      },
+      "checkingSoftware": {
+        "@type": "schema:SoftwareApplication",
+        "name": "metacheck",
+        "@id": "https://w3id.org/example/metacheck/tools/",
+        "softwareVersion": "0.2.0"
+      },
+      "process": "Checks programming language declarations in codemeta.json to see if they lack specific version numbers.",
+      "status": {
+        "@id": "schema:CompletedActionStatus"
+      },
+      "output": "true",
+      "evidence": "W004 detected: codemeta.json Programming languages without versions: HTML, CSS",
+      "suggestion": "Include version numbers for each programming language used. Defining these helps ensure reproducibility and compatibility across systems."
+    }
+  ]
+}

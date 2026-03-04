@@ -61,8 +61,8 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
             "individual_jsonld_files_created": 0,
             "total_pitfalls_detected": 0,  # Add this
             "total_warnings_detected": 0,  # Add this
-            "target_languages": ["Python", "Java", "C++", "C", "R", "Rust"]
-
+            "target_languages": ["Python", "Java", "C++", "C", "R", "Rust"],
+            "evaluated_repositories": {}
         },
         "pitfalls & warnings": [
             {
@@ -374,6 +374,30 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
             except Exception as e:
                 print(f"Error creating JSON-LD for {json_file.name}: {e}")
 
+            # Capture commit ID in evaluated_repositories summary
+            try:
+                repo_name = json_file.name
+                if "full_name" in somef_data and somef_data["full_name"]:
+                    for item in somef_data["full_name"]:
+                        if "result" in item and "value" in item["result"]:
+                            repo_name = item["result"]["value"]
+                            break
+                            
+                repo_url = "Unknown"
+                if "code_repository" in somef_data and somef_data["code_repository"]:
+                    for item in somef_data["code_repository"]:
+                        if "result" in item and "value" in item["result"]:
+                            repo_url = item["result"]["value"]
+                            break
+                
+                from metacheck.utils.json_ld_utils import fetch_latest_commit_id
+                commit_id = fetch_latest_commit_id(repo_url)
+                results["summary"]["evaluated_repositories"][repo_name] = {
+                    "url": repo_url,
+                    "commit_id": commit_id
+                }
+            except Exception as e:
+                print(f"Error extracting commit ID for summary for {json_file.name}: {e}")
 
         except json.JSONDecodeError as e:
             print(f"Error parsing JSON file {json_file}: {e}")

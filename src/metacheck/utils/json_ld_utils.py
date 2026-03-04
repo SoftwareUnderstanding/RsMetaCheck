@@ -2,6 +2,40 @@ import json
 from datetime import datetime
 from typing import Dict, List
 from pathlib import Path
+import re
+import urllib.request
+import urllib.parse
+from urllib.error import URLError, HTTPError
+
+def fetch_latest_commit_id(repo_url: str) -> str:
+    """
+    Attempts to fetch the latest commit ID for a given repository URL.
+    Returns the commit ID string or 'Unknown' if not found.
+    """
+    if not repo_url or repo_url == "Unknown":
+        return "Unknown"
+        
+    if "github.com" in repo_url:
+        match = re.search(r'github\.com/([^/]+)/([^/]+)', repo_url)
+        if match:
+            owner, repo = match.groups()
+            if repo.endswith('.git'):
+                repo = repo[:-4]
+            
+            api_url = f"https://api.github.com/repos/{owner}/{repo}/commits/HEAD"
+            try:
+                req = urllib.request.Request(
+                    api_url, 
+                    headers={'User-Agent': 'Mozilla/5.0'}
+                )
+                with urllib.request.urlopen(req, timeout=10) as response:
+                    data = json.loads(response.read().decode('utf-8'))
+                    return data.get('sha', 'Unknown')
+            except (URLError, HTTPError, json.JSONDecodeError):
+                pass
+                
+    return "Unknown"
+
 
 def extract_software_info_from_somef(somef_data: Dict) -> Dict:
     """
@@ -46,6 +80,9 @@ def extract_software_info_from_somef(somef_data: Dict) -> Dict:
                 elif identifier_value.startswith("10."):
                     software_info["schema:identifier"] = {"@id": f"https://doi.org/{identifier_value}"}
                 break
+
+    # Add commit ID
+    software_info["commit_id"] = fetch_latest_commit_id(software_info.get("url", "Unknown"))
 
     return software_info
 
@@ -463,6 +500,7 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
         },
         "dateCreated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "license": {"@id": "https://opensource.org/license/mit"},
+        "commit_id": software_info.get("commit_id", "Unknown"),
         "assessedSoftware": software_info,
         "checks": []
     }
