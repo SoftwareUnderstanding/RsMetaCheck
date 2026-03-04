@@ -4,7 +4,7 @@ from typing import Dict, Optional
 
 def extract_license_from_file(somef_data: Dict) -> Optional[Dict[str, str]]:
     """
-    Extract license content from LICENSE.md file in SoMEF output.
+    Extract license content from LICENSE file in SoMEF output.
     Returns a dict with source and content, or None if not found.
     """
     if "license" not in somef_data:
@@ -48,6 +48,8 @@ def check_license_template_placeholders(license_content: str) -> bool:
         r'\[copyright holder\]',
         r'<yyyy>',
         r'<name of copyright owner>',
+        r'\[yyyy\]',
+        r'\[name of copyright owner\]',
     ]
 
     content_lower = license_content.lower()

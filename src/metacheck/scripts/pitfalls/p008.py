@@ -15,6 +15,9 @@ def is_valid_url_format(url: str) -> bool:
     if not url or not isinstance(url, str):
         return False
 
+    if url.startswith(('git+', 'git://', 'svn+', 'hg+', 'bzr+')):
+        return True
+
     try:
         result = urlparse(url)
         return all([result.scheme, result.netloc])

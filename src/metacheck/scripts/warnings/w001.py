@@ -2,32 +2,33 @@ from typing import Dict, List, Tuple, Optional
 from metacheck.utils.pitfall_utils import extract_metadata_source_filename
 
 
-def extract_requirements_from_metadata(somef_data: Dict) -> Optional[Dict]:
+def extract_requirements_from_metadata(somef_data: Dict) -> List[Dict]:
     """
     Extract requirements from metadata files in SoMEF output.
-    Returns a dict with source, requirements info, or None if not found.
+    Returns a list of dicts with source and requirements info.
     """
     if "requirements" not in somef_data:
-        return None
+        return []
 
     requirements_entries = somef_data["requirements"]
     if not isinstance(requirements_entries, list):
-        return None
+        return []
 
     metadata_sources = ["codemeta.json", "DESCRIPTION", "composer.json", "package.json", "pom.xml", "pyproject.toml",
                         "requirements.txt", "setup.py"]
 
+    results = []
     for entry in requirements_entries:
         if "source" in entry:
             source = entry["source"]
             if any(meta_file in source for meta_file in metadata_sources):
                 if "result" in entry:
-                    return {
+                    results.append({
                         "source": source,
                         "requirement": entry["result"]
-                    }
+                    })
 
-    return None
+    return results
 
 
 def check_requirement_has_version(requirement: Dict) -> bool:
@@ -97,19 +98,27 @@ def detect_unversioned_requirements(somef_data: Dict, file_name: str) -> Dict:
         "percentage_unversioned": 0.0
     }
 
-    requirements_data = extract_requirements_from_metadata(somef_data)
+    requirements_data_list = extract_requirements_from_metadata(somef_data)
 
-    if not requirements_data:
+    if not requirements_data_list:
         return result
 
-    result["metadata_source"] = requirements_data["source"]
+    result["metadata_source"] = requirements_data_list[0]["source"]
+    result["metadata_source_file"] = extract_metadata_source_filename(requirements_data_list[0]["source"])
 
-    total_reqs, unversioned_count, unversioned_names = analyze_requirements_versions(requirements_data)
+    total_reqs = 0
+    unversioned_count = 0
+    unversioned_names = []
+
+    for req_data in requirements_data_list:
+        cur_total, cur_unversioned, cur_names = analyze_requirements_versions(req_data)
+        total_reqs += cur_total
+        unversioned_count += cur_unversioned
+        unversioned_names.extend(cur_names)
 
     result["total_requirements"] = total_reqs
     result["unversioned_count"] = unversioned_count
     result["unversioned_requirements"] = unversioned_names
-    result["metadata_source_file"] = extract_metadata_source_filename(requirements_data["source"])
 
     if total_reqs > 0:
         result["percentage_unversioned"] = round((unversioned_count / total_reqs) * 100, 2)
