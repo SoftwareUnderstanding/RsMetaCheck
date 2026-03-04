@@ -38,7 +38,7 @@ from metacheck.scripts.warnings.w009 import detect_development_status_url_pitfal
 from metacheck.scripts.warnings.w010 import detect_git_remote_shorthand_pitfall
 
 
-def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[str, Path], output_file: Union[str, Path]):
+def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[str, Path], output_file: Union[str, Path], verbose: bool = False):
     """
     Detect all software repository pitfalls in SoMEF output files using modular detectors.
     Now also generates individual JSON-LD files for each repository.
@@ -363,8 +363,8 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
                     for result in repo_pitfall_results
                 )
 
-                if has_any_issue:
-                    jsonld_data = create_pitfall_jsonld(somef_data, repo_pitfall_results, json_file.name)
+                if has_any_issue or verbose:
+                    jsonld_data = create_pitfall_jsonld(somef_data, repo_pitfall_results, json_file.name, verbose=verbose)
                     saved_file = save_individual_pitfall_jsonld(jsonld_data, pitfalls_output_dir, json_file.name)
 
                     if saved_file:
@@ -412,7 +412,7 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
         print(f"Error writing output file: {e}")
 
 
-def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_output=None):
+def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_output=None, verbose=False):
     """
     Main function to run all pitfall detections.
 
@@ -421,6 +421,7 @@ def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_outp
         somef_json_paths (Iterable[Path], optional): Explicit list of SoMEF output JSON files.
         pitfalls_dir (str|Path, optional): Directory to save pitfall JSON-LD files.
         analysis_output (str|Path, optional): Path to save summary results JSON.
+        verbose (bool, optional): Include both detected AND undetected pitfalls in JSON-LD.
 
     Note: Provide either input_dir OR somef_json_paths, not both.
           If both are provided, somef_json_paths takes precedence.
@@ -448,7 +449,7 @@ def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_outp
         print("No JSON files found for analysis.")
         return
 
-    detect_all_pitfalls(json_files, pitfalls_directory, output_file)
+    detect_all_pitfalls(json_files, pitfalls_directory, output_file, verbose)
 
 if __name__ == "__main__":
     main()

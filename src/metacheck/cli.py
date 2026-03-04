@@ -35,6 +35,12 @@ def cli():
         help="SoMEF confidence threshold (default: 0.8). Only used when running SoMEF."
     )
 
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Include both detected AND undetected pitfalls in the output JSON-LD."
+    )
+
     args = parser.parse_args()
 
     if args.skip_somef:
@@ -52,7 +58,7 @@ def cli():
             return
 
         print(f"Analyzing {len(somef_json_paths)} SoMEF output files...")
-        run_analysis(somef_json_paths, args.pitfalls_output, args.analysis_output)
+        run_analysis(somef_json_paths, args.pitfalls_output, args.analysis_output, verbose=args.verbose)
 
     else:
         threshold = args.threshold
@@ -71,7 +77,7 @@ def cli():
                 print(f"Warning: Skipping invalid input (not a URL or existing file): {input_item}")
 
         print(f"\nRunning analysis on outputs in {somef_output_dir}...")
-        run_analysis(somef_output_dir, args.pitfalls_output, args.analysis_output)
+        run_analysis(somef_output_dir, args.pitfalls_output, args.analysis_output, verbose=args.verbose)
 
 
 if __name__ == "__main__":
