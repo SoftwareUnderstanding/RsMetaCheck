@@ -374,7 +374,6 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
             except Exception as e:
                 print(f"Error creating JSON-LD for {json_file.name}: {e}")
 
-            # Capture commit ID in evaluated_repositories summary
             try:
                 repo_name = json_file.name
                 if "full_name" in somef_data and somef_data["full_name"]:
@@ -413,6 +412,8 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
     results["summary"]["total_warnings_detected"] = total_warnings
 
     for i, count in enumerate(pitfall_counts):
+        pitfall_code_str = pitfall_detectors[i][1]
+        results["pitfalls & warnings"][i]["pitfall"] = f"https://w3id.org/rsmetacheck/catalog/#{pitfall_code_str}"
         results["pitfalls & warnings"][i]["count"] = count
         if total_repos > 0:
             results["pitfalls & warnings"][i]["percentage"] = round((count / total_repos) * 100, 2)

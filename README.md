@@ -97,6 +97,7 @@ The `repositories.json` file should be structured as follows:
 
 ```bash
 poetry run rsmetacheck --input repositories.json \
+  --somef-output ./results/somef \
   --pitfalls-output ./results/pitfalls \
   --analysis-output ./results/summary.json
 ```
@@ -127,7 +128,7 @@ poetry run rsmetacheck --input https://github.com/tidyverse/tidyverse --verbose
 
 The tool will:
 
-- Process all JSON files in the `somef_outputs` (by default created by the tool) directory
+- Process all JSON files in the SoMEF output directory (by default `somef_outputs` created by the tool)
 - Display progress messages showing detected pitfalls
 - Generate JSON-LD files of detailed Pitfalls and Warnings detected by the tool in `output_1_pitfalls.jsonld`,
   `output_2_pitfalls.jsonld`, etc... in `pitfalls` (by default created by the tool) directory

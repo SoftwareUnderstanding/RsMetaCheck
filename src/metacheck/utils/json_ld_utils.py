@@ -484,7 +484,6 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
     """
     Create a JSON-LD structure for detected pitfalls following the sample format.
     """
-    import hashlib
     software_info = extract_software_info_from_somef(somef_data)
     description_info = extract_description_info(somef_data)
 
@@ -516,7 +515,7 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
             
             output_val = "true" if has_issue else "false"
             evidence_val = format_evidence_text(pitfall_code, pitfall_result) if has_issue else f"{pitfall_code} not detected:"
-            suggestion_val = get_suggestion_text(pitfall_code) if has_issue else ""
+            suggestion_val = get_suggestion_text(pitfall_code) if has_issue else "N/A"
 
             check_result = {
                 "@type": "CheckResult",
@@ -529,13 +528,11 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
                 },
                 "process": get_pitfall_description(pitfall_code),
                 "status": {"@id": "schema:CompletedActionStatus"},
+                "pitfall": f"https://w3id.org/rsmetacheck/catalog/#{pitfall_code}",
                 "output": output_val,
                 "evidence": evidence_val,
                 "suggestion": suggestion_val
             }
-            
-            check_hash = hashlib.sha256(json.dumps(check_result, sort_keys=True).encode("utf-8")).hexdigest()
-            check_result["checkId"] = check_hash
 
             jsonld_output["checks"].append(check_result)
 

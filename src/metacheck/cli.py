@@ -24,6 +24,11 @@ def cli():
         help="Directory to store pitfall JSON-LD files (default: ./pitfalls_outputs)."
     )
     parser.add_argument(
+        "--somef-output",
+        default=os.path.join(os.getcwd(), "somef_outputs"),
+        help="Directory to store SoMEF output files (default: ./somef_outputs)."
+    )
+    parser.add_argument(
         "--analysis-output",
         default=os.path.join(os.getcwd(), "analysis_results.json"),
         help="File path for summary results (default: ./analysis_results.json)."
@@ -62,7 +67,7 @@ def cli():
 
     else:
         threshold = args.threshold
-        somef_output_dir = os.path.join(os.getcwd(), "somef_outputs")
+        somef_output_dir = args.somef_output
 
         print(f"Detected {len(args.input)} input(s):")
 
