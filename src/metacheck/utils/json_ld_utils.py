@@ -500,7 +500,6 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
         },
         "dateCreated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "license": {"@id": "https://opensource.org/license/mit"},
-        "commit_id": software_info.get("commit_id", "Unknown"),
         "assessedSoftware": software_info,
         "checks": []
     }
@@ -520,16 +519,15 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
 
             check_result = {
                 "@type": "CheckResult",
-                "assessesIndicator": {"@id": f"https://w3id.org/example/metacheck/i/indicators/{category}"},
+                "assessesIndicator": {"@id": f"https://w3id.org/rsmetacheck/catalog/#{pitfall_code}"},
                 "checkingSoftware": {
                     "@type": "schema:SoftwareApplication",
-                    "name": "metacheck",
-                    "@id": "https://w3id.org/example/metacheck/tools/",
+                    "name": "RSMetacheck",
+                    "@id": "https://w3id.org/rsmetacheck",
                     "softwareVersion": "0.2.0"
                 },
                 "process": get_pitfall_description(pitfall_code),
                 "status": {"@id": "schema:CompletedActionStatus"},
-                "pitfall": f"https://w3id.org/rsmetacheck/catalog/#{pitfall_code}",
                 "output": output_val,
                 "evidence": evidence_val,
                 "suggestion": suggestion_val
