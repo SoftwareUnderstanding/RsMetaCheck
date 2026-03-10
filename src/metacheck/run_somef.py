@@ -2,6 +2,17 @@ import os
 import json
 import subprocess
 
+def configure_somef():
+    """Automatically run 'somef configure -a' if not already configured."""
+    print("Configuring SoMEF...")
+    try:
+        subprocess.run(["somef", "configure", "-a"], check=True)
+        print("SoMEF configured successfully.")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error configuring SoMEF: {e}")
+        return False
+
 def run_somef(repo_url, output_file, threshold):
     """Run SoMEF on a given repository and save results."""
     try:
