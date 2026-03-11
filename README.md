@@ -41,7 +41,7 @@ The tool detects the following categories of issues:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/Anas-Elhounsri/RsMetaCheck.git
+   git clone https://github.com/SoftwareUnderstanding/RsMetaCheck.git
    cd RsMetaCheck
    ```
 
@@ -52,17 +52,18 @@ The tool detects the following categories of issues:
    ```
 
 3. **Configure SoMEF** (optional but recommended):
+   Initially, the installation process will run `somef configure -a` to automatically set it up and install the necessary packages but the rate limit will be low. If you need more, you should reconfigure SoMEF, you can run the following command:
    ```bash
    poetry run somef configure
    ```
-   Add your GitHub authentication token to avoid API rate limits when analyzing repositories in batches.
+   Then add your GitHub authentication token to avoid API rate limits when analyzing repositories in batches.
 
 ### Using pip
 
 Alternatively, you can install directly from GitHub:
 
 ```bash
-pip install git+https://github.com/Anas-Elhounsri/RsMetaCheck.git
+pip install git+https://github.com/SoftwareUnderstanding/RsMetaCheck.git
 ```
 
 ## Usage
