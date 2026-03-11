@@ -1,7 +1,7 @@
 import argparse
 import os
 from pathlib import Path
-from metacheck.run_somef import run_somef_batch, run_somef_single, configure_somef
+from metacheck.run_somef import run_somef_batch, run_somef_single, ensure_somef_configured
 from metacheck.run_analyzer import run_analysis
 
 
@@ -66,8 +66,7 @@ def cli():
         run_analysis(somef_json_paths, args.pitfalls_output, args.analysis_output, verbose=args.verbose)
 
     else:
-        # Before taking any SoMEF actions, configure it
-        configure_somef()
+        ensure_somef_configured()
 
         threshold = args.threshold
         somef_output_dir = args.somef_output

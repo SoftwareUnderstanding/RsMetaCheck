@@ -2,16 +2,21 @@ import os
 import json
 import subprocess
 
-def configure_somef():
-    """Automatically run 'somef configure -a' if not already configured."""
-    print("Configuring SoMEF...")
-    try:
-        subprocess.run(["somef", "configure", "-a"], check=True)
-        print("SoMEF configured successfully.")
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"Error configuring SoMEF: {e}")
-        return False
+from pathlib import Path
+
+def ensure_somef_configured():
+    """Run 'somef configure -a' only if it hasn't been configured yet."""
+    config_file = Path.home() / ".somef" / "config.json"
+    if not config_file.exists():
+        print("SoMEF configuration not found. Running initial setup...")
+        try:
+            subprocess.run(["somef", "configure", "-a"], check=True)
+            print("SoMEF configured successfully.")
+            return True
+        except subprocess.CalledProcessError as e:
+            print(f"Error configuring SoMEF: {e}")
+            return False
+    return True
 
 def run_somef(repo_url, output_file, threshold):
     """Run SoMEF on a given repository and save results."""
