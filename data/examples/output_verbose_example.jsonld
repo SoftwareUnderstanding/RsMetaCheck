@@ -8,7 +8,7 @@
     "name": "Anonymous",
     "email": "example@email.com"
   },
-  "dateCreated": "2026-03-05T16:32:46Z",
+  "dateCreated": "2026-03-11T12:59:36Z",
   "license": {
     "@id": "https://opensource.org/license/mit"
   },
@@ -19,17 +19,17 @@
     "url": "https://github.com/tidyverse/tidyverse",
     "commit_id": "0231aafbc56914ee5371dd6c7b60677f168d7154"
   },
+  "checkingSoftware": {
+    "@type": "schema:SoftwareApplication",
+    "name": "RSMetacheck",
+    "@id": "https://w3id.org/rsmetacheck",
+    "softwareVersion": "0.2.1"
+  },
   "checks": [
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P001"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Compares the version found in the metadata file with the latest repository release tag.",
       "status": {
@@ -38,18 +38,12 @@
       "output": "true",
       "evidence": "P001 detected: codemeta.json version '1.2.1.9000' does not match release version '2.0.0'",
       "suggestion": "Ensure the version in your metadata matches the latest official release. Keeping these synchronized avoids confusion for users and improves reproducibility.",
-      "checkId": "d5abee7e3b49470e8d53a72ecd7200b8197fe4acef28544cdfbe737ef2497a9d"
+      "checkId": "3e236899cef81ad3624c412658ce238e28b0ca9f76cc954638b82aceab80c136"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P002"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Searches for common template placeholders (e.g., <program>, <year>) within the LICENSE file.",
       "status": {
@@ -58,18 +52,12 @@
       "output": "false",
       "evidence": "P002 not detected:",
       "suggestion": "N/A",
-      "checkId": "ad53b59a34767cc1e38728e467a0f078369afeaccf6e807c6387dcdaacfc631f"
+      "checkId": "ec14030db966243a3dbc18e97515f3619f5bc04b0910dd7d79e39f5274e4110f"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P003"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Analyzes author fields in metadata to see if multiple distinct authors are merged into a single string.",
       "status": {
@@ -78,18 +66,12 @@
       "output": "true",
       "evidence": "P003 detected: DESCRIPTION Multiple authors found in single field: 'Posit Software, PBC'",
       "suggestion": "You should separate multiple authors into a structured list. This allows tools and citation systems to correctly identify and credit each contributor.",
-      "checkId": "bd27c80fcfeaba3cff17a63eeac949f20e150ef91b00566589ce3c9f51053639"
+      "checkId": "8c464bd03fa6e09dc04ba3c44df50592ceeaf2464886107abfdc605ea172c215"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P004"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks the README property in codemeta.json to see if it links to a homepage or wiki rather than the actual README file.",
       "status": {
@@ -98,18 +80,12 @@
       "output": "false",
       "evidence": "P004 not detected:",
       "suggestion": "N/A",
-      "checkId": "9f1bff6e3917a9f9c7540cb2a953b6db33595120809a799283a61e2c20ff82b7"
+      "checkId": "58199bdcc667519e6d68897116533a09b6d3bc9ca41f801928ca253aeefc8d5c"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P005"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks the referencePublication in codemeta.json to verify it points to a paper rather than a software archive.",
       "status": {
@@ -118,18 +94,12 @@
       "output": "false",
       "evidence": "P005 not detected:",
       "suggestion": "N/A",
-      "checkId": "a8e2312373e3419d028a0b17050d2af091edaecdbcd20f2f045f3a0c12e9760e"
+      "checkId": "84e3779140c7a77799b49e63772cc20442caf6f934369824b76915ed2bde045a"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P006"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks if the License property in the metadata file points to a local file path instead of an SPDX license identifier.",
       "status": {
@@ -138,18 +108,12 @@
       "output": "false",
       "evidence": "P006 not detected:",
       "suggestion": "N/A",
-      "checkId": "f167991fedb3d64c63d2d38901b8b852de10183c3bc97abf385dafc4f6da106d"
+      "checkId": "71f3266bb735fb7a723fb333e646487e3fbea64ec4ef1865ab2c47b006fa98dc"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P007"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks CITATION.cff for a referencePublication when codemeta.json includes one but the CFF file does not.",
       "status": {
@@ -158,18 +122,12 @@
       "output": "false",
       "evidence": "P007 not detected:",
       "suggestion": "N/A",
-      "checkId": "135e8fffb5dc97f5624c03082e9fce22b52a8cf6385cfbd5548ca17a6bc3e71c"
+      "checkId": "cb7b66f50d1821cce6b1585d5e731b1573ee593d4304c50aad9555f6f09dd2a4"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P008"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Validates the URLs provided in the softwareRequirement field to ensure they return a successful HTTP status.",
       "status": {
@@ -178,18 +136,12 @@
       "output": "false",
       "evidence": "P008 not detected:",
       "suggestion": "N/A",
-      "checkId": "a36decc5d7b8b49029ea4f8892d512f2e12670777e0b98d42d4708c66ffe48df"
+      "checkId": "32dd07409d09a1f88e2d732563c82fd4a04e1d23053ddc9e0fde78b12d9a7984"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P009"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks if the codeRepository field points to a project homepage rather than the actual source code repository.",
       "status": {
@@ -198,38 +150,26 @@
       "output": "false",
       "evidence": "P009 not detected:",
       "suggestion": "N/A",
-      "checkId": "9ec354c1ce65bd0afe0580291adde01b28d6559ad72ab10938481a97e052920d"
+      "checkId": "b1d67597a2e349977c8dbf65f971dc9f97cea51ff8ec03c140b41f917391673c"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P010"
       },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
-      },
       "process": "Analyzes the LICENSE file to determine if it only contains a copyright notice without any actual usage terms.",
       "status": {
         "@id": "schema:CompletedActionStatus"
       },
-      "output": "false",
-      "evidence": "P010 not detected:",
-      "suggestion": "N/A",
-      "checkId": "a95bac5ad2bc6caa5ff6630a44118ecbd8ea3e4f69776a6cec7845dbce297e3e"
+      "output": "true",
+      "evidence": "P010 detected: LICENSE file only contains copyright information without actual license terms",
+      "suggestion": "You need to include the complete text of a recognized license such as MIT, Apache 2.0, or GPL. A full license clarifies rights and usage conditions for others",
+      "checkId": "bd5adc62972424cbc55de4ce7549f923b1dfb2ccfd5998fb260a909be8fcbc2e"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P011"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Validates the IssueTracker URL format in codemeta.json against expected provider patterns (e.g., GitHub issues).",
       "status": {
@@ -238,18 +178,12 @@
       "output": "false",
       "evidence": "P011 not detected:",
       "suggestion": "N/A",
-      "checkId": "dfadbb2bf2acf6134a6b0d6b1dc500d201acdbf39dfadaf93821cca69127c79a"
+      "checkId": "a5a7ee6890a6aec5a3ca43342660cf6f3be891a70ed8faab44e7eb9859c97df2"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P012"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Validates the downloadURL in codemeta.json to ensure the link is active and valid.",
       "status": {
@@ -258,18 +192,12 @@
       "output": "false",
       "evidence": "P012 not detected:",
       "suggestion": "N/A",
-      "checkId": "7c52fff84fd0a08e92fc6ecb268ed149e0de6f82b100190a60f436ec90bcb788"
+      "checkId": "a4195dc6a8663b21de67906cc09be12a81d07f4d88c312e2fbe7f7c2b72fdcac"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P013"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks if the declared License in the metadata lacks a specific version number.",
       "status": {
@@ -278,18 +206,12 @@
       "output": "false",
       "evidence": "P013 not detected:",
       "suggestion": "N/A",
-      "checkId": "a11592df452cf7136648b16b2d88bdc7ebf94b61def26506110ab86cec93034f"
+      "checkId": "155bbb9f0ddcd996e5926fea507833aac3e7774b5330d0ea955550d69d375f91"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P014"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks the identifier field in codemeta.json to see if it uses a bare DOI string instead of a full HTTPS URL.",
       "status": {
@@ -298,18 +220,12 @@
       "output": "false",
       "evidence": "P014 not detected:",
       "suggestion": "N/A",
-      "checkId": "e52f31160dee04982190708c2f0b8ab3458ac7011465fec28ffbad6003dcf90a"
+      "checkId": "5b674034bae262bd07c82501b383074f05515c921acfa9f8f93ce928adc0b2a7"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P015"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Sends a request to the contIntegration URL in codemeta.json to verify it does not return a 404 Not Found error.",
       "status": {
@@ -318,18 +234,12 @@
       "output": "false",
       "evidence": "P015 not detected:",
       "suggestion": "N/A",
-      "checkId": "3c3573d2da72e2f80bdf2442039826fe072d12335f06da2b0e8841b510c6385c"
+      "checkId": "197d89f7eb452765e1248508d7fcf60fa2eddbdab83fb9a3668f4ca99419f9b2"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P016"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Compares the origin repository URL with the codeRepository URL in the metadata file to ensure they match.",
       "status": {
@@ -338,18 +248,12 @@
       "output": "false",
       "evidence": "P016 not detected:",
       "suggestion": "N/A",
-      "checkId": "4ae05b94959292d383464c2872795b2f66e555c70029afe7d034e6ab18c54e06"
+      "checkId": "b668d6889ed063257a17b1f7afac0e299b8c37a8b76af545e8dc36a4ce98d673"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P017"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Compares the version field in codemeta.json against the package manager version.",
       "status": {
@@ -358,18 +262,12 @@
       "output": "true",
       "evidence": "P017 detected: codemeta.json version '1.2.1.9000' does not match package version",
       "suggestion": "You need to synchronize all version references across metadata and build configuration files.",
-      "checkId": "6b8e9e41e7fa2d9cb7101212ce191a8ef2acfcd6afba175005cef78173dc945a"
+      "checkId": "43c7dc8da7ac33bb16ba96428797bfc178db207c6ddc051585454034a16e7c8f"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P018"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks the Identifier field in codemeta.json to see if it contains raw SWHIDs instead of their resolvable URLs.",
       "status": {
@@ -378,18 +276,12 @@
       "output": "false",
       "evidence": "P018 not detected:",
       "suggestion": "N/A",
-      "checkId": "37a86ca7d75a3fa69f6d0ffb472723621067923e87c93d6d311f13d2809c5c9f"
+      "checkId": "8ca776142551620d961ce37ce4565851011b2e31c6aeef4d53560de6c4d05370"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#P019"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Detection process for P019",
       "status": {
@@ -398,18 +290,12 @@
       "output": "false",
       "evidence": "P019 not detected:",
       "suggestion": "N/A",
-      "checkId": "1d2f2b124c923bc8b8480df858ab65f66e8de60c1de045ebcc13b3cce3bd2dd4"
+      "checkId": "a81013176c574b531331886b6670322c9a058743a74b35d1309b3ac9e6434138"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W001"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Analyzes software requirements in metadata to see if they lack explicit version constraints.",
       "status": {
@@ -418,18 +304,12 @@
       "output": "false",
       "evidence": "W001 not detected:",
       "suggestion": "N/A",
-      "checkId": "1cfdfc4a27fcaa2bcd4ce772ece4f9f89d1cc21ae8fa1af7f79e74ece6458885"
+      "checkId": "f7b6d4b97352607d24094666f6a628636a8a00716f62a468bb19b4b6e6e714a0"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W002"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Compares the dateModified field against the last updated date of the actual repository.",
       "status": {
@@ -438,18 +318,12 @@
       "output": "false",
       "evidence": "W002 not detected:",
       "suggestion": "N/A",
-      "checkId": "0a26a2783a85ba2a7d0793a1a93b037676608a58ce2960497d1d6b76410cb27d"
+      "checkId": "fa9a47533199c5152322d85dc0445adcd68095730dbfaf69bbd2fa9822718dfc"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W003"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Detects if multiple distinct licenses are found in the repository but only a single license is declared in codemeta.json.",
       "status": {
@@ -458,18 +332,12 @@
       "output": "false",
       "evidence": "W003 not detected:",
       "suggestion": "N/A",
-      "checkId": "6e8af113ca9ec7dcb8476f9e3736ef93cf4e82f445f87232829a18dbba0ae4dc"
+      "checkId": "4041d116f6102258de07dfd6acbe67f71d64f466d7d0cde860db6bd6eefb6700"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W004"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks programming language declarations in codemeta.json to see if they lack specific version numbers.",
       "status": {
@@ -478,18 +346,12 @@
       "output": "false",
       "evidence": "W004 not detected:",
       "suggestion": "N/A",
-      "checkId": "2c8a99452dc6d89b7f9b61acec242c895acbda9fedd5c94f339f8afa4df85dcd"
+      "checkId": "add197d9919d7c682c076997341fb58b41027b942bb39a1ac48821a48f6bf82a"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W005"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks if the softwareRequirements field contains multiple dependencies combined into a single continuous string.",
       "status": {
@@ -498,18 +360,12 @@
       "output": "false",
       "evidence": "W005 not detected:",
       "suggestion": "N/A",
-      "checkId": "d562e94e3c1b71c4785ad69754880de11555d1b1cfe3ee0cd27bbc1769851b84"
+      "checkId": "5991e91b9b3bbff40a4d867137c10865abee8f97ad7e0ad224afc0f4eef06282"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W006"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks if the existing identifier in codemeta.json is a plain name rather than an actual unique identifier (URL).",
       "status": {
@@ -518,18 +374,12 @@
       "output": "false",
       "evidence": "W006 not detected:",
       "suggestion": "N/A",
-      "checkId": "9d09622c5389611a42c18055da5f1660959bda6fffe36675b4842aebd479627c"
+      "checkId": "dd646b83b20c755f588776477e7cf5b184b77d2d3f5d5380ea1e6165d4084aa1"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W007"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks if the Identifier field in codemeta.json is empty or completely missing.",
       "status": {
@@ -538,18 +388,12 @@
       "output": "false",
       "evidence": "W007 not detected:",
       "suggestion": "N/A",
-      "checkId": "c4256cae0cd65bc0259dac0499f87b5b3e540de8872b0daac392d76e44918dd2"
+      "checkId": "9932e3b88e0a9cee4f98f559df6740aaa327184c458ec2ef076b5e98fac0066b"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W008"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks the GivenName field in the metadata file to ensure it is stored as a simple string rather than a parsed list.",
       "status": {
@@ -558,18 +402,12 @@
       "output": "false",
       "evidence": "W008 not detected:",
       "suggestion": "N/A",
-      "checkId": "e1859ee98a4499f48c4d1d13372d2d7e5aea7ae8fec4ffdf7edc74303dbbca6c"
+      "checkId": "5eab742dcaf9a0bd2d5e881a701c093e97bb37dc11ecda67c4bc514bba1e8cd3"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W009"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks if the developmentStatus in codemeta.json is provided as a URL instead of a descriptive string.",
       "status": {
@@ -578,18 +416,12 @@
       "output": "false",
       "evidence": "W009 not detected:",
       "suggestion": "N/A",
-      "checkId": "a22d93c4589141d898343e9e05a0c8d846c5d182c1b2d8f7019398db26d1f5b1"
+      "checkId": "2be42ee1e87cff95bdd85058b1186c7211f597f85945a045a62ff6f4efe76991"
     },
     {
       "@type": "CheckResult",
       "assessesIndicator": {
         "@id": "https://w3id.org/rsmetacheck/catalog/#W010"
-      },
-      "checkingSoftware": {
-        "@type": "schema:SoftwareApplication",
-        "name": "RSMetacheck",
-        "@id": "https://w3id.org/rsmetacheck",
-        "softwareVersion": "0.2.0"
       },
       "process": "Checks if the codeRepository URL uses Git remote-style shorthand (e.g., git@github.com:...) instead of a full HTTPS URL.",
       "status": {
@@ -598,7 +430,7 @@
       "output": "false",
       "evidence": "W010 not detected:",
       "suggestion": "N/A",
-      "checkId": "9da1cd52055bfc1980d8119a980134655e4e689ad6dcc05ae130b8a672ef25fb"
+      "checkId": "3dab1bc3e504464632f51d38b7568116add47af778d1ce70ad88c3734f90ca59"
     }
   ]
 }
