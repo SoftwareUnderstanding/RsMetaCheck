@@ -1,15 +1,38 @@
 import json
-from datetime import datetime
-from typing import Dict, List
-from pathlib import Path
 import re
-import urllib.request
 import urllib.parse
-from urllib.error import URLError, HTTPError
+import urllib.request
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List
+from urllib.error import HTTPError, URLError
+
+
+def _fetch_gitlab_commit_id(host: str, project_path: str) -> str:
+    """
+    Fetch the latest commit ID from a GitLab.com instance.
+
+    Uses the GitLab API v4 endpoint with a URL-encoded project path so that
+    namespace separators ('/'→'%2F') are transmitted correctly.
+    Returns the commit ID string or 'Unknown' if unreachable or not found.
+    """
+    encoded_path = urllib.parse.quote(project_path, safe="")
+    api_url = f"{host}/api/v4/projects/{encoded_path}/repository/commits?per_page=1"
+    try:
+        req = urllib.request.Request(api_url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            data = json.loads(response.read().decode("utf-8"))
+            if isinstance(data, list) and len(data) > 0:
+                return data[0].get("id", "Unknown")
+    except (URLError, HTTPError, json.JSONDecodeError):
+        pass
+    return "Unknown"
+
 
 def fetch_latest_commit_id(repo_url: str) -> str:
     """
     Attempts to fetch the latest commit ID for a given repository URL.
+    Supports GitHub, GitLab.com (HTTPS only).
     Returns the commit ID string or 'Unknown' if not found.
     """
     if not repo_url or repo_url == "Unknown":
@@ -33,7 +56,18 @@ def fetch_latest_commit_id(repo_url: str) -> str:
                     return data.get('sha', 'Unknown')
             except (URLError, HTTPError, json.JSONDecodeError):
                 pass
-                
+
+    elif repo_url.startswith("https://"):
+        # Handles gitlab.com and any self-hosted GitLab instance.
+        # The GitLab API v4 is tried; a failed request returns 'Unknown' gracefully.
+        parsed = urllib.parse.urlparse(repo_url)
+        host = f"{parsed.scheme}://{parsed.netloc}"
+        project_path = parsed.path.strip("/")
+        if project_path.endswith(".git"):
+            project_path = project_path[:-4]
+        if project_path:
+            return _fetch_gitlab_commit_id(host, project_path)
+
     return "Unknown"
 
 
@@ -45,7 +79,7 @@ def extract_software_info_from_somef(somef_data: Dict) -> Dict:
         "@type": "schema:SoftwareApplication",
         "name": "Unknown",
         "softwareVersion": "Unknown",
-        "url": "Unknown"
+        "url": "Unknown",
     }
 
     if "full_name" in somef_data:
