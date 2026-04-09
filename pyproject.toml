@@ -4,15 +4,15 @@ version = "0.2.1"
 description = "Detect metadata pitfalls in software repositories"
 authors = ["Anas El Hounsri"]
 readme = "README.md"
-packages = [{include = "metacheck", from = "src"}]
+packages = [{include = "rsmetacheck", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.11,<3.13"
 requests = "*"
-somef = "*"
+somef = "0.10.1"
 
 [tool.poetry.scripts]
-rsmetacheck = "metacheck.cli:cli"
+rsmetacheck = "rsmetacheck.cli:cli"
 
 [build-system]
 requires = ["poetry-core"]
