@@ -1,4 +1,6 @@
-[![DOI](https://zenodo.org/badge/1050222589.svg)](https://doi.org/10.5281/zenodo.18313677)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18956787.svg)](https://doi.org/10.5281/zenodo.18956787)
+![PyPI - Version](https://img.shields.io/pypi/v/rsmetacheck)
+
 
 # Research Software MetaCheck (a Pitfall/Warning Detection Tool)
 
