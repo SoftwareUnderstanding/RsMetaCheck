@@ -238,13 +238,15 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
 
     elif pitfall_code == "P004":
         if "readme_url" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             readme_url = pitfall_result.get('readme_url') or 'unknown URL'
-            return f"{evidence_base}codemeta.json README property points to homepage/wiki instead of README file: {readme_url}"
+            return f"{evidence_base}{metadata_source} README property points to homepage/wiki instead of README file: {readme_url}"
 
     elif pitfall_code == "P005":
         if "reference_url" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             reference_url = pitfall_result.get('reference_url') or 'unknown URL'
-            return f"{evidence_base}codemeta.json Reference publication points to software archive instead of paper: {reference_url}"
+            return f"{evidence_base}{metadata_source} Reference publication points to software archive instead of paper: {reference_url}"
 
     elif pitfall_code == "P006":
         if "license_value" in pitfall_result:
@@ -253,7 +255,8 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
             return f"{evidence_base}{metadata_source} License points to local file instead of license name: '{license_value}'"
 
     elif pitfall_code == "P007":
-        return f"{evidence_base}CITATION.cff file exists but does not contain referencePublication while codemeta.json references it"
+        metadata_source = extract_metadata_source(pitfall_result)
+        return f"{evidence_base}{metadata_source} exists but does not contain referencePublication while codemeta.json references it"
 
     elif pitfall_code == "P008":
         if "invalid_urls" in pitfall_result:
@@ -279,17 +282,22 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
             return f"{evidence_base}{metadata_source} codeRepository points to homepage instead of repository: {repository_url}"
 
     elif pitfall_code == "P010":
-        return f"{evidence_base}LICENSE file only contains copyright information without actual license terms"
+        metadata_source = extract_metadata_source(pitfall_result)
+        if metadata_source == "metadata files":
+            metadata_source = "LICENSE file"
+        return f"{evidence_base}{metadata_source} only contains copyright information without actual license terms"
 
     elif pitfall_code == "P011":
         if "issue_url" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             issue_url = pitfall_result.get('issue_url') or 'unknown URL'
-            return f"{evidence_base}codemeta.json IssueTracker URL violates expected format: {issue_url}"
+            return f"{evidence_base}{metadata_source} IssueTracker URL violates expected format: {issue_url}"
 
     elif pitfall_code == "P012":
         if "download_url" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             download_url = pitfall_result.get('download_url') or 'unknown URL'
-            return f"{evidence_base}codemeta.json downloadURL is outdated or invalid: {download_url}"
+            return f"{evidence_base}{metadata_source} downloadURL is outdated or invalid: {download_url}"
 
     elif pitfall_code == "P013":
         if "license_value" in pitfall_result:
@@ -299,29 +307,48 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
 
     elif pitfall_code == "P014":
         if "identifier_value" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             identifier_value = pitfall_result.get('identifier_value') or 'unknown'
-            return f"{evidence_base}codemeta.json Identifier uses bare DOI instead of full URL: '{identifier_value}'"
+            return f"{evidence_base}{metadata_source} Identifier uses bare DOI instead of full URL: '{identifier_value}'"
 
     elif pitfall_code == "P015":
         if "ci_url" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             status = pitfall_result.get("status_code") or "unknown"
             ci_url = pitfall_result.get('ci_url') or 'unknown URL'
-            return f"{evidence_base}codemeta.json Continuous integration URL returns {status}: {ci_url}"
+            return f"{evidence_base}{metadata_source} Continuous integration URL returns {status}: {ci_url}"
 
     elif pitfall_code == "P016":
         if "github_api_url" in pitfall_result:
             github_api_url = pitfall_result.get('github_api_url') or 'unknown URL'
-            return f"{evidence_base}codeRepository points to different repository: {github_api_url}"
+            different_urls = pitfall_result.get("different_urls", [])
+            metadata_source = "metadata files"
+            if different_urls and isinstance(different_urls, list) and len(different_urls) > 0:
+                source_path = different_urls[0].get("source", "")
+                metadata_source = extract_metadata_source_filename(source_path)
+            elif "source" in pitfall_result:
+                metadata_source = extract_metadata_source(pitfall_result)
+            return f"{evidence_base}{metadata_source} codeRepository points to different repository: {github_api_url}"
 
     elif pitfall_code == "P017":
         if "codemeta_version" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             codemeta_version = pitfall_result.get('codemeta_version') or 'unknown'
-            return f"{evidence_base}codemeta.json version '{codemeta_version}' does not match package version"
+            
+            other_source = "package version"
+            mismatches = pitfall_result.get("mismatched_versions", [])
+            if mismatches and isinstance(mismatches, list) and len(mismatches) > 0:
+                raw_source = mismatches[0].get("source", "")
+                other_version_val = mismatches[0].get("version", "unknown")
+                other_source = f"version '{other_version_val}' in {extract_metadata_source_filename(raw_source)}"
+                
+            return f"{evidence_base}{metadata_source} version '{codemeta_version}' does not match {other_source}"
 
     elif pitfall_code == "P018":
         if "identifier_value" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             identifier_value = pitfall_result.get('identifier_value') or 'unknown'
-            return f"{evidence_base}codemeta.json Identifier uses raw SWHID without resolvable URL: '{identifier_value}'"
+            return f"{evidence_base}{metadata_source} Identifier uses raw SWHID without resolvable URL: '{identifier_value}'"
 
     elif pitfall_code == "P019":
         if "inconsistencies" in pitfall_result:
@@ -347,25 +374,28 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
 
     elif pitfall_code == "W002":
         if "codemeta_date_parsed" in pitfall_result and "github_api_date_parsed" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             codemeta_date = pitfall_result.get('codemeta_date_parsed') or 'unknown'
             github_date = pitfall_result.get('github_api_date_parsed') or 'unknown'
-            return f"{evidence_base}codemeta.json dateModified '{codemeta_date}' is outdated compared to repository date '{github_date}'"
-        return f"{evidence_base}dateModified in codemeta.json is outdated compared to actual repository last update"
+            return f"{evidence_base}{metadata_source} dateModified '{codemeta_date}' is outdated compared to repository date '{github_date}'"
+        return f"{evidence_base}dateModified in metadata is outdated compared to actual repository last update"
 
     elif pitfall_code == "W003":
         if "dual_license_source" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             dual_license_source = pitfall_result.get('dual_license_source') or 'unknown'
-            return f"{evidence_base}Repository has multiple licenses but codemeta.json only lists one. Found in: {dual_license_source}"
-        return f"{evidence_base}Repository has multiple licenses but codemeta.json only has one listed"
+            return f"{evidence_base}Repository has multiple licenses but {metadata_source} only lists one. Found in: {dual_license_source}"
+        return f"{evidence_base}Repository has multiple licenses but metadata only has one listed"
 
     elif pitfall_code == "W004":
         if "programming_languages_without_version" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             langs = pitfall_result["programming_languages_without_version"]
             if isinstance(langs, list) and len(langs) > 0:
                 clean_langs = [str(lang) for lang in langs if lang is not None]
                 if clean_langs:
-                    return f"{evidence_base}codemeta.json Programming languages without versions: {', '.join(clean_langs)}"
-        return f"{evidence_base}codemeta.json Programming languages in metadata do not have version specifications"
+                    return f"{evidence_base}{metadata_source} Programming languages without versions: {', '.join(clean_langs)}"
+        return f"{evidence_base}Programming languages in metadata do not have version specifications"
 
     elif pitfall_code == "W005":
         if "requirement_string" in pitfall_result:
@@ -375,11 +405,13 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
 
     elif pitfall_code == "W006":
         if "codemeta_identifier" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             identifier = pitfall_result.get('codemeta_identifier') or 'unknown'
-            return f"{evidence_base}codemeta.json Identifier is a name instead of valid unique identifier: '{identifier}'"
+            return f"{evidence_base}{metadata_source} Identifier is a name instead of valid unique identifier: '{identifier}'"
 
     elif pitfall_code == "W007":
-        return f"{evidence_base}codemeta.json identifier field is empty or missing"
+        metadata_source = extract_metadata_source(pitfall_result)
+        return f"{evidence_base}{metadata_source} identifier field is empty or missing"
 
     elif pitfall_code == "W008":
         if "author_value" in pitfall_result:
@@ -389,8 +421,9 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
 
     elif pitfall_code == "W009":
         if "development_status" in pitfall_result:
+            metadata_source = extract_metadata_source(pitfall_result)
             development_status = pitfall_result.get('development_status') or 'unknown'
-            return f"{evidence_base}codemeta.json developmentStatus is a URL instead of status string: {development_status}"
+            return f"{evidence_base}{metadata_source} developmentStatus is a URL instead of status string: {development_status}"
 
     elif pitfall_code == "W010":
         if "repository_url" in pitfall_result:
@@ -446,10 +479,115 @@ def get_pitfall_category(pitfall_code: str) -> str:
     return categories.get(pitfall_code, "metadatafile")
 
 
-def get_suggestion_text(pitfall_code: str) -> str:
+def get_suggestion_text(pitfall_code: str, pitfall_result: Dict = None, somef_data: Dict = None) -> str:
     """
-    Adds the suggestions depending on the Pitfall/Warning
+    Adds the suggestions depending on the Pitfall/Warning, dynamically populated if data is provided.
     """
+    if pitfall_result is None:
+        pitfall_result = {}
+    if somef_data is None:
+        somef_data = {}
+
+    github_api_repo = None
+    if "code_repository" in somef_data:
+        for entry in somef_data["code_repository"]:
+            if entry.get("technique") == "GitHub_API" and "result" in entry and "value" in entry["result"]:
+                github_api_repo = entry["result"]["value"]
+                break
+
+    if pitfall_code == "P001":
+        latest = pitfall_result.get("release_version")
+        if latest:
+            return f"Ensure the version in your metadata matches the latest official release ({latest}). Keeping these synchronized avoids confusion for users and improves reproducibility."
+    
+    elif pitfall_code == "P004":
+        good_readme = None
+        if "readme_url" in somef_data:
+            for entry in somef_data["readme_url"]:
+                val = entry.get("result", {}).get("value", "")
+                if val and ("blob" in val.lower() or "readme.md" in val.lower() or "raw" in val.lower()):
+                    good_readme = val
+                    break
+        if good_readme:
+            return f"Update the README property so it points directly to your actual README file ({good_readme}) instead of your homepage."
+    
+    elif pitfall_code == "P007":
+        codemeta_link = None
+        if "reference_publication" in somef_data:
+            for entry in somef_data["reference_publication"]:
+                if "codemeta.json" in entry.get("source", ""):
+                    codemeta_link = entry.get("result", {}).get("value", "")
+                    break
+        if codemeta_link:
+            return f"Add a referencePublication field with the related DOI or citation entry ({codemeta_link}) to your CITATION.cff."
+
+    elif pitfall_code == "P009":
+        if github_api_repo:
+            return f"You need to update the codeRepository field to point directly to your repository's source code ({github_api_repo}) instead of a homepage."
+
+    elif pitfall_code == "P011":
+        issue_url = pitfall_result.get("issue_url")
+        if issue_url:
+            return f"You need to correct the issue tracker URL ({issue_url}) so it follows a valid format, such as https://github.com/user/repo/issues."
+
+    elif pitfall_code == "P012":
+        download_url = pitfall_result.get("download_url")
+        if download_url:
+            return f"You need to update the downloadURL field ({download_url}) to point to your latest release or current distribution source."
+
+    elif pitfall_code == "P014":
+        identifier = pitfall_result.get("identifier_value", "")
+        if identifier and isinstance(identifier, str):
+            import re
+            cleaned_id = re.sub(r'^(doi:|10\.)', '10.', identifier).replace('https://doi.org/', '')
+            if cleaned_id.startswith('10.'):
+                return f"You should include the full DOI URL form in your metadata (e.g., https://doi.org/{cleaned_id})"
+
+    elif pitfall_code == "P016":
+        if github_api_repo:
+            return f"Make sure that the codeRepository URL in your metadata exactly matches the repository hosting your source code ({github_api_repo})."
+
+    elif pitfall_code == "P017":
+        if github_api_repo:
+            return f"You need to synchronize all version references across metadata and build configuration files. (Repository matches github API: {github_api_repo})"
+
+    elif pitfall_code == "P018":
+        identifier = pitfall_result.get("identifier_value", "")
+        if identifier and isinstance(identifier, str) and identifier.startswith("swh:"):
+            return f"Always use the full resolvable SWHID URL (e.g., https://archive.softwareheritage.org/{identifier})."
+
+    elif pitfall_code == "W002":
+        github_date = pitfall_result.get("github_api_date_parsed")
+        if github_date:
+            return f"The data in the metadata file should be updated to be aligned with the date of the latest release ({github_date})."
+
+    elif pitfall_code == "W005":
+        reqs = pitfall_result.get("requirement_string", "")
+        if reqs and isinstance(reqs, str):
+            proper = "', '".join([r.strip() for r in reqs.replace(';', ',').split(',') if r.strip()])
+            if proper:
+                return f"Rewrite your dependencies as a proper list (e.g., ['{proper}']), with each item separated and preferably with their versions."
+
+    elif pitfall_code == "W006":
+        other_id = pitfall_result.get("other_identifier")
+        if other_id:
+            return f"You should replace plain name in your identifier field with persistent identifiers such as {other_id} to improve discoverability."
+
+    elif pitfall_code == "W008":
+        author_val = pitfall_result.get("author_value", "")
+        if author_val:
+            import re
+            list_content = re.findall(r"\[(.*?)\]", str(author_val))
+            if list_content and len(list_content) > 0 and "," in list_content[0]:
+                parts = [p.strip().strip("'\"") for p in list_content[0].split(',')]
+                if parts:
+                    example = "{" + f'"@type": "Person", "givenName": "{parts[0]}", "familyName": "..."' + "}"
+                    return f"Ensure givenName is a single string per person. For example: {example}."
+
+    elif pitfall_code == "W010":
+        if github_api_repo:
+            return f"You should replace the remote-style syntax with a full web-accessible URL (e.g., {github_api_repo})."
+
     suggestions = {
         # Pitfalls
         "P001": "Ensure the version in your metadata matches the latest official release. Keeping these synchronized avoids confusion for users and improves reproducibility.",
@@ -555,7 +693,7 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
             
             output_val = "true" if has_issue else "false"
             evidence_val = format_evidence_text(pitfall_code, pitfall_result) if has_issue else f"{pitfall_code} not detected:"
-            suggestion_val = get_suggestion_text(pitfall_code) if has_issue else "N/A"
+            suggestion_val = get_suggestion_text(pitfall_code, pitfall_result, somef_data) if has_issue else "N/A"
 
             check_result = {
                 "@type": "CheckResult",
