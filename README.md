@@ -1,7 +1,6 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18956787.svg)](https://doi.org/10.5281/zenodo.18956787)
 ![PyPI - Version](https://img.shields.io/pypi/v/rsmetacheck)
 
-
 # Research Software MetaCheck (a Pitfall/Warning Detection Tool)
 
 This project provides an automated tool for detecting common metadata quality issues (pitfalls & Warnings)
@@ -28,7 +27,7 @@ The tool detects the following categories of issues:
 
 ## Requirements
 
-- **Python 3.10**
+- **Python 3.11**
 - Required Python packages:
   - `requests` (for URL validation)
   - `pathlib` (built-in)
@@ -76,6 +75,14 @@ pip install git+https://github.com/SoftwareUnderstanding/RsMetaCheck.git
 
 ```bash
 poetry run rsmetacheck --input https://github.com/tidyverse/tidyverse
+```
+
+#### Analyze a Specific Branch
+
+You can analyze a specific branch of a repository by using the `--branch` or `-b` flag:
+
+```bash
+poetry run rsmetacheck --input https://github.com/tidyverse/tidyverse --branch develop
 ```
 
 #### Analyze Multiple Repositories from a JSON File

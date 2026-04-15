@@ -39,6 +39,10 @@ def cli():
         default=0.8,
         help="SoMEF confidence threshold (default: 0.8). Only used when running SoMEF."
     )
+    parser.add_argument(
+        "-b", "--branch",
+        help="Branch of the repository to analyze. Overrides the default branch. Only used when running SoMEF."
+    )
 
     parser.add_argument(
         "--verbose",
@@ -76,10 +80,10 @@ def cli():
         for input_item in args.input:
             if input_item.startswith("http://") or input_item.startswith("https://"):
                 print(f"Processing repository URL: {input_item}")
-                run_somef_single(input_item, somef_output_dir, threshold)
+                run_somef_single(input_item, somef_output_dir, threshold, branch=args.branch)
             elif os.path.exists(input_item):
                 print(f"Processing repositories from file: {input_item}")
-                run_somef_batch(input_item, somef_output_dir, threshold)
+                run_somef_batch(input_item, somef_output_dir, threshold, branch=args.branch)
             else:
                 print(f"Warning: Skipping invalid input (not a URL or existing file): {input_item}")
 

@@ -130,3 +130,11 @@ coverage/
 # Data files (adjust depending on project)
 data/
 datasets/
+
+# uv
+uv.lock
+.python-version
+
+# Testing directory
+
+results/
