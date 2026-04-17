@@ -499,6 +499,13 @@ def get_suggestion_text(pitfall_code: str, pitfall_result: Dict = None, somef_da
         latest = pitfall_result.get("release_version")
         if latest:
             return f"Ensure the version in your metadata matches the latest official release ({latest}). Keeping these synchronized avoids confusion for users and improves reproducibility."
+    elif pitfall_code == "P003":
+        author_val = pitfall_result.get("author_value")
+        if author_val and isinstance(author_val, str) and ("and" in author_val or "," in author_val):
+            import re
+            parts = [p.strip() for p in re.split(r'\s+and\s+|,', author_val) if p.strip()]
+            if len(parts) > 1:
+                return f'You should separate multiple authors into a structured list. For example: {parts}'
     
     elif pitfall_code == "P004":
         good_readme = None
@@ -528,6 +535,11 @@ def get_suggestion_text(pitfall_code: str, pitfall_result: Dict = None, somef_da
     elif pitfall_code == "P011":
         issue_url = pitfall_result.get("issue_url")
         if issue_url:
+            import re
+            match = re.search(r'https?://[^\s,]+', issue_url)
+            if match:
+                extracted_url = match.group(0)
+                return f"You need to correct the issue tracker URL. Consider using the extracted link: {extracted_url}"
             return f"You need to correct the issue tracker URL ({issue_url}) so it follows a valid format, such as https://github.com/user/repo/issues."
 
     elif pitfall_code == "P012":
@@ -539,7 +551,7 @@ def get_suggestion_text(pitfall_code: str, pitfall_result: Dict = None, somef_da
         identifier = pitfall_result.get("identifier_value", "")
         if identifier and isinstance(identifier, str):
             import re
-            cleaned_id = re.sub(r'^(doi:|10\.)', '10.', identifier).replace('https://doi.org/', '')
+            cleaned_id = re.sub(r'^doi:', '', identifier, flags=re.IGNORECASE).replace('https://doi.org/', '')
             if cleaned_id.startswith('10.'):
                 return f"You should include the full DOI URL form in your metadata (e.g., https://doi.org/{cleaned_id})"
 
@@ -560,6 +572,39 @@ def get_suggestion_text(pitfall_code: str, pitfall_result: Dict = None, somef_da
         github_date = pitfall_result.get("github_api_date_parsed")
         if github_date:
             return f"The data in the metadata file should be updated to be aligned with the date of the latest release ({github_date})."
+
+    elif pitfall_code == "W003":
+        found_license = None
+        if "license" in somef_data:
+            for entry in somef_data["license"]:
+                src = entry.get("source", "")
+                if isinstance(src, list):
+                    src = src[0] if src else ""
+                src_str = str(src).lower()
+                tech = entry.get("technique", "")
+                is_file_search = ("license" in src_str or tech == "file_exploration")
+                if is_file_search:
+                    val = entry.get("result", {}).get("value")
+                    spdx = entry.get("result", {}).get("spdx_id")
+                    name = entry.get("result", {}).get("name")
+                    found_license = spdx or name or (val if val and len(str(val)) < 50 else None)
+                    if found_license:
+                        break
+        if found_license:
+            return f"Use the LICENSE that is stated in your repository ({found_license}) instead."
+
+    elif pitfall_code == "W004":
+        if "programming_languages" in somef_data:
+            valid_langs = []
+            for entry in somef_data["programming_languages"]:
+                res = entry.get("result", {})
+                name = res.get("name")
+                ver = res.get("version")
+                if name and ver:
+                    valid_langs.append(f"{name} ({ver})")
+            if valid_langs:
+                langs_str = ", ".join(valid_langs)
+                return f"Specify version numbers for your programming languages like found in other sources: {langs_str}."
 
     elif pitfall_code == "W005":
         reqs = pitfall_result.get("requirement_string", "")
@@ -589,6 +634,7 @@ def get_suggestion_text(pitfall_code: str, pitfall_result: Dict = None, somef_da
             return f"You should replace the remote-style syntax with a full web-accessible URL (e.g., {github_api_repo})."
 
     suggestions = {
+        # This works as fallback in case the dynamic suggestions does not find the necessary metadata in SoMEF report
         # Pitfalls
         "P001": "Ensure the version in your metadata matches the latest official release. Keeping these synchronized avoids confusion for users and improves reproducibility.",
         "P002": "Update the copyright section with accurate names, organizations, and the current year. Personalizing this section ensures clarity and legal accuracy.",

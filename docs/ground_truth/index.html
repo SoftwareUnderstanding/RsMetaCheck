@@ -18,7 +18,7 @@
             margin-bottom: 30px;
         }
         .table-container {
-            max-width: 1200px;
+            max-width: 95%;
             margin: 0 auto;
             overflow-x: auto;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -95,7 +95,7 @@
                     <th>Pitfall / Warning Code</th>
                     <th>Description</th>
                     <th>Source File</th>
-                    <th>Automated</th>
+                    <th>Commit ID</th>
                 </tr>
             </thead>
         </table>
@@ -126,11 +126,11 @@
                         let isFirstContext = true;
                         
                         for (const [code, info] of pEntries) {
-                            addRow(tbody, url, code, info, 'p', isFirstContext, totalRows);
+                            addRow(tbody, url, code, info, 'p', isFirstContext, totalRows, repoData);
                             isFirstContext = false;
                         }
                         for (const [code, info] of wEntries) {
-                            addRow(tbody, url, code, info, 'w', isFirstContext, totalRows);
+                            addRow(tbody, url, code, info, 'w', isFirstContext, totalRows, repoData);
                             isFirstContext = false;
                         }
                         
@@ -144,7 +144,7 @@
                 });
         });
 
-        function addRow(tbody, url, code, info, type, isFirstContext, totalRows) {
+        function addRow(tbody, url, code, info, type, isFirstContext, totalRows, repoData) {
             const tr = document.createElement('tr');
             
             if (isFirstContext) {
@@ -179,14 +179,30 @@
             const tdSource = document.createElement('td');
             tdSource.textContent = info.source_file || 'Unknown';
             
-            // Automated Column
-            const tdAutomated = document.createElement('td');
-            tdAutomated.textContent = 'Yes';
-            
             tr.appendChild(tdCode);
             tr.appendChild(tdDesc);
             tr.appendChild(tdSource);
-            tr.appendChild(tdAutomated);
+
+            if (isFirstContext) {
+                const tdCommit = document.createElement('td');
+                tdCommit.style.whiteSpace = 'nowrap';
+                const commitId = repoData['commit ID'];
+                if (commitId) {
+                    const aCommit = document.createElement('a');
+                    let cleanUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+                    let treePath = cleanUrl.includes('gitlab') ? '/-/tree/' : '/tree/';
+                    aCommit.href = `${cleanUrl}${treePath}${commitId}`;
+                    aCommit.textContent = commitId.substring(0, 7);
+                    aCommit.className = 'repo-link';
+                    aCommit.style.wordBreak = 'normal';
+                    aCommit.target = '_blank';
+                    tdCommit.appendChild(aCommit);
+                } else {
+                    tdCommit.textContent = 'Unknown';
+                }
+                tdCommit.rowSpan = totalRows;
+                tr.appendChild(tdCommit);
+            }
             
             tbody.appendChild(tr);
         }
