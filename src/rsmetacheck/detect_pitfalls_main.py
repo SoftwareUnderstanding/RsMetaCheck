@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from typing import Iterable, Union
+from rsmetacheck.run_somef import CODEMETA_DEFAULT_NAME
 from rsmetacheck.utils.pitfall_utils import extract_programming_languages
 from rsmetacheck.utils.json_ld_utils import create_pitfall_jsonld, save_individual_pitfall_jsonld
 from rsmetacheck.utils.somef_compat import normalize_somef_data
@@ -467,7 +468,10 @@ def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_outp
         if not input_dir.exists():
             print(f"Error: Directory not found: {input_dir}")
             return
-        json_files = list(input_dir.glob("*.json"))
+        json_files = [
+            f for f in input_dir.glob("*.json")
+            if not f.stem.endswith(CODEMETA_DEFAULT_NAME)
+        ]
         print(f"Found {len(json_files)} JSON files in {input_dir}")
     else:
         print("Error: No input directory or JSON file list provided.")

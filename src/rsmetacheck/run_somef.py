@@ -1,8 +1,10 @@
-import os
 import json
+import os
 import subprocess
-
 from pathlib import Path
+
+CODEMETA_DEFAULT_NAME = "somef_generated_codemeta"
+
 
 def ensure_somef_configured():
     """Run 'somef configure -a' only if it hasn't been configured yet."""
@@ -18,11 +20,14 @@ def ensure_somef_configured():
             return False
     return True
 
-def run_somef(repo_url, output_file, threshold, branch=None):
+
+def run_somef(repo_url, output_file, threshold, branch=None, codemeta_file=None):
     """Run SoMEF on a given repository and save results."""
     cmd = ["somef", "describe", "-r", repo_url, "-o", output_file, "-t", str(threshold)]
     if branch:
         cmd.extend(["-b", branch])
+    if codemeta_file:
+        cmd.extend(["-c", codemeta_file])
     try:
         subprocess.run(cmd, check=True)
         print(f"SoMEF finished for: {repo_url}")
@@ -31,16 +36,38 @@ def run_somef(repo_url, output_file, threshold, branch=None):
         print(f"Error running SoMEF for {repo_url}: {e}")
         return False
 
-def run_somef_single(repo_url, output_dir="somef_outputs", threshold=0.8, branch=None):
+
+def run_somef_single(
+    repo_url,
+    output_dir="somef_outputs",
+    threshold=0.8,
+    branch=None,
+    generate_codemeta=False,
+):
     """Run SoMEF for a single repository."""
     os.makedirs(output_dir, exist_ok=True)
     output_file = os.path.join(output_dir, "output_1.json")
+    codemeta_file = os.path.join(output_dir, CODEMETA_DEFAULT_NAME + ".json")
 
     print(f"Running SoMEF for {repo_url}...")
-    success = run_somef(repo_url, output_file, threshold, branch)
+
+    success = run_somef(
+        repo_url,
+        output_file,
+        threshold,
+        branch,
+        codemeta_file=codemeta_file if generate_codemeta else None,
+    )
     return output_dir if success else None
 
-def run_somef_batch(json_file, output_dir="somef_outputs", threshold=0.8, branch=None):
+
+def run_somef_batch(
+    json_file,
+    output_dir="somef_outputs",
+    threshold=0.8,
+    branch=None,
+    generate_codemeta=False,
+):
     """Run SoMEF for all repositories listed in a JSON file."""
     os.makedirs(output_dir, exist_ok=True)
 
@@ -57,8 +84,26 @@ def run_somef_batch(json_file, output_dir="somef_outputs", threshold=0.8, branch
 
     for idx, repo_url in enumerate(repos, start=1):
         output_file = os.path.join(output_dir, f"{base_name}_output_{idx}.json")
+        codemeta_file = os.path.join(
+            output_dir, f"{base_name}_{CODEMETA_DEFAULT_NAME}_{idx}.json"
+        )
         print(f"[{idx}/{len(repos)}] {repo_url}")
-        run_somef(repo_url, output_file, threshold, branch)
+        run_somef(
+            repo_url,
+            output_file,
+            threshold,
+            branch,
+            codemeta_file=codemeta_file if generate_codemeta else None,
+        )
 
     print(f"Completed SoMEF for {base_name}. Results in {output_dir}")
     return True
+
+    success = run_somef(
+        repo_url,
+        output_file,
+        threshold,
+        branch,
+        codemeta_file=codemeta_file if generate_codemeta else None,
+    )
+    return output_dir if success else None
