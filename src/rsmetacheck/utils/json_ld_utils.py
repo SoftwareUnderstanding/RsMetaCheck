@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Dict, List
 from urllib.error import HTTPError, URLError
 
+from rsmetacheck import __version__ as rsmetacheck_version
+
 
 def _fetch_gitlab_commit_id(host: str, project_path: str) -> str:
     """
@@ -723,7 +725,7 @@ def create_pitfall_jsonld(somef_data: Dict, pitfall_results: List[Dict], file_na
             "@type": "schema:SoftwareApplication",
             "name": "RSMetacheck",
             "@id": "https://w3id.org/rsmetacheck",
-            "softwareVersion": "0.2.1"
+            "softwareVersion": rsmetacheck_version
         },
         "checks": []
     }
