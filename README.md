@@ -1,5 +1,5 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18956787.svg)](https://doi.org/10.5281/zenodo.18956787)
-![PyPI - Version](https://img.shields.io/pypi/v/rsmetacheck)
+[![PyPI - Version](https://img.shields.io/pypi/v/rsmetacheck)](https://pypi.org/project/rsmetacheck/)
 
 # Research Software MetaCheck (a Pitfall/Warning Detection Tool)
 
@@ -71,33 +71,7 @@ pip install git+https://github.com/SoftwareUnderstanding/RsMetaCheck.git
 
 ### GitHub Action
 
-RsMetaCheck can be easily integrated into your CI/CD pipelines as a GitHub Action.
-
-```yaml
-name: RsMetaCheck
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  check-metadata:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run RsMetaCheck
-        uses: SoftwareUnderstanding/RsMetaCheck@v0.2.1 # Update to the latest version tag
-        with:
-          # Optional: Include passed checks in output (defaults to false)
-          verbose: "false"
-        env:
-          # Optional: Provide token for SoMEF API rate limits
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
+RsMetaCheck can be easily integrated into your CI/CD pipelines as a GitHub Action. We have set it up in GitHub Action in the following repository: [rs-metacheck-action](https://github.com/SoftwareUnderstanding/rs-metacheck-action) and is up in GitHub MarketPlace at [rsmetacheck actions](https://github.com/marketplace/actions/rsmetacheck).
 
 The action will generate `all_pitfalls_results.json`, along with the `pitfalls/` and `somef_outputs/` directories directly in your workflow workspace.
 
