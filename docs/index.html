@@ -50,13 +50,13 @@
 </head>
 <body>
 
-  <h1>RsMetaCheck Catalog</h1>
+  <h1>Metadata Pitfalls & Warnings Catalog</h1>
 
 <div class="intro">
   <p>
     This is a catalog of the pitfalls and warnings we have come across during our research on software metadata quality.
     Based on these findings, we at <a href="https://oeg.fi.upm.es/" target="_blank">Ontology Engineering Group (OEG)</a>
-    have developed our tool <strong>RsMetaCheck</strong> to automatically diagnose and identify these common issues in software metadata files.
+    have developed our tool <strong><a href="https://github.com/SoftwareUnderstanding/RsMetaCheck" target="_blank">RSMetaCheck</a></strong> to automatically diagnose and identify these common issues in software metadata files.
     Warnings do not have a severity level because originally they were opted due to their low severity and classified as "Warnings" instead of "Pitfalls"
   </p>
 </div>
@@ -103,7 +103,7 @@
                   }
 
                   const row = `<tr id="${identifier}">
-                    <td>${identifier}</td>
+                    <td><a href="https://w3id.org/rsmetacheck/catalog/#${identifier}" target="_blank">${identifier}</a></td>
                     <td>${source}</td>
                     <td>${pitfall}</td>
                     <td>${description}</td>
