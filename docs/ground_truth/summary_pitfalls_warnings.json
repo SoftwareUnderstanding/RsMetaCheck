@@ -29,7 +29,7 @@
     "url": "https://github.com/gavinsimpson/data.adapt.multi.test",
     "pitfalls": {
       "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "codeRepository does not point to the same repository"
       },
       "P017": {
@@ -43,7 +43,7 @@
         "description": "dateModified is outdated"
       },
       "W007": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Identifier is empty"
       }
     },
@@ -53,11 +53,11 @@
     "url": "https://github.com/FairRootGroup/FairMQ",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Version does not correspond to the version used in the latest release"
       },
       "P006": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "License pointing to a local file instead of stating the name. For example: “license”: LICENSE.MD"
       }
     },
@@ -69,7 +69,7 @@
     "pitfalls": {},
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "pyproject.toml",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
@@ -87,7 +87,7 @@
     "url": "https://github.com/gabrielblain/CropWaterBalance",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Version does not correspond to the version used in the latest release"
       },
       "P015": {
@@ -107,13 +107,13 @@
     "url": "https://github.com/instatdealii/idealii",
     "pitfalls": {
       "P008": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "softwareRequirement points to an invalid page"
       }
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
@@ -133,17 +133,9 @@
       "P010": {
         "source_file": "LICENSE",
         "description": "The file does not have any specific license except for copyright"
-      },
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
       }
     },
     "warnings": {
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "programmingLanguages do not have versions"
-      },
       "W006": {
         "source_file": "codemeta.json",
         "description": "Identifier is a name instead of a valid unique identifier, but an identifier exist (e.g., in a badge)"
@@ -156,7 +148,7 @@
     "pitfalls": {},
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "pyproject.toml",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W009": {
@@ -166,27 +158,12 @@
     },
     "commit ID": "297c914fa277e2c720ae08a758707ef8ebe51ef6"
   },
-  "repo_10": {
-    "url": "https://github.com/sanorthey/pemmss",
-    "pitfalls": {},
-    "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      }
-    },
-    "commit ID": "65883be0f53fdfa3911cc8d3847931d1cc9f4037"
-  },
   "repo_11": {
     "url": "https://github.com/gemini3d/gemini3d",
     "pitfalls": {
       "P014": {
         "source_file": "codemeta.json",
         "description": "uses bare DOIs in the identifier field instead of full https://doi.org/ URL"
-      },
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
       }
     },
     "warnings": {
@@ -214,14 +191,6 @@
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
         "description": "SoftwareRequirements don’t have versions"
       },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "programmingLanguages do not have versions"
-      },
       "W006": {
         "source_file": "codemeta.json",
         "description": "Identifier is a name instead of a valid unique identifier, but an identifier exist (e.g., in a badge)"
@@ -236,23 +205,15 @@
   "repo_13": {
     "url": "https://github.com/bioconductor-source/treeio",
     "pitfalls": {
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
-      },
       "P017": {
-        "source_file": "codemeta.json",
+        "source_file": "codemeta.json & DESCRIPTION",
         "description": "version does not match the package’s"
       }
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "DESCRIPTION",
         "description": "SoftwareRequirements don’t have versions"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "programmingLanguages do not have versions"
       }
     },
     "commit ID": "df013a97e144086980317527de6fab39dc54e9fa"
@@ -261,13 +222,13 @@
     "url": "https://github.com/Kaffeegangster/tclf",
     "pitfalls": {
       "P006": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "pyproject.toml",
         "description": "License pointing to a local file instead of stating the name. For example: “license”: LICENSE.MD"
       }
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "pyproject.toml",
         "description": "SoftwareRequirements don’t have versions"
       }
     },
@@ -278,7 +239,7 @@
     "pitfalls": {},
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "requirements.txt",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
@@ -300,12 +261,6 @@
         "description": "Copyright section taken as template without modification"
       }
     },
-    "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      }
-    },
     "commit ID": "62f5b3a8bcd3ae2e3c3e639bd6ad856d2b001d04"
   },
   "repo_17": {
@@ -313,7 +268,7 @@
     "pitfalls": {},
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
@@ -338,24 +293,16 @@
         "source_file": "LICENSE",
         "description": "Copyright section taken as template without modification"
       },
-      "P013": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "License does not have the specific version"
-      },
       "P015": {
         "source_file": "codemeta.json",
         "description": "contIntegration link returns 404"
       },
       "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "codeRepository does not point to the same repository"
       }
     },
     "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W009": {
         "source_file": "codemeta.json",
         "description": "developmentStatus is a URL instead of a string"
@@ -382,17 +329,9 @@
     "url": "https://github.com/lecfab/rescience-gorder",
     "pitfalls": {},
     "warnings": {
-      "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
-      },
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
-      },
-      "W005": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "softwareRequirements have more than one req, but it’s written as one string"
       }
     },
     "commit ID": "305d28dc1584b152ff981ee81be0de12598b402e"
