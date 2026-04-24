@@ -14,6 +14,8 @@ MetaCheck identifies **29 different types of metadata quality issues** across mu
 (Python, Java, C++, C, R, Rust). These pitfalls range from version mismatches and
 license template placeholders to broken URLs and improperly formatted metadata fields.
 
+You can visit our [catalog](https://softwareunderstanding.github.io/RsMetaCheck/) to see in details what these pitfalls are, where are they usually detected and how to fix them.
+
 ### Supported Pitfall Types
 
 The tool detects the following categories of issues:
