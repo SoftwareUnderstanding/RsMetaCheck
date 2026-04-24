@@ -1,3 +1,4 @@
+[![Documentation Status](https://readthedocs.org/projects/rsmetacheck/badge/?version=latest)](https://rsmetacheck.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18956787.svg)](https://doi.org/10.5281/zenodo.18956787)
 [![PyPI - Version](https://img.shields.io/pypi/v/rsmetacheck)](https://pypi.org/project/rsmetacheck/)
 
