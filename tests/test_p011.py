@@ -9,7 +9,7 @@ from rsmetacheck.scripts.pitfalls.p011 import (
 class TestIsUrlAccessible:
     """Test suite for is_url_accessible function"""
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
     def test_successful_head_request(self, mock_head):
         """Test successful HEAD request"""
         mock_response = Mock()
@@ -20,8 +20,8 @@ class TestIsUrlAccessible:
         assert result is True
         mock_head.assert_called_once()
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
-    @patch('metacheck.scripts.pitfalls.p011.requests.get')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.get')
     def test_head_not_allowed_fallback_to_get(self, mock_get, mock_head):
         """Test fallback to GET when HEAD returns 405"""
         mock_head_response = Mock()
@@ -37,7 +37,7 @@ class TestIsUrlAccessible:
         mock_head.assert_called_once()
         mock_get.assert_called_once()
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
     def test_redirect_status_codes(self, mock_head):
         """Test that 3xx redirect codes are considered accessible"""
         for status_code in [301, 302, 303, 307, 308]:
@@ -48,7 +48,7 @@ class TestIsUrlAccessible:
             result = is_url_accessible("https://example.com")
             assert result is True, f"Failed for status code: {status_code}"
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
     def test_error_status_codes(self, mock_head):
         """Test that 4xx and 5xx status codes are not accessible"""
         for status_code in [400, 401, 403, 404, 500, 502, 503]:
@@ -59,7 +59,7 @@ class TestIsUrlAccessible:
             result = is_url_accessible("https://example.com")
             assert result is False, f"Failed for status code: {status_code}"
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
     def test_request_exception(self, mock_head):
         """Test handling of request exceptions"""
         import requests
@@ -68,7 +68,7 @@ class TestIsUrlAccessible:
         result = is_url_accessible("https://example.com")
         assert result is False
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
     def test_timeout_exception(self, mock_head):
         """Test handling of timeout exceptions"""
         import requests
@@ -77,7 +77,7 @@ class TestIsUrlAccessible:
         result = is_url_accessible("https://example.com")
         assert result is False
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
     def test_general_exception(self, mock_head):
         """Test handling of general exceptions"""
         mock_head.side_effect = Exception("Unexpected error")
@@ -85,7 +85,7 @@ class TestIsUrlAccessible:
         result = is_url_accessible("https://example.com")
         assert result is False
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
     def test_whitespace_handling(self, mock_head):
         """Test that URL whitespace is properly stripped"""
         mock_response = Mock()
@@ -95,7 +95,7 @@ class TestIsUrlAccessible:
         result = is_url_accessible("  https://example.com  ")
         assert result is True
 
-    @patch('metacheck.scripts.pitfalls.p011.requests.head')
+    @patch('rsmetacheck.scripts.pitfalls.p011.requests.head')
     def test_custom_timeout(self, mock_head):
         """Test that custom timeout is used"""
         mock_response = Mock()
@@ -179,7 +179,7 @@ class TestDetectIssueTrackerFormatPitfall:
                     None
             ),
         ])
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_detect_issue_tracker_scenarios_without_url_check(self, mock_accessible,
                                                               somef_data, file_name,
                                                               expected_has_pitfall,
@@ -191,7 +191,7 @@ class TestDetectIssueTrackerFormatPitfall:
         assert result["file_name"] == file_name
         assert result["issue_url"] == expected_url
 
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_accessible_url_no_pitfall(self, mock_accessible):
         """Test that accessible URL doesn't trigger pitfall"""
         mock_accessible.return_value = True
@@ -209,7 +209,7 @@ class TestDetectIssueTrackerFormatPitfall:
         assert result["has_pitfall"] is False
         mock_accessible.assert_called_once_with("https://github.com/user/repo/issues")
 
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_inaccessible_url_has_pitfall(self, mock_accessible):
         """Test that inaccessible URL triggers pitfall"""
         mock_accessible.return_value = False
@@ -239,7 +239,7 @@ class TestDetectIssueTrackerFormatPitfall:
         assert "source" in result
         assert "format_violation" in result
 
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_case_insensitive_codemeta_matching(self, mock_accessible):
         """Test case insensitive matching for codemeta.json"""
         mock_accessible.return_value = False
@@ -263,7 +263,7 @@ class TestDetectIssueTrackerFormatPitfall:
             result = detect_issue_tracker_format_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] is True, f"Failed for source: {source}"
 
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_code_parser_with_codemeta_in_source(self, mock_accessible):
         """Test detection with code_parser technique and codemeta in source"""
         mock_accessible.return_value = False
@@ -279,7 +279,7 @@ class TestDetectIssueTrackerFormatPitfall:
         result = detect_issue_tracker_format_pitfall(somef_data, "test.json")
         assert result["has_pitfall"] is True
 
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_stops_at_first_match(self, mock_accessible):
         """Test that function stops after finding first inaccessible URL"""
         mock_accessible.side_effect = [False, True]
@@ -306,7 +306,7 @@ class TestDetectIssueTrackerFormatPitfall:
         # Should only call is_url_accessible once
         assert mock_accessible.call_count == 1
 
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_multiple_entries_first_non_codemeta(self, mock_accessible):
         """Test with multiple entries where first is non-codemeta"""
         mock_accessible.return_value = False
@@ -331,7 +331,7 @@ class TestDetectIssueTrackerFormatPitfall:
         assert result["has_pitfall"] is True
         assert result["issue_url"] == "https://broken.example.com/issues"
 
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_various_issue_tracker_urls(self, mock_accessible):
         """Test with various issue tracker URL formats"""
         test_urls = [
@@ -356,7 +356,7 @@ class TestDetectIssueTrackerFormatPitfall:
             assert result["has_pitfall"] is True
             assert result["issue_url"] == url
 
-    @patch('metacheck.scripts.pitfalls.p011.is_url_accessible')
+    @patch('rsmetacheck.scripts.pitfalls.p011.is_url_accessible')
     def test_wrong_technique_no_pitfall(self, mock_accessible):
         """Test that wrong technique doesn't trigger for codemeta.json"""
         mock_accessible.return_value = False

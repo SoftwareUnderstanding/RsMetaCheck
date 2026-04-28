@@ -34,7 +34,7 @@ class TestCheckCiUrlStatus:
         mock_response = Mock()
         mock_response.status_code = 200
 
-        with patch('metacheck.scripts.pitfalls.p015.requests.get', return_value=mock_response):
+        with patch('rsmetacheck.scripts.pitfalls.p015.requests.get', return_value=mock_response):
             result = check_ci_url_status("https://github.com/user/repo")
 
             assert result["is_accessible"] is True
@@ -46,7 +46,7 @@ class TestCheckCiUrlStatus:
         mock_response = Mock()
         mock_response.status_code = 404
 
-        with patch('metacheck.scripts.pitfalls.p015.requests.get', return_value=mock_response):
+        with patch('rsmetacheck.scripts.pitfalls.p015.requests.get', return_value=mock_response):
             result = check_ci_url_status("https://travis-ci.org/user/repo")
 
             assert result["is_accessible"] is False
@@ -73,7 +73,7 @@ class TestCheckCiUrlStatus:
         mock_response = Mock()
         mock_response.status_code = status_code
 
-        with patch('metacheck.scripts.pitfalls.p015.requests.get', return_value=mock_response):
+        with patch('rsmetacheck.scripts.pitfalls.p015.requests.get', return_value=mock_response):
             result = check_ci_url_status("https://example.com")
             assert result["is_accessible"] == expected_accessible
             assert result["status_code"] == status_code
@@ -88,7 +88,7 @@ class TestCheckCiUrlStatus:
 
     def test_request_timeout(self):
         """Test handling of request timeout"""
-        with patch('metacheck.scripts.pitfalls.p015.requests.get',
+        with patch('rsmetacheck.scripts.pitfalls.p015.requests.get',
                    side_effect=Exception("Timeout")):
             result = check_ci_url_status("https://example.com")
 
@@ -98,7 +98,7 @@ class TestCheckCiUrlStatus:
 
     def test_network_error(self):
         """Test handling of network errors"""
-        with patch('metacheck.scripts.pitfalls.p015.requests.get',
+        with patch('rsmetacheck.scripts.pitfalls.p015.requests.get',
                    side_effect=Exception("Connection refused")):
             result = check_ci_url_status("https://example.com")
 
@@ -257,7 +257,7 @@ class TestDetectCi404Pitfall:
                     "error": "Server error"
                 }
 
-        with patch('metacheck.scripts.pitfalls.p015.check_ci_url_status',
+        with patch('rsmetacheck.scripts.pitfalls.p015.check_ci_url_status',
                    side_effect=mock_check_ci_url_status):
             result = detect_ci_404_pitfall(somef_data, file_name)
 
@@ -288,7 +288,7 @@ class TestDetectCi404Pitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p015.check_ci_url_status',
+        with patch('rsmetacheck.scripts.pitfalls.p015.check_ci_url_status',
                    return_value={"is_accessible": False, "status_code": 404, "error": None}):
             result = detect_ci_404_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] is True
@@ -317,7 +317,7 @@ class TestDetectCi404Pitfall:
                 "error": None
             }
 
-        with patch('metacheck.scripts.pitfalls.p015.check_ci_url_status',
+        with patch('rsmetacheck.scripts.pitfalls.p015.check_ci_url_status',
                    side_effect=mock_check) as mock:
             result = detect_ci_404_pitfall(somef_data, "test.json")
 
@@ -342,7 +342,7 @@ class TestDetectCi404Pitfall:
             ]
         }
 
-        with patch('metacheck.scripts.pitfalls.p015.check_ci_url_status',
+        with patch('rsmetacheck.scripts.pitfalls.p015.check_ci_url_status',
                    return_value={"is_accessible": False, "status_code": 404, "error": None}):
             result = detect_ci_404_pitfall(somef_data, "test.json")
 
@@ -360,7 +360,7 @@ class TestDetectCi404Pitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p015.check_ci_url_status',
+        with patch('rsmetacheck.scripts.pitfalls.p015.check_ci_url_status',
                    return_value={"is_accessible": False, "status_code": status_code, "error": None}):
             result = detect_ci_404_pitfall(somef_data, "test.json")
 

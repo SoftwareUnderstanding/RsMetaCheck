@@ -240,7 +240,7 @@ class TestDetectAuthorNameListWarning:
                                                expected_has_warning, expected_author,
                                                expected_source_file):
         """Test various scenarios for author name list detection"""
-        with patch('metacheck.scripts.warnings.w008.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w008.extract_metadata_source_filename',
                    return_value=expected_source_file):
             result = detect_author_name_list_warning(somef_data, file_name)
 
@@ -277,7 +277,7 @@ class TestDetectAuthorNameListWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w008.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w008.extract_metadata_source_filename',
                    return_value=metadata_file):
             result = detect_author_name_list_warning(somef_data, "test.json")
             assert result["has_warning"] is True
@@ -300,7 +300,7 @@ class TestDetectAuthorNameListWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w008.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w008.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_author_name_list_warning(somef_data, "test.json")
             assert result["has_warning"] is True, f"Failed to detect pattern: {list_pattern}"
@@ -343,7 +343,7 @@ class TestDetectAuthorNameListWarning:
             ]
         }
 
-        with patch('metacheck.scripts.warnings.w008.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w008.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_author_name_list_warning(somef_data, "test.json")
             assert result["has_warning"] is True
@@ -368,7 +368,7 @@ class TestDetectAuthorNameListWarning:
                 }]
             }
 
-            with patch('metacheck.scripts.warnings.w008.extract_metadata_source_filename',
+            with patch('rsmetacheck.scripts.warnings.w008.extract_metadata_source_filename',
                        return_value=expected_file):
                 result = detect_author_name_list_warning(somef_data, "test.json")
 

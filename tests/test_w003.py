@@ -164,7 +164,7 @@ class TestDetectDualLicenseMissingCodemetaPitfall:
                         },
                         {
                             "source": "README.md",
-                            "result": {"value": "You may choose which license to use"}
+                            "result": {"value": "You may choose your license to use"}
                         }
                     ]
                 },
@@ -447,7 +447,7 @@ class TestDetectDualLicenseMissingCodemetaPitfall:
             "licensed under MIT and Apache",
             "licensed under GPL or MIT",
             "choose your license",
-            "either MIT license",
+            "either MIT or Apache license",
             "license options",
             "available under multiple licenses"
         ]

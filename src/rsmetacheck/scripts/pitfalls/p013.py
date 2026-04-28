@@ -26,11 +26,11 @@ def detect_license_no_version_pitfall(somef_data: Dict, file_name: str) -> Dict:
                         "requirements.txt", "setup.py"]
 
     versioned_patterns = {
-        "GPL": r"\bGPL[-\s]?\d+(\.\d+)?",
-        "LGPL": r"\bLGPL[-\s]?\d+(\.\d+)?",
-        "AGPL": r"\bAGPL[-\s]?\d+(\.\d+)?",
-        "Apache": r"\bApache[-\s]?\d+(\.\d+)?",
-        "CC": r"\bCC[- ]BY[-\s]?\d+(\.\d+)?",
+        "GPL": r"\bGPL[-\s]?\(?\s*(?:>=?|<=?|>|<|=)?\s*\d+(\.\d+)?\)?",
+        "LGPL": r"\bLGPL[-\s]?\(?\s*(?:>=?|<=?|>|<|=)?\s*\d+(\.\d+)?\)?",
+        "AGPL": r"\bAGPL[-\s]?\(?\s*(?:>=?|<=?|>|<|=)?\s*\d+(\.\d+)?\)?",
+        "Apache": r"\bApache[-\s]?\(?\s*(?:>=?|<=?|>|<|=)?\s*\d+(\.\d+)?\)?",
+        "CC": r"\bCC[- ]BY[-\s]?\(?\s*(?:>=?|<=?|>|<|=)?\s*\d+(\.\d+)?\)?",
         "BSD": r"\bBSD[-\s]\d+[-\s]Clause"
     }
 

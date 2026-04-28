@@ -269,7 +269,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
                                                       expected_has_pitfall, expected_url,
                                                       expected_source_file):
         """Test various scenarios for code repository homepage detection"""
-        with patch('metacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
                    return_value=expected_source_file):
             result = detect_coderepository_homepage_pitfall(somef_data, file_name)
 
@@ -308,7 +308,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
                    return_value=metadata_file):
             result = detect_coderepository_homepage_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] is True
@@ -331,7 +331,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
             ]
         }
 
-        with patch('metacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
                    side_effect=["codemeta.json", "package.json"]):
             result = detect_coderepository_homepage_pitfall(somef_data, "test.json")
 
@@ -356,7 +356,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_coderepository_homepage_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] is True
@@ -393,7 +393,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_coderepository_homepage_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] is True
@@ -408,7 +408,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_coderepository_homepage_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] is True
@@ -430,7 +430,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
             ]
         }
 
-        with patch('metacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_coderepository_homepage_pitfall(somef_data, "test.json")
 
@@ -447,7 +447,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p009.extract_metadata_source_filename',
                    return_value=None):
             result = detect_coderepository_homepage_pitfall(somef_data, "test.json")
             # Should use technique in source field if source is empty

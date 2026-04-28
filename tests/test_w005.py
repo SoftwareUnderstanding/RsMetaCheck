@@ -184,7 +184,7 @@ class TestDetectMultipleRequirementsStringWarning:
     def test_detect_warning_scenarios(self, somef_data, file_name,
                                       expected_has_warning, expected_count):
         """Test various multiple requirements string detection scenarios"""
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="test_file"):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="test_file"):
             result = detect_multiple_requirements_string_warning(somef_data, file_name)
 
             assert result["has_warning"] == expected_has_warning
@@ -222,7 +222,7 @@ class TestDetectMultipleRequirementsStringWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value=source.split('/')[-1]):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value=source.split('/')[-1]):
             result = detect_multiple_requirements_string_warning(somef_data, "test.json")
             assert result["has_warning"] == True
 
@@ -236,7 +236,7 @@ class TestDetectMultipleRequirementsStringWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value=""):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value=""):
             result = detect_multiple_requirements_string_warning(somef_data, "test.json")
             assert result["has_warning"] == True
 
@@ -257,7 +257,7 @@ class TestDetectMultipleRequirementsStringWarning:
             ]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
             result = detect_multiple_requirements_string_warning(somef_data, "test.json")
             assert result["has_warning"] == True
             assert "numpy" in result["detected_requirements"]
@@ -272,7 +272,7 @@ class TestDetectMultipleRequirementsStringWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value=""):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value=""):
             result = detect_multiple_requirements_string_warning(somef_data, "test.json")
             assert result["has_warning"] == True
             assert "technique: setup.py" in result["source"]
@@ -288,7 +288,7 @@ class TestDetectMultipleRequirementsStringWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
             result1 = detect_multiple_requirements_string_warning(somef_data1, "test.json")
             # Dict is not handled as multiple requirements
             assert result1["has_warning"] == False
@@ -302,7 +302,7 @@ class TestDetectMultipleRequirementsStringWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
             result2 = detect_multiple_requirements_string_warning(somef_data2, "test.json")
             assert result2["has_warning"] == False
 
@@ -316,7 +316,7 @@ class TestDetectMultipleRequirementsStringWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
             result = detect_multiple_requirements_string_warning(somef_data, "test.json")
             # Multiple elements in list is correct format, no warning
             assert result["has_warning"] == False
@@ -331,7 +331,7 @@ class TestDetectMultipleRequirementsStringWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
             result = detect_multiple_requirements_string_warning(somef_data, "test.json")
             assert result["has_warning"] == True
             assert result["count_detected"] == 3
@@ -351,7 +351,7 @@ class TestDetectMultipleRequirementsStringWarning:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
+        with patch('rsmetacheck.scripts.warnings.w005.extract_metadata_source_filename', return_value="codemeta.json"):
             result = detect_multiple_requirements_string_warning(somef_data, "test.json")
             assert result["has_warning"] == True
             for expected_req in expected_reqs:

@@ -25,13 +25,13 @@ def detect_dual_license_missing_codemeta_pitfall(somef_data: Dict, file_name: st
         r"dual[\s-]?licen[cs]ed?",
         r"dually[\s-]?licen[cs]ed?",
         r"multiple[\s-]?licen[cs]es?",
-        r"(?:is|are)\s+licen[cs]ed?\s+under.*(?:and|or).*licen[cs]e", 
-        r"choose.*(?:between|from|your).*licen[cs]e",  
-        r"either.*or.*licen[cs]e",  
+        r"(?:is|are)\s+licen[cs]ed?\s+under.*\b(?:and|or)\b.*licen[cs]e", 
+        r"choose.*\b(?:between|from|your)\b.*licen[cs]e",  
+        r"\beither\b.*\bor\b.*licen[cs]e",  
         r"\d+\..*licen[cs]e.*\n.*\d+\..*licen[cs]e",
         r"licen[cs]e.*options?",
-        r"available\s+under.*(?:two|multiple|either).*licen[cs]es?",
-        r"licen[cs]ed? under.*(?:and|or)"
+        r"available\s+under.*\b(?:two|multiple|either)\b.*licen[cs]es?",
+        r"licen[cs]ed?\s+under.*\b(?:and|or)\b"
     ]
 
     has_dual_license_indicator = False

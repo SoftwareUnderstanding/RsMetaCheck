@@ -32,8 +32,8 @@ class TestNormalizeRepositoryUrl:
         ("", ""),
         (None, ""),
 
-        # HTTP vs HTTPS (should be different after normalization)
-        ("http://github.com/user/repo", "http://github.com/user/repo"),
+        # HTTP vs HTTPS (should be same after normalization)
+        ("http://github.com/user/repo", "https://github.com/user/repo"),
         ("https://github.com/user/repo", "https://github.com/user/repo"),
     ])
     def test_url_normalization(self, url, expected):

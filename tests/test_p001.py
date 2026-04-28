@@ -214,8 +214,8 @@ class TestDetectVersionMismatch:
                                        expected_has_pitfall, expected_metadata_ver,
                                        expected_release_ver):
         """Test various version mismatch detection scenarios"""
-        with patch('metacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
-            with patch('metacheck.scripts.pitfalls.p001.extract_metadata_source_filename', return_value="test_file"):
+        with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
+            with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', return_value="test_file"):
                 result = detect_version_mismatch(somef_data, file_name)
 
                 assert result["has_pitfall"] == expected_has_pitfall

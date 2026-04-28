@@ -13,15 +13,15 @@ class TestExtractRequirementsFromMetadata:
 
     @pytest.mark.parametrize("somef_data,expected", [
         # No requirements key
-        ({}, None),
-        ({"other_key": "value"}, None),
+        ({}, []),
+        ({"other_key": "value"}, []),
 
         # Requirements not a list
-        ({"requirements": "numpy"}, None),
-        ({"requirements": {}}, None),
+        ({"requirements": "numpy"}, []),
+        ({"requirements": {}}, []),
 
         # Empty requirements list
-        ({"requirements": []}, None),
+        ({"requirements": []}, []),
 
         # Requirements from codemeta.json
         ({
@@ -29,7 +29,7 @@ class TestExtractRequirementsFromMetadata:
                  "source": "repository/codemeta.json",
                  "result": {"name": "numpy", "version": "1.20.0"}
              }]
-         }, {"source": "repository/codemeta.json", "requirement": {"name": "numpy", "version": "1.20.0"}}),
+         }, [{"source": "repository/codemeta.json", "requirement": {"name": "numpy", "version": "1.20.0"}}]),
 
         # Requirements from package.json
         ({
@@ -40,8 +40,8 @@ class TestExtractRequirementsFromMetadata:
                      {"name": "react"}
                  ]
              }]
-         }, {"source": "repository/package.json",
-             "requirement": [{"name": "express", "version": "^4.17.1"}, {"name": "react"}]}),
+         }, [{"source": "repository/package.json",
+              "requirement": [{"name": "express", "version": "^4.17.1"}, {"name": "react"}]}]),
 
         # Requirements from requirements.txt
         ({
@@ -49,7 +49,7 @@ class TestExtractRequirementsFromMetadata:
                  "source": "repository/requirements.txt",
                  "result": {"value": "numpy==1.20.0"}
              }]
-         }, {"source": "repository/requirements.txt", "requirement": {"value": "numpy==1.20.0"}}),
+         }, [{"source": "repository/requirements.txt", "requirement": {"value": "numpy==1.20.0"}}]),
 
         # Non-metadata source (should not match)
         ({
@@ -57,7 +57,7 @@ class TestExtractRequirementsFromMetadata:
                  "source": "README.md",
                  "result": {"name": "numpy"}
              }]
-         }, None),
+         }, []),
 
         # Multiple entries, first non-metadata
         ({
@@ -65,7 +65,7 @@ class TestExtractRequirementsFromMetadata:
                  {"source": "README.md", "result": {"name": "lib1"}},
                  {"source": "repository/setup.py", "result": {"name": "lib2"}}
              ]
-         }, {"source": "repository/setup.py", "requirement": {"name": "lib2"}}),
+         }, [{"source": "repository/setup.py", "requirement": {"name": "lib2"}}]),
     ])
     def test_extract_requirements_scenarios(self, somef_data, expected):
         """Test various scenarios for requirements extraction"""
@@ -78,34 +78,32 @@ class TestCheckRequirementHasVersion:
 
     @pytest.mark.parametrize("requirement,expected", [
         # Has version field with value
-        ({"name": "numpy", "version": "1.20.0"}, True),
-        ({"name": "pandas", "version": ">=1.0.0"}, True),
-        ({"version": "2.5.1"}, True),
+        ("numpy==1.20.0", True),
+        ("pandas>=1.0.0", True),
+        ("2.5.1", True),
 
         # Has version field but empty
-        ({"name": "numpy", "version": ""}, False),
-        ({"name": "numpy", "version": "   "}, False),
+        ("numpy", False),
+        ("   ", False),
 
         # No version field but has operators in value
-        ({"value": "numpy==1.20.0"}, True),
-        ({"value": "pandas>=1.0.0"}, True),
-        ({"value": "requests<=2.25.0"}, True),
-        ({"value": "flask>1.0"}, True),
-        ({"value": "django<3.0"}, True),
-        ({"value": "pytest~=6.0"}, True),
-        ({"value": "black!=20.8b1"}, True),
-        ({"value": "fastapi^0.65.0"}, True),
-        ({"value": "uvicorn~0.13.0"}, True),
+        ("numpy==1.20.0", True),
+        ("pandas>=1.0.0", True),
+        ("requests<=2.25.0", True),
+        ("flask>1.0", True),
+        ("django<3.0", True),
+        ("pytest~=6.0", True),
+        ("black!=20.8b1", True),
+        ("fastapi^0.65.0", True),
+        ("uvicorn~0.13.0", True),
 
         # No version information
-        ({"name": "numpy"}, False),
-        ({"value": "pandas"}, False),
-        ({"name": "requests", "description": "HTTP library"}, False),
+        ("numpy", False),
+        ("pandas", False),
+        ("requests", False),
 
         # Empty or missing fields
-        ({}, False),
-        ({"name": ""}, False),
-        ({"value": ""}, False),
+        ("", False),
     ])
     def test_version_detection_scenarios(self, requirement, expected):
         """Test various scenarios for version detection in requirements"""
@@ -292,7 +290,7 @@ class TestDetectUnversionedRequirements:
     def test_detect_unversioned_scenarios(self, somef_data, file_name, expected_has_warning,
                                           expected_total, expected_unversioned, expected_percentage):
         """Test various unversioned requirements detection scenarios"""
-        with patch('metacheck.scripts.warnings.w001.extract_metadata_source_filename', return_value="test_file"):
+        with patch('rsmetacheck.scripts.warnings.w001.extract_metadata_source_filename', return_value="test_file"):
             result = detect_unversioned_requirements(somef_data, file_name)
 
             assert result["has_warning"] == expected_has_warning
@@ -333,14 +331,14 @@ class TestDetectUnversionedRequirements:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w001.extract_metadata_source_filename', return_value=metadata_file):
+        with patch('rsmetacheck.scripts.warnings.w001.extract_metadata_source_filename', return_value=metadata_file):
             result = detect_unversioned_requirements(somef_data, "test.json")
             assert result["total_requirements"] > 0
 
     @pytest.mark.parametrize("operator", ["==", ">=", "<=", ">", "<", "~=", "!=", "^", "~"])
     def test_all_version_operators(self, operator):
         """Test that all version operators are recognized"""
-        requirement = {"value": f"package{operator}1.0.0"}
+        requirement = f"package{operator}1.0.0"
         result = check_requirement_has_version(requirement)
         assert result == True, f"Failed to detect operator: {operator}"
 
@@ -362,6 +360,6 @@ class TestDetectUnversionedRequirements:
                 }]
             }
 
-            with patch('metacheck.scripts.warnings.w001.extract_metadata_source_filename', return_value="test_file"):
+            with patch('rsmetacheck.scripts.warnings.w001.extract_metadata_source_filename', return_value="test_file"):
                 result = detect_unversioned_requirements(somef_data, "test.json")
                 assert result["percentage_unversioned"] == expected_pct

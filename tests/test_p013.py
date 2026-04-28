@@ -350,7 +350,7 @@ class TestDetectLicenseNoVersionPitfall:
                                                  expected_has_pitfall, expected_license,
                                                  expected_source_file):
         """Test various scenarios for license version detection"""
-        with patch('metacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
                    return_value=expected_source_file):
             result = detect_license_no_version_pitfall(somef_data, file_name)
 
@@ -387,7 +387,7 @@ class TestDetectLicenseNoVersionPitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
                    return_value=metadata_file):
             result = detect_license_no_version_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] is True
@@ -412,7 +412,7 @@ class TestDetectLicenseNoVersionPitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_license_no_version_pitfall(somef_data_no_version, "test.json")
             assert result["has_pitfall"] is True, f"Should trigger for {license_name} without version"
@@ -468,7 +468,7 @@ class TestDetectLicenseNoVersionPitfall:
                 }]
             }
 
-            with patch('metacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
+            with patch('rsmetacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
                        return_value="codemeta.json"):
                 result = detect_license_no_version_pitfall(somef_data, "test.json")
                 assert result["has_pitfall"] is True, f"Failed for case: {license_value}"
@@ -492,7 +492,7 @@ class TestDetectLicenseNoVersionPitfall:
             ]
         }
 
-        with patch('metacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.pitfalls.p013.extract_metadata_source_filename',
                    side_effect=["codemeta.json", "package.json"]):
             result = detect_license_no_version_pitfall(somef_data, "test.json")
 

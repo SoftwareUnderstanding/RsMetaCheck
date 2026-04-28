@@ -11,9 +11,12 @@ def normalize_repository_url(url: str) -> str:
     url = url.lower().strip()
 
     url = re.sub(r'^git\+', '', url)  # Remove git+ prefix
+    url = re.sub(r'^http://', 'https://', url)  # Normalize http to https
+    url = url.replace('www.github.com', 'github.com')
 
     url = re.sub(r'/$', '', url)  # Remove trailing slash
     url = re.sub(r'\.git$', '', url)  # Remove .git suffix
+    url = re.sub(r'/$', '', url)  # Remove trailing slash again if it was .git/
 
     if url.startswith('git@'):
         url = re.sub(r'^git@([^:]+):', r'https://\1/', url)

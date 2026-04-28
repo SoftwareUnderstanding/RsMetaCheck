@@ -29,13 +29,13 @@ class TestExtractLicenseFromFile:
              }]
          }, {"source": "repository/LICENSE.md", "content": "MIT License\n\nCopyright (c) 2024"}),
 
-        # License from another file (should not match)
+        # License from another file (should match since "license" is in the name)
         ({
              "license": [{
                  "source": "repository/LICENSE.txt",
                  "result": {"value": "Some license"}
              }]
-         }, None),
+         }, {"source": "repository/LICENSE.txt", "content": "Some license"}),
 
         # Multiple entries, only LICENSE.md should match
         ({

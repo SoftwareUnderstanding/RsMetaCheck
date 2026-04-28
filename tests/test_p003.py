@@ -208,7 +208,7 @@ class TestDetectMultipleAuthorsSingleFieldPitfall:
     def test_detect_pitfall_scenarios(self, somef_data, file_name,
                                       expected_has_pitfall, expected_author_value):
         """Test various multiple authors detection scenarios"""
-        with patch('metacheck.scripts.pitfalls.p003.extract_metadata_source_filename', return_value="test_file.json"):
+        with patch('rsmetacheck.scripts.pitfalls.p003.extract_metadata_source_filename', return_value="test_file.json"):
             result = detect_multiple_authors_single_field_pitfall(somef_data, file_name)
 
             assert result["has_pitfall"] == expected_has_pitfall
@@ -247,7 +247,7 @@ class TestDetectMultipleAuthorsSingleFieldPitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p003.extract_metadata_source_filename', return_value=metadata_file):
+        with patch('rsmetacheck.scripts.pitfalls.p003.extract_metadata_source_filename', return_value=metadata_file):
             result = detect_multiple_authors_single_field_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] == True
 

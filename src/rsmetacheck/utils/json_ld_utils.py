@@ -328,9 +328,11 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
             if different_urls and isinstance(different_urls, list) and len(different_urls) > 0:
                 source_path = different_urls[0].get("source", "")
                 metadata_source = extract_metadata_source_filename(source_path)
+                mismatched_url = different_urls[0].get("url", "unknown URL")
+                return f"{evidence_base}the correct URL is {github_api_url}, and the one found in {metadata_source} is {mismatched_url}"
             elif "source" in pitfall_result:
                 metadata_source = extract_metadata_source(pitfall_result)
-            return f"{evidence_base}{metadata_source} codeRepository points to different repository: {github_api_url}"
+            return f"{evidence_base}the correct URL is {github_api_url}, and the one found in {metadata_source} is unknown"
 
     elif pitfall_code == "P017":
         if "codemeta_version" in pitfall_result:

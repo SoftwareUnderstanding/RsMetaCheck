@@ -306,7 +306,7 @@ class TestDetectLocalFileLicensePitfall:
     def test_detect_pitfall_scenarios(self, somef_data, file_name,
                                       expected_has_pitfall, expected_license_value):
         """Test various local file license detection scenarios"""
-        with patch('metacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value="test_file.json"):
+        with patch('rsmetacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value="test_file.json"):
             result = detect_local_file_license_pitfall(somef_data, file_name)
 
             assert result["has_pitfall"] == expected_has_pitfall
@@ -345,7 +345,7 @@ class TestDetectLocalFileLicensePitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value=metadata_file):
+        with patch('rsmetacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value=metadata_file):
             result = detect_local_file_license_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] == True
 
@@ -364,7 +364,7 @@ class TestDetectLocalFileLicensePitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value="codemeta.json"):
+        with patch('rsmetacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value="codemeta.json"):
             result = detect_local_file_license_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] == True
 
@@ -385,7 +385,7 @@ class TestDetectLocalFileLicensePitfall:
             ]
         }
 
-        with patch('metacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value="test.json"):
+        with patch('rsmetacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value="test.json"):
             result = detect_local_file_license_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] == True
             assert result["license_value"] == "LICENSE"
@@ -400,7 +400,7 @@ class TestDetectLocalFileLicensePitfall:
             }]
         }
 
-        with patch('metacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value=""):
+        with patch('rsmetacheck.scripts.pitfalls.p006.extract_metadata_source_filename', return_value=""):
             result = detect_local_file_license_pitfall(somef_data, "test.json")
             assert result["has_pitfall"] == True
             assert "technique: code_parser" in result["source"]

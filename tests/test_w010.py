@@ -332,7 +332,7 @@ class TestDetectGitRemoteShorthandPitfall:
                                             expected_has_warning, expected_url,
                                             expected_source_file):
         """Test various scenarios for Git remote shorthand detection"""
-        with patch('metacheck.scripts.warnings.w010.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w010.extract_metadata_source_filename',
                    return_value=expected_source_file):
             result = detect_git_remote_shorthand_pitfall(somef_data, file_name)
 
@@ -371,7 +371,7 @@ class TestDetectGitRemoteShorthandPitfall:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w010.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w010.extract_metadata_source_filename',
                    return_value=metadata_file):
             result = detect_git_remote_shorthand_pitfall(somef_data, "test.json")
             assert result["has_warning"] is True
@@ -394,7 +394,7 @@ class TestDetectGitRemoteShorthandPitfall:
             ]
         }
 
-        with patch('metacheck.scripts.warnings.w010.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w010.extract_metadata_source_filename',
                    side_effect=["codemeta.json", "package.json"]):
             result = detect_git_remote_shorthand_pitfall(somef_data, "test.json")
 
@@ -418,7 +418,7 @@ class TestDetectGitRemoteShorthandPitfall:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w010.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w010.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_git_remote_shorthand_pitfall(somef_data, "test.json")
             assert result["has_warning"] is True
@@ -433,7 +433,7 @@ class TestDetectGitRemoteShorthandPitfall:
             }]
         }
 
-        with patch('metacheck.scripts.warnings.w010.extract_metadata_source_filename',
+        with patch('rsmetacheck.scripts.warnings.w010.extract_metadata_source_filename',
                    return_value="codemeta.json"):
             result = detect_git_remote_shorthand_pitfall(somef_data, "test.json")
             # Should still detect based on source matching

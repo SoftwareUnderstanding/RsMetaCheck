@@ -1,4 +1,5 @@
 from typing import Dict, List, Tuple, Optional
+import re
 from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
 
 
@@ -31,25 +32,14 @@ def extract_requirements_from_metadata(somef_data: Dict) -> List[Dict]:
     return results
 
 
-def check_requirement_has_version(requirement: Dict) -> bool:
+def check_requirement_has_version(req_name: str) -> bool:
     """
     Check if a single requirement has version information.
     Returns True if version is present and non-empty, False otherwise.
     """
-    if "version" in requirement:
-        version = requirement["version"]
-        # Version should be non-empty string
-        if isinstance(version, str) and version.strip():
-            return True
-
-    if "value" in requirement:
-        value = requirement["value"]
-        if isinstance(value, str):
-
-            version_operators = ["==", ">=", "<=", ">", "<", "~=", "!=", "^", "~"]
-            if any(op in value for op in version_operators):
-                return True
-
+    version_operators = ["==", ">=", "<=", ">", "<", "~=", "!=", "^", "~"]
+    if any(op in req_name for op in version_operators) or re.search(r'\bv?\d+(\.\d+)+\b', req_name):
+        return True
     return False
 
 
@@ -67,17 +57,30 @@ def analyze_requirements_versions(requirements_data: Dict) -> Tuple[int, int, Li
     else:
         return 0, 0, []
 
-    total_requirements = len(requirements_list)
+    total_requirements = 0
     unversioned_count = 0
     unversioned_names = []
 
     for req in requirements_list:
         if isinstance(req, dict):
-            has_version = check_requirement_has_version(req)
-            if not has_version:
-                unversioned_count += 1
-                req_name = req.get("name", req.get("value", "unknown"))
-                unversioned_names.append(req_name)
+            req_name = req.get("name", req.get("value", "unknown"))
+            if isinstance(req_name, str) and bool(re.search(r'\b(npm|bash|cd|pip|install)\b', req_name.lower())):
+                continue
+            
+            if isinstance(req_name, str) and ',' in req_name:
+                parts = [p.strip() for p in req_name.split(',')]
+            else:
+                parts = [req_name]
+                
+            for part in parts:
+                if not part: continue
+                total_requirements += 1
+                has_version_field = "version" in req and bool(req["version"])
+                has_version_str = isinstance(part, str) and check_requirement_has_version(part)
+                
+                if not (has_version_field or has_version_str):
+                    unversioned_count += 1
+                    unversioned_names.append(part)
 
     return total_requirements, unversioned_count, unversioned_names
 

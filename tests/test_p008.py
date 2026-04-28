@@ -50,7 +50,7 @@ class TestIsValidUrlFormat:
 class TestCheckUrlStatus:
     """Test suite for check_url_status function"""
 
-    @patch('metacheck.scripts.pitfalls.p008.requests.get')
+    @patch('rsmetacheck.scripts.pitfalls.p008.requests.get')
     def test_successful_request(self, mock_get):
         """Test successful URL request"""
         mock_response = Mock()
@@ -63,7 +63,7 @@ class TestCheckUrlStatus:
         assert result["status_code"] == 200
         assert result["error"] is None
 
-    @patch('metacheck.scripts.pitfalls.p008.requests.get')
+    @patch('rsmetacheck.scripts.pitfalls.p008.requests.get')
     def test_redirect_status_code(self, mock_get):
         """Test that 301 redirects are considered accessible"""
         mock_response = Mock()
@@ -75,7 +75,7 @@ class TestCheckUrlStatus:
         assert result["is_accessible"] is True
         assert result["status_code"] == 301
 
-    @patch('metacheck.scripts.pitfalls.p008.requests.get')
+    @patch('rsmetacheck.scripts.pitfalls.p008.requests.get')
     def test_not_found_error(self, mock_get):
         """Test 404 Not Found status"""
         mock_response = Mock()
@@ -87,7 +87,7 @@ class TestCheckUrlStatus:
         assert result["is_accessible"] is False
         assert result["status_code"] == 404
 
-    @patch('metacheck.scripts.pitfalls.p008.requests.get')
+    @patch('rsmetacheck.scripts.pitfalls.p008.requests.get')
     def test_server_error(self, mock_get):
         """Test 500 server error"""
         mock_response = Mock()
@@ -99,7 +99,7 @@ class TestCheckUrlStatus:
         assert result["is_accessible"] is False
         assert result["status_code"] == 500
 
-    @patch('metacheck.scripts.pitfalls.p008.requests.get')
+    @patch('rsmetacheck.scripts.pitfalls.p008.requests.get')
     def test_request_exception(self, mock_get):
         """Test handling of request exceptions"""
         import requests
@@ -118,7 +118,7 @@ class TestCheckUrlStatus:
         assert result["is_accessible"] is False
         assert result["error"] == "Invalid URL format"
 
-    @patch('metacheck.scripts.pitfalls.p008.requests.get')
+    @patch('rsmetacheck.scripts.pitfalls.p008.requests.get')
     def test_custom_timeout(self, mock_get):
         """Test that custom timeout is passed"""
         mock_response = Mock()
@@ -130,7 +130,7 @@ class TestCheckUrlStatus:
         call_kwargs = mock_get.call_args[1]
         assert call_kwargs['timeout'] == 5
 
-    @patch('metacheck.scripts.pitfalls.p008.requests.get')
+    @patch('rsmetacheck.scripts.pitfalls.p008.requests.get')
     def test_user_agent_header(self, mock_get):
         """Test that User-Agent header is set"""
         mock_response = Mock()
@@ -265,14 +265,14 @@ class TestDetectInvalidSoftwareRequirementPitfall:
                     False
             ),
         ])
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
     def test_detect_invalid_requirement_basic_scenarios(self, mock_check, somef_data,
                                                         file_name, expected_has_pitfall):
         """Test basic scenarios without URL checking"""
         result = detect_invalid_software_requirement_pitfall(somef_data, file_name)
         assert result["has_pitfall"] == expected_has_pitfall
 
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
     def test_valid_url_requirement_accessible(self, mock_check):
         """Test requirement with accessible URL"""
         mock_check.return_value = {
@@ -292,8 +292,8 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         result = detect_invalid_software_requirement_pitfall(somef_data, "test.json")
         assert result["has_pitfall"] is False
 
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
-    @patch('metacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
     def test_valid_url_requirement_inaccessible(self, mock_extract, mock_check):
         """Test requirement with inaccessible URL"""
         mock_check.return_value = {
@@ -318,8 +318,8 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         assert result["invalid_urls"][0]["url"] == "https://broken.example.com"
         assert result["invalid_urls"][0]["status_code"] == 404
 
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
-    @patch('metacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
     def test_requirement_text_with_embedded_urls(self, mock_extract, mock_check):
         """Test requirement text with embedded URLs"""
         mock_check.return_value = {
@@ -360,8 +360,8 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         "package.json", "pom.xml", "pyproject.toml",
         "requirements.txt", "setup.py"
     ])
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
-    @patch('metacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
     def test_all_metadata_sources(self, mock_extract, mock_check, metadata_file):
         """Test that all metadata file types are correctly processed"""
         mock_check.return_value = {
@@ -383,8 +383,8 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         assert result["has_pitfall"] is True
         assert result["metadata_source_file"] == metadata_file
 
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
-    @patch('metacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
     def test_multiple_urls_in_requirement(self, mock_extract, mock_check):
         """Test requirement with multiple URLs"""
         mock_check.side_effect = [
@@ -407,8 +407,8 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         assert len(result["invalid_urls"]) == 1
         assert result["invalid_urls"][0]["url"] == "https://broken.com"
 
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
-    @patch('metacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
     def test_requirement_as_list(self, mock_extract, mock_check):
         """Test requirement value as a list"""
         mock_check.return_value = {
@@ -429,8 +429,8 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         result = detect_invalid_software_requirement_pitfall(somef_data, "test.json")
         assert result["has_pitfall"] is True
 
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
-    @patch('metacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
     def test_requirement_as_dict(self, mock_extract, mock_check):
         """Test requirement value as a dictionary"""
         mock_check.return_value = {
@@ -456,8 +456,8 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         result = detect_invalid_software_requirement_pitfall(somef_data, "test.json")
         assert result["has_pitfall"] is True
 
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
-    @patch('metacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
     def test_stops_at_first_invalid_url(self, mock_extract, mock_check):
         """Test that function stops after finding first invalid URL"""
         mock_check.return_value = {
@@ -489,7 +489,7 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         assert len(result["invalid_urls"]) == 1
         assert result["invalid_urls"][0]["url"] == "https://broken1.com"
 
-    @patch('metacheck.scripts.pitfalls.p008.check_url_status')
+    @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
     def test_wrong_technique_no_check(self, mock_check):
         """Test that wrong technique doesn't process"""
         somef_data = {

@@ -15,26 +15,27 @@ def detect_multiple_requirements_in_string(requirement_string: str) -> List[str]
     req_str = requirement_string.strip()
 
     # Patterns that might indicate multiple requirements
-    # Split by common separators but be careful not to split version specifiers
-    potential_separators = [
-        r'\s{2,}',  # Multiple spaces
-        r'\s+(?=[A-Za-z])',  # Space followed by letter (new requirement)
-        r',\s*',  # Comma separation
-        r';\s*',  # Semicolon separation
-    ]
+    if bool(re.search(r'\b(npm|bash|cd|pip|install)\b', req_str.lower())):
+        return []
 
     detected_requirements = []
 
-    if re.search(r'\s{2,}', req_str):
+    if re.search(r',\s*', req_str):
+        parts = re.split(r',\s*', req_str)
+        if len(parts) > 1:
+            detected_requirements = [part.strip() for part in parts if part.strip()]
+    elif re.search(r';\s*', req_str):
+        parts = re.split(r';\s*', req_str)
+        if len(parts) > 1:
+            detected_requirements = [part.strip() for part in parts if part.strip()]
+    elif re.match(r'^([A-Z][a-zA-Z0-9]*(\s+|$)){2,}$', req_str):
+        parts = re.split(r'\s+', req_str)
+        if len(parts) > 1:
+            detected_requirements = [part.strip() for part in parts if part.strip()]
+    elif re.search(r'\s{2,}', req_str):
         parts = re.split(r'\s{2,}', req_str)
         if len(parts) > 1:
             detected_requirements = [part.strip() for part in parts if part.strip()]
-
-    if not detected_requirements:
-        if re.search(r'\s+[A-Z][A-Za-z]', req_str):
-            parts = re.split(r'\s+(?=[A-Z])', req_str)
-            if len(parts) > 1:
-                detected_requirements = [part.strip() for part in parts if part.strip()]
 
     return detected_requirements if len(detected_requirements) > 1 else []
 

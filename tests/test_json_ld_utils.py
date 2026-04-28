@@ -4,7 +4,7 @@ from urllib.error import HTTPError, URLError
 
 import pytest
 
-from metacheck.utils.json_ld_utils import fetch_latest_commit_id
+from rsmetacheck.utils.json_ld_utils import fetch_latest_commit_id
 
 
 def _mock_urlopen(payload: bytes) -> MagicMock:
@@ -23,7 +23,7 @@ class TestFetchLatestCommitIdEdgeCases:
     @pytest.mark.parametrize("url", ["", "Unknown", None])
     def test_returns_unknown_without_http_call(self, url):
         with patch(
-            "metacheck.utils.json_ld_utils.urllib.request.urlopen"
+            "rsmetacheck.utils.json_ld_utils.urllib.request.urlopen"
         ) as mock_urlopen:
             result = fetch_latest_commit_id(url)
             assert result == "Unknown"
@@ -33,7 +33,7 @@ class TestFetchLatestCommitIdEdgeCases:
 class TestFetchLatestCommitIdGitHub:
     """GitHub URLs must return the 'sha' field from the GitHub REST API."""
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_github_returns_sha(self, mock_urlopen):
         expected_sha = "bd7bbb5d08b6e08978cfcb449461bd23b32e17d9"
         payload = json.dumps({"sha": expected_sha}).encode()
@@ -45,7 +45,7 @@ class TestFetchLatestCommitIdGitHub:
 
         assert result == expected_sha
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_github_http_error_returns_unknown(self, mock_urlopen):
         mock_urlopen.side_effect = HTTPError(
             url="https://api.github.com/repos/user/repo/commits/HEAD",
@@ -59,7 +59,7 @@ class TestFetchLatestCommitIdGitHub:
 
         assert result == "Unknown"
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_github_strips_git_suffix(self, mock_urlopen):
         expected_sha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         payload = json.dumps({"sha": expected_sha}).encode()
@@ -75,7 +75,7 @@ class TestFetchLatestCommitIdGitHub:
 class TestFetchLatestCommitIdGitLab:
     """GitLab.com URLs must use the GitLab API v4 and return the 'id' field."""
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_gitlab_com_returns_commit_id(self, mock_urlopen):
         expected_id = "9332e9b13882aa7e7f69dcafe7438ee100c5acba"
         payload = json.dumps([{"id": expected_id, "short_id": "9332e9b1"}]).encode()
@@ -87,7 +87,7 @@ class TestFetchLatestCommitIdGitLab:
 
         assert result == expected_id
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_gitlab_com_api_v4_endpoint_used(self, mock_urlopen):
         payload = json.dumps([{"id": "abc123", "short_id": "abc123"}]).encode()
         mock_urlopen.return_value = _mock_urlopen(payload)
@@ -97,7 +97,7 @@ class TestFetchLatestCommitIdGitLab:
         called_url = mock_urlopen.call_args[0][0].full_url
         assert "api/v4/projects/escape-ossr%2Frs_quality_checks" in called_url
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_gitlab_com_strips_trailing_slash(self, mock_urlopen):
         payload = json.dumps([{"id": "abc123"}]).encode()
         mock_urlopen.return_value = _mock_urlopen(payload)
@@ -107,7 +107,7 @@ class TestFetchLatestCommitIdGitLab:
         called_url = mock_urlopen.call_args[0][0].full_url
         assert "escape-ossr%2Frs_quality_checks" in called_url
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_gitlab_com_strips_git_suffix(self, mock_urlopen):
         payload = json.dumps([{"id": "abc123"}]).encode()
         mock_urlopen.return_value = _mock_urlopen(payload)
@@ -117,7 +117,7 @@ class TestFetchLatestCommitIdGitLab:
         called_url = mock_urlopen.call_args[0][0].full_url
         assert "rs_quality_checks.git" not in called_url
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_gitlab_http_error_returns_unknown(self, mock_urlopen):
         mock_urlopen.side_effect = HTTPError(
             url="https://gitlab.com/api/v4/projects/...",
@@ -131,7 +131,7 @@ class TestFetchLatestCommitIdGitLab:
 
         assert result == "Unknown"
 
-    @patch("metacheck.utils.json_ld_utils.urllib.request.urlopen")
+    @patch("rsmetacheck.utils.json_ld_utils.urllib.request.urlopen")
     def test_gitlab_url_error_returns_unknown(self, mock_urlopen):
         mock_urlopen.side_effect = URLError("Network unreachable")
 
