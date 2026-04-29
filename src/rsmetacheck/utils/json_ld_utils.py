@@ -111,10 +111,13 @@ def extract_software_info_from_somef(somef_data: Dict) -> Dict:
         for entry in somef_data["identifier"]:
             if "result" in entry and "value" in entry["result"]:
                 identifier_value = entry["result"]["value"]
-                if identifier_value.startswith("https://doi.org/"):
-                    software_info["schema:identifier"] = {"@id": identifier_value}
-                elif identifier_value.startswith("10."):
-                    software_info["schema:identifier"] = {"@id": f"https://doi.org/{identifier_value}"}
+                if isinstance(identifier_value, list) and len(identifier_value) > 0:
+                    identifier_value = identifier_value[0]
+                if isinstance(identifier_value, str):
+                    if identifier_value.startswith("https://doi.org/"):
+                        software_info["schema:identifier"] = {"@id": identifier_value}
+                    elif identifier_value.startswith("10."):
+                        software_info["schema:identifier"] = {"@id": f"https://doi.org/{identifier_value}"}
                 break
 
     # Add commit ID
