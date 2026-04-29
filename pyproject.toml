@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rsmetacheck"
-version = "0.3.0"
+version = "0.3.1"
 description = "Detect metadata pitfalls in software repositories"
 authors = ["Anas El Hounsri"]
 readme = "README.md"
