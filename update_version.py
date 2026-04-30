@@ -21,6 +21,12 @@ def update_version(toml_path, version_file):
         content = f.read()
 
     new_version = get_version(version_file)
+    if not new_version or new_version == "unknown":
+        raise ValueError(
+            f"Could not read a valid version from '{version_file}'. "
+            "Ensure it contains a line like: __version__ = \"x.y.z\""
+        )
+
     new_content = content.replace("{version-file}", new_version)
 
     with open(toml_path, 'w') as f:
