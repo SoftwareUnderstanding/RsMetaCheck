@@ -23,7 +23,7 @@
   "name": "RsMetaCheck",
   "operatingSystem": "Linux",
   "programmingLanguage": "Python",
-  "version": "0.2.0",
+  "version": "0.3.2dev",
   "developmentStatus": "active",
   "issueTracker": "https://github.com/SoftwareUnderstanding/RsMetaCheck/issues"
 }
