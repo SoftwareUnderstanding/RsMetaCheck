@@ -40,7 +40,7 @@ from rsmetacheck.scripts.warnings.w009 import detect_development_status_url_pitf
 from rsmetacheck.scripts.warnings.w010 import detect_git_remote_shorthand_pitfall
 
 
-def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[str, Path], output_file: Union[str, Path], verbose: bool = False):
+def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[str, Path], output_file: Union[str, Path], verbose: bool = False, notes_output: Union[str, Path] = None):
     """
     Detect all software repository pitfalls in SoMEF output files using modular detectors.
     Now also generates individual JSON-LD files for each repository.
@@ -279,6 +279,7 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
     repos_with_target_languages = 0
     jsonld_files_created = 0
     pitfall_counts = [0] * 29
+    notes_list = []
 
     pitfall_detectors = [
         (detect_version_mismatch, "P001"),  # Index 0 -> P001
@@ -357,13 +358,28 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
                         issue_type = "Pitfall" if pitfall_result.get("has_pitfall", False) else "Warning"
                         print(f"{pitfall_code} - {issue_type} found in {json_file.name}")
 
+                    if pitfall_result.get("has_note", False):
+                        repo_name = json_file.name
+                        if "full_name" in somef_data and somef_data["full_name"]:
+                            for item in somef_data["full_name"]:
+                                if "result" in item and "value" in item["result"]:
+                                    repo_name = item["result"]["value"]
+                                    break
+                        notes_list.append({
+                            "repository": repo_name,
+                            "file_name": json_file.name,
+                            "code": pitfall_code,
+                            "note": pitfall_result.get("note_text", "")
+                        })
+                        print(f"{pitfall_code} - Note added for {json_file.name}")
+
                 except Exception as e:
                     print(f"Error running {pitfall_code} detector on {json_file.name}: {e}")
                     continue
 
             try:
                 has_any_issue = any(
-                    result.get("has_pitfall", False) or result.get("has_warning", False)
+                    result.get("has_pitfall", False) or result.get("has_warning", False) or result.get("has_note", False)
                     for result in repo_pitfall_results
                 )
 
@@ -437,11 +453,28 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
 
         print(f"Summary results saved to: {output_file}")
 
+        if notes_list and notes_output:
+            try:
+                notes_path = Path(notes_output)
+                notes_data = {
+                    "total_notes": len(notes_list),
+                    "notes": notes_list
+                }
+                with open(notes_path, 'w', encoding='utf-8') as f:
+                    json.dump(notes_data, f, indent=2, ensure_ascii=False)
+                print(f"\nNotes ({len(notes_list)}) saved to: {notes_path}")
+            except Exception as e:
+                print(f"Error writing notes file: {e}")
+        elif notes_list:
+            print(f"\n{len(notes_list)} note(s) were found but no --notes-output path was provided. Skipping notes file.")
+        else:
+            print("\nNo notes generated.")
+
     except Exception as e:
         print(f"Error writing output file: {e}")
 
 
-def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_output=None, verbose=False):
+def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_output=None, verbose=False, notes_output=None):
     """
     Main function to run all pitfall detections.
 
@@ -451,6 +484,7 @@ def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_outp
         pitfalls_dir (str|Path, optional): Directory to save pitfall JSON-LD files.
         analysis_output (str|Path, optional): Path to save summary results JSON.
         verbose (bool, optional): Include both detected AND undetected pitfalls in JSON-LD.
+        notes_output (str|Path, optional): Path to save notes JSON file.
 
     Note: Provide either input_dir OR somef_json_paths, not both.
           If both are provided, somef_json_paths takes precedence.
@@ -481,7 +515,7 @@ def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_outp
         print("No JSON files found for analysis.")
         return
 
-    detect_all_pitfalls(json_files, pitfalls_directory, output_file, verbose)
+    detect_all_pitfalls(json_files, pitfalls_directory, output_file, verbose, notes_output)
 
 if __name__ == "__main__":
     main()

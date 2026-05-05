@@ -61,7 +61,7 @@ def fetch_latest_commit_id(repo_url: str) -> str:
 
     elif repo_url.startswith("https://"):
         # Handles gitlab.com and any self-hosted GitLab instance.
-        # The GitLab API v4 is tried; a failed request returns 'Unknown' gracefully.
+        # The GitLab API v4 is tried; a failed request returns 'Unknown'
         parsed = urllib.parse.urlparse(repo_url)
         host = f"{parsed.scheme}://{parsed.netloc}"
         project_path = parsed.path.strip("/")

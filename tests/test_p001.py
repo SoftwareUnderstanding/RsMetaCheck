@@ -139,7 +139,7 @@ class TestExtractLatestReleaseVersion:
 class TestDetectVersionMismatch:
     """Test suite for detect_version_mismatch function"""
 
-    @pytest.mark.parametrize("somef_data,file_name,expected_has_pitfall,expected_metadata_ver,expected_release_ver", [
+    @pytest.mark.parametrize("somef_data,file_name,expected_has_pitfall,expected_metadata_ver,expected_release_ver,expected_has_note", [
         # No version mismatch - versions match
         (
                 {
@@ -152,10 +152,11 @@ class TestDetectVersionMismatch:
                 "test_repo.json",
                 False,
                 "1.0.0",
-                "1.0.0"
+                "1.0.0",
+                False
         ),
 
-        # Version mismatch detected
+        # Version mismatch but release is ahead (metadata behind) - should not flag
         (
                 {
                     "version": [{
@@ -165,9 +166,10 @@ class TestDetectVersionMismatch:
                     "releases": [{"tag": "v2.0.0"}]
                 },
                 "test_repo.json",
-                True,
+                False,
                 "1.2.3",
-                "2.0.0"
+                "2.0.0",
+                False
         ),
 
         # No metadata version
@@ -178,7 +180,8 @@ class TestDetectVersionMismatch:
                 "test_repo.json",
                 False,
                 None,
-                None
+                None,
+                False
         ),
 
         # No release version
@@ -192,10 +195,11 @@ class TestDetectVersionMismatch:
                 "test_repo.json",
                 False,
                 None,
-                None
+                None,
+                False
         ),
 
-        # Version mismatch with normalization (v prefix)
+        # Version mismatch with normalization (v prefix) - release ahead, no flag
         (
                 {
                     "version": [{
@@ -205,20 +209,70 @@ class TestDetectVersionMismatch:
                     "releases": [{"tag": "v2.5.1"}]
                 },
                 "another_repo.json",
-                True,
+                False,
                 "2.5.0",
-                "2.5.1"
+                "2.5.1",
+                False
+        ),
+
+        # Significant version diff, metadata ahead of release (0.12.4 vs 0.12.1) - should be pitfall
+        (
+                {
+                    "version": [{
+                        "source": "repo/codemeta.json",
+                        "result": {"value": "0.12.4"}
+                    }],
+                    "releases": [{"tag": "0.12.1"}]
+                },
+                "big_diff_repo.json",
+                True,
+                "0.12.4",
+                "0.12.1",
+                False
+        ),
+
+        # Small version diff, metadata ahead of release (0.4.3 vs 0.4.2) - should be note only
+        (
+                {
+                    "version": [{
+                        "source": "repo/codemeta.json",
+                        "result": {"value": "0.4.3"}
+                    }],
+                    "releases": [{"tag": "0.4.2"}]
+                },
+                "small_diff_repo.json",
+                False,
+                "0.4.3",
+                "0.4.2",
+                True
+        ),
+
+        # Pre-release vs stable, metadata ahead (0.4.3.dev1 vs 0.4.2) - should be note
+        (
+                {
+                    "version": [{
+                        "source": "repo/codemeta.json",
+                        "result": {"value": "0.4.3.dev1"}
+                    }],
+                    "releases": [{"tag": "0.4.2"}]
+                },
+                "prerelease_repo.json",
+                False,
+                "0.4.3.dev1",
+                "0.4.2",
+                True
         ),
     ])
     def test_detect_mismatch_scenarios(self, somef_data, file_name,
                                        expected_has_pitfall, expected_metadata_ver,
-                                       expected_release_ver):
+                                       expected_release_ver, expected_has_note):
         """Test various version mismatch detection scenarios"""
         with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
             with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', return_value="test_file"):
                 result = detect_version_mismatch(somef_data, file_name)
 
                 assert result["has_pitfall"] == expected_has_pitfall
+                assert result["has_note"] == expected_has_note
                 assert result["file_name"] == file_name
                 assert result["metadata_version"] == expected_metadata_ver
                 assert result["release_version"] == expected_release_ver
@@ -227,14 +281,19 @@ class TestDetectVersionMismatch:
                     assert result["metadata_source"] is not None
                     assert result["metadata_source_file"] is not None
 
+                if expected_has_note:
+                    assert result["note_text"] is not None
+
     def test_result_structure(self):
         """Test that result always has the expected structure"""
         somef_data = {}
         result = detect_version_mismatch(somef_data, "test.json")
 
         assert "has_pitfall" in result
+        assert "has_note" in result
         assert "file_name" in result
         assert "metadata_version" in result
         assert "release_version" in result
         assert "metadata_source" in result
         assert "metadata_source_file" in result
+        assert "note_text" in result

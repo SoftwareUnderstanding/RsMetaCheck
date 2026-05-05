@@ -1,4 +1,16 @@
+import re
 from typing import Dict
+
+
+def _name_contains_version(name: str) -> bool:
+    return bool(re.search(r"\d", name))
+
+
+def _value_is_list(result_data: Dict) -> bool:
+    name_val = result_data.get("name")
+    value_val = result_data.get("value")
+    return isinstance(name_val, list) or isinstance(value_val, list)
+
 
 def detect_programming_language_no_version_pitfall(somef_data: Dict, file_name: str) -> Dict:
     """
@@ -26,6 +38,13 @@ def detect_programming_language_no_version_pitfall(somef_data: Dict, file_name: 
 
                         if "version" not in result_data or result_data.get("version") is None:
                             lang_name = result_data.get("name", "Unknown")
+
+                            if _value_is_list(result_data):
+                                continue
+
+                            if isinstance(lang_name, str) and _name_contains_version(lang_name):
+                                continue
+
                             result["programming_languages_without_version"].append(lang_name)
                             result["source"] = source
                             result["has_warning"] = True

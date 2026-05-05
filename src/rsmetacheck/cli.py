@@ -41,6 +41,11 @@ def cli():
         help="File path for summary results (default: ./analysis_results.json).",
     )
     parser.add_argument(
+        "--notes-output",
+        default=None,
+        help="File path for notes output (default: None, notes file is not created unless specified).",
+    )
+    parser.add_argument(
         "--threshold",
         type=float,
         default=0.8,
@@ -89,6 +94,7 @@ def cli():
             args.pitfalls_output,
             args.analysis_output,
             verbose=args.verbose,
+            notes_output=args.notes_output,
         )
 
     else:
@@ -134,6 +140,7 @@ def cli():
             args.pitfalls_output,
             args.analysis_output,
             verbose=args.verbose,
+            notes_output=args.notes_output,
         )
 
 

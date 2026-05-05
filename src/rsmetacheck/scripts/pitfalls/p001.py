@@ -1,6 +1,32 @@
+import re
 from typing import Dict, Optional
 from rsmetacheck.utils.pitfall_utils import normalize_version
 from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
+
+
+def _parse_version_components(version_str: str) -> tuple:
+    cleaned = re.sub(r"[-_.]?(dev|alpha|beta|rc|pre|post|a|b)\d*.*", "", version_str, flags=re.IGNORECASE)
+    parts = re.findall(r"\d+", cleaned)
+    components = [int(p) for p in parts[:3]]
+    while len(components) < 3:
+        components.append(0)
+    return tuple(components)
+
+
+def _version_diff_significant(v1: str, v2: str) -> bool:
+    c1 = _parse_version_components(v1)
+    c2 = _parse_version_components(v2)
+    for a, b in zip(c1, c2):
+        if abs(a - b) >= 2:
+            return True
+    return False
+
+
+def _metadata_ahead_of_release(metadata_version: str, release_version: str) -> bool:
+    mc = _parse_version_components(metadata_version)
+    rc = _parse_version_components(release_version)
+    return mc > rc
+
 
 def extract_version_from_metadata(somef_data: Dict) -> Optional[Dict[str, str]]:
     """
@@ -69,11 +95,13 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> Dict:
     """
     result = {
         "has_pitfall": False,
+        "has_note": False,
         "file_name": file_name,
         "metadata_version": None,
         "release_version": None,
         "metadata_source": None,
-        "metadata_source_file": None
+        "metadata_source_file": None,
+        "note_text": None
     }
 
     metadata_version_info = extract_version_from_metadata(somef_data)
@@ -89,7 +117,11 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> Dict:
         result["metadata_source"] = metadata_version_info["source"]
         result["metadata_source_file"] = extract_metadata_source_filename(metadata_version_info["source"])
 
-        if metadata_version != normalized_release_version:
-            result["has_pitfall"] = True
+        if _metadata_ahead_of_release(metadata_version, normalized_release_version):
+            if _version_diff_significant(metadata_version, normalized_release_version):
+                result["has_pitfall"] = True
+            else:
+                result["has_note"] = True
+                result["note_text"] = f"Version discrepancy: metadata '{metadata_version}' vs release '{normalized_release_version}'"
 
     return result

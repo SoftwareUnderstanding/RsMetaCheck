@@ -3,7 +3,7 @@ from typing import Union, Iterable
 from rsmetacheck.detect_pitfalls_main import main
 
 
-def run_analysis(somef_input: Union[str, Path, Iterable[Path]], pitfalls_dir: Union[str, Path], analysis_file: Union[str, Path], verbose: bool = False):
+def run_analysis(somef_input: Union[str, Path, Iterable[Path]], pitfalls_dir: Union[str, Path], analysis_file: Union[str, Path], verbose: bool = False, notes_output: Union[str, Path] = None):
     """
     Run metadata analysis using existing code.
 
@@ -13,6 +13,7 @@ def run_analysis(somef_input: Union[str, Path, Iterable[Path]], pitfalls_dir: Un
         pitfalls_dir: Directory to save pitfall JSON-LD files
         analysis_file: Path to save summary results JSON
         verbose: bool indicating if both detected and undetected checks should be logged.
+        notes_output: Path to save notes JSON file.
     """
     print(f"\nRunning analysis...")
 
@@ -20,10 +21,10 @@ def run_analysis(somef_input: Union[str, Path, Iterable[Path]], pitfalls_dir: Un
         somef_path = Path(somef_input)
         if somef_path.is_dir():
             print(f"Using directory: {somef_input}")
-            main(input_dir=somef_input, pitfalls_dir=pitfalls_dir, analysis_output=analysis_file, verbose=verbose)
+            main(input_dir=somef_input, pitfalls_dir=pitfalls_dir, analysis_output=analysis_file, verbose=verbose, notes_output=notes_output)
         else:
             print(f"Error: {somef_input} is not a valid directory")
     else:
         json_files = list(somef_input)
         print(f"Using {len(json_files)} specified JSON files")
-        main(somef_json_paths=json_files, pitfalls_dir=pitfalls_dir, analysis_output=analysis_file, verbose=verbose)
+        main(somef_json_paths=json_files, pitfalls_dir=pitfalls_dir, analysis_output=analysis_file, verbose=verbose, notes_output=notes_output)

@@ -262,6 +262,73 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                 True,
                 ["Ruby"]
         ),
+
+        # "Python 3" in name with no version - should NOT be flagged
+        (
+                {
+                    "programming_languages": [{
+                        "source": "repository/codemeta.json",
+                        "technique": "code_parser",
+                        "result": {
+                            "name": "Python 3",
+                            "version": None
+                        }
+                    }]
+                },
+                "test_repo.json",
+                False,
+                []
+        ),
+
+        # "C++17" in name with no version - should NOT be flagged
+        (
+                {
+                    "programming_languages": [{
+                        "source": "repository/codemeta.json",
+                        "technique": "code_parser",
+                        "result": {
+                            "name": "C++17",
+                            "version": None
+                        }
+                    }]
+                },
+                "test_repo.json",
+                False,
+                []
+        ),
+
+        # List value [python, python3] - should NOT be flagged
+        (
+                {
+                    "programming_languages": [{
+                        "source": "repository/codemeta.json",
+                        "technique": "code_parser",
+                        "result": {
+                            "name": ["python", "python3"],
+                            "version": None
+                        }
+                    }]
+                },
+                "test_repo.json",
+                False,
+                []
+        ),
+
+        # List value in value field - should NOT be flagged
+        (
+                {
+                    "programming_languages": [{
+                        "source": "repository/codemeta.json",
+                        "technique": "code_parser",
+                        "result": {
+                            "value": ["python", "python3"]
+                        }
+                    }]
+                },
+                "test_repo.json",
+                False,
+                []
+        ),
     ])
     def test_detect_warning_scenarios(self, somef_data, file_name,
                                       expected_has_warning, expected_languages):
@@ -474,3 +541,18 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
         result = detect_programming_language_no_version_pitfall(somef_data, "test.json")
         assert result["has_warning"] == True
         assert "Unknown" in result["programming_languages_without_version"]
+
+    def test_python3_no_version_not_flagged(self):
+        somef_data = {
+            "programming_languages": [{
+                "source": "repository/codemeta.json",
+                "technique": "code_parser",
+                "result": {
+                    "name": "Python3",
+                    "version": None
+                }
+            }]
+        }
+
+        result = detect_programming_language_no_version_pitfall(somef_data, "test.json")
+        assert result["has_warning"] == False

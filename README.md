@@ -118,8 +118,35 @@ The `repositories.json` file should be structured as follows:
 poetry run rsmetacheck --input repositories.json \
   --somef-output ./results/somef \
   --pitfalls-output ./results/pitfalls \
-  --analysis-output ./results/summary.json
+  --analysis-output ./results/summary.json \
+  --notes-output ./results/notes.json
 ```
+
+#### Version Discrepancy Notes
+
+When a metadata version differs from the release version by a small margin (all version components differ by less than 2, e.g., `0.4.3.dev1` vs `0.4.2`), MetaCheck records a **note** rather than a full pitfall. To capture these observations, use the `--notes-output` flag:
+
+```bash
+poetry run rsmetacheck --input https://github.com/example/repo --notes-output ./notes.json
+```
+
+The notes file is only created when there are observations to report and the `--notes-output` path is specified. Its structure is:
+
+```json
+{
+  "total_notes": 1,
+  "notes": [
+    {
+      "repository": "example/repo",
+      "file_name": "repo_output.json",
+      "code": "P001",
+      "note": "Version discrepancy: metadata '0.4.3.dev1' vs release '0.4.2'"
+    }
+  ]
+}
+```
+
+If the version difference is significant (any component differs by 2 or more, e.g., `0.12.4` vs `0.12.1`), it is still flagged as a pitfall.
 
 #### Skip SoMEF and Analyze Existing Outputs
 
