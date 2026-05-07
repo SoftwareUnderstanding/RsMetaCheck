@@ -5,7 +5,7 @@
       "repository": "SoftwareUnderstanding/RsMetaCheck",
       "file_name": "output_1.json",
       "code": "P001",
-      "note": "Version discrepancy: metadata '0.3.2dev' vs release '0.3.1'"
+      "note": "Version discrepancy: codemeta.json '0.3.2dev' vs release '0.3.1'"
     }
   ]
 }
