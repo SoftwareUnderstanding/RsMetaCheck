@@ -28,42 +28,41 @@ def _metadata_ahead_of_release(metadata_version: str, release_version: str) -> b
     return mc > rc
 
 
-def extract_version_from_metadata(somef_data: Dict) -> Optional[Dict[str, str]]:
+def extract_version_from_metadata(somef_data: Dict) -> list:
     """
-    Extract version from metadata files (codemeta.json, DESCRIPTION, etc.) in SoMEF output.
-    Returns a dict with source and version, or None if not found.
+    Extract versions from all metadata files (codemeta.json, DESCRIPTION, etc.) in SoMEF output.
+    Returns a list of dicts with source and version.
     """
     if "version" not in somef_data:
-        return None
+        return []
 
     version_entries = somef_data["version"]
     if not isinstance(version_entries, list):
-        return None
+        return []
 
-    # Look for version from metadata files (codemeta.json, DESCRIPTION, etc.)
     metadata_sources = ["codemeta.json", "DESCRIPTION", "composer.json", "package.json", "pom.xml", "pyproject.toml", "requirements.txt", "setup.py"]
+
+    results = []
 
     for entry in version_entries:
         if "source" in entry:
             source = entry["source"]
-            # Check if source contains any metadata file indicators
             if any(meta_file in source for meta_file in metadata_sources):
                 if "result" in entry and "value" in entry["result"]:
-                    return {
+                    results.append({
                         "source": source,
                         "version": entry["result"]["value"]
-                    }
+                    })
         elif "result" in entry and "source" in entry["result"]:
-
             source = entry["result"]["source"]
             if any(meta_file in source for meta_file in metadata_sources):
                 if "value" in entry["result"]:
-                    return {
+                    results.append({
                         "source": source,
                         "version": entry["result"]["value"]
-                    }
+                    })
 
-    return None
+    return results
 
 
 def extract_latest_release_version(somef_data: Dict) -> Optional[str]:
@@ -91,7 +90,7 @@ def extract_latest_release_version(somef_data: Dict) -> Optional[str]:
 def detect_version_mismatch(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect version mismatch pitfall for a single repository.
-    Returns detection result with pitfall info or None if no pitfall found.
+    Checks all metadata files and returns per-source results.
     """
     result = {
         "has_pitfall": False,
@@ -101,27 +100,46 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> Dict:
         "release_version": None,
         "metadata_source": None,
         "metadata_source_file": None,
-        "note_text": None
+        "note_text": None,
+        "notes": []
     }
 
-    metadata_version_info = extract_version_from_metadata(somef_data)
-
+    metadata_versions = extract_version_from_metadata(somef_data)
     release_version = extract_latest_release_version(somef_data)
 
-    if metadata_version_info and release_version:
-        metadata_version = normalize_version(metadata_version_info["version"])
-        normalized_release_version = normalize_version(release_version)
+    if not metadata_versions or not release_version:
+        return result
 
-        result["metadata_version"] = metadata_version
-        result["release_version"] = normalized_release_version
-        result["metadata_source"] = metadata_version_info["source"]
-        result["metadata_source_file"] = extract_metadata_source_filename(metadata_version_info["source"])
+    normalized_release_version = normalize_version(release_version)
 
-        if _metadata_ahead_of_release(metadata_version, normalized_release_version):
-            if _version_diff_significant(metadata_version, normalized_release_version):
-                result["has_pitfall"] = True
-            else:
-                result["has_note"] = True
-                result["note_text"] = f"Version discrepancy: metadata '{metadata_version}' vs release '{normalized_release_version}'"
+    first_entry = metadata_versions[0]
+    first_metadata_version = normalize_version(first_entry["version"])
+    first_metadata_source_file = extract_metadata_source_filename(first_entry["source"])
+
+    result["metadata_version"] = first_metadata_version
+    result["release_version"] = normalized_release_version
+    result["metadata_source"] = first_entry["source"]
+    result["metadata_source_file"] = first_metadata_source_file
+
+    for md_info in metadata_versions:
+        metadata_version = normalize_version(md_info["version"])
+        metadata_source_file = extract_metadata_source_filename(md_info["source"])
+
+        if not _metadata_ahead_of_release(metadata_version, normalized_release_version):
+            continue
+
+        if _version_diff_significant(metadata_version, normalized_release_version):
+            result["has_pitfall"] = True
+        else:
+            result["has_note"] = True
+            note_text = f"Version discrepancy: {metadata_source_file} version '{metadata_version}' vs release version '{normalized_release_version}'"
+            result["notes"].append({
+                "metadata_source_file": metadata_source_file,
+                "metadata_version": metadata_version,
+                "release_version": normalized_release_version,
+                "note_text": note_text
+            })
+            if result["note_text"] is None:
+                result["note_text"] = note_text
 
     return result

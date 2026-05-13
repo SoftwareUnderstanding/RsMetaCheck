@@ -174,12 +174,21 @@ def extract_metadata_source(pitfall_result: Dict) -> str:
     if 'metadata_source_file' in pitfall_result and pitfall_result['metadata_source_file']:
         return pitfall_result['metadata_source_file']
 
-    # Fallback to the old method
-    metadata_source = pitfall_result.get('metadata_source', 'metadata files')
-    # Extract just the filename from the source path if it's a full path
-    if '/' in metadata_source or '\\' in metadata_source:
-        metadata_source = metadata_source.split('/')[-1].split('\\')[-1]
-    return metadata_source
+    # Fallback to the metadata_source field
+    metadata_source = pitfall_result.get('metadata_source')
+    if metadata_source:
+        if '/' in metadata_source or '\\' in metadata_source:
+            metadata_source = metadata_source.split('/')[-1].split('\\')[-1]
+        return metadata_source
+
+    # Fallback to the source field (e.g., "repository/codemeta.json")
+    source = pitfall_result.get('source')
+    if source:
+        if '/' in source or '\\' in source:
+            return source.split('/')[-1].split('\\')[-1]
+        return source
+
+    return 'metadata files'
 
 
 def extract_metadata_source_filename(source_path: str) -> str:
@@ -296,7 +305,7 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
         if "issue_url" in pitfall_result:
             metadata_source = extract_metadata_source(pitfall_result)
             issue_url = pitfall_result.get('issue_url') or 'unknown URL'
-            return f"{evidence_base}{metadata_source} IssueTracker URL violates expected format: {issue_url}"
+            return f"{evidence_base}{metadata_source} IssueTracker URL does not match recognized issue tracker patterns: {issue_url}"
 
     elif pitfall_code == "P012":
         if "download_url" in pitfall_result:
@@ -542,12 +551,7 @@ def get_suggestion_text(pitfall_code: str, pitfall_result: Dict = None, somef_da
     elif pitfall_code == "P011":
         issue_url = pitfall_result.get("issue_url")
         if issue_url:
-            import re
-            match = re.search(r'https?://[^\s,]+', issue_url)
-            if match:
-                extracted_url = match.group(0)
-                return f"You need to correct the issue tracker URL. Consider using the extracted link: {extracted_url}"
-            return f"You need to correct the issue tracker URL ({issue_url}) so it follows a valid format, such as https://github.com/user/repo/issues."
+            return f"You need to correct the issue tracker URL ({issue_url}) so it follows a valid format (e.g., https://github.com/user/repo/issues or https://gitlab.com/namespace/project/-/issues)."
 
     elif pitfall_code == "P012":
         download_url = pitfall_result.get("download_url")

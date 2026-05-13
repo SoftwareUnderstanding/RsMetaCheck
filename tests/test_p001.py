@@ -12,15 +12,15 @@ class TestExtractVersionFromMetadata:
 
     @pytest.mark.parametrize("somef_data,expected", [
         # No version key
-        ({}, None),
-        ({"other_key": "value"}, None),
+        ({}, []),
+        ({"other_key": "value"}, []),
 
         # Version not a list
-        ({"version": "1.0.0"}, None),
-        ({"version": {}}, None),
+        ({"version": "1.0.0"}, []),
+        ({"version": {}}, []),
 
         # Empty version list
-        ({"version": []}, None),
+        ({"version": []}, []),
 
         # Version from codemeta.json with source at top level
         ({
@@ -29,7 +29,7 @@ class TestExtractVersionFromMetadata:
                  "result": {"value": "1.2.3"}
              }]
          },
-         {"source": "repository/codemeta.json", "version": "1.2.3"}),
+         [{"source": "repository/codemeta.json", "version": "1.2.3"}]),
 
         # Version from DESCRIPTION file
         ({
@@ -37,7 +37,7 @@ class TestExtractVersionFromMetadata:
                  "source": "repository/DESCRIPTION",
                  "result": {"value": "2.0.1"}
              }]
-         }, {"source": "repository/DESCRIPTION", "version": "2.0.1"}),
+         }, [{"source": "repository/DESCRIPTION", "version": "2.0.1"}]),
 
         # Version from package.json
         ({
@@ -45,7 +45,7 @@ class TestExtractVersionFromMetadata:
                  "source": "repository/package.json",
                  "result": {"value": "3.1.4"}
              }]
-         }, {"source": "repository/package.json", "version": "3.1.4"}),
+         }, [{"source": "repository/package.json", "version": "3.1.4"}]),
 
         # Version with result.source structure
         ({
@@ -55,21 +55,41 @@ class TestExtractVersionFromMetadata:
                      "value": "0.5.0"
                  }
              }]
-         }, {"source": "repository/pyproject.toml", "version": "0.5.0"}),
+         }, [{"source": "repository/pyproject.toml", "version": "0.5.0"}]),
 
+        # Multiple metadata versions
+        ({
+             "version": [
+                 {"source": "repository/codemeta.json", "result": {"value": "1.2.3"}},
+                 {"source": "repository/pyproject.toml", "result": {"value": "0.5.0"}},
+             ]
+         },
+         [
+             {"source": "repository/codemeta.json", "version": "1.2.3"},
+             {"source": "repository/pyproject.toml", "version": "0.5.0"},
+         ]),
+
+        # Non-metadata source mixed with metadata (only metadata returned)
+        ({
+             "version": [
+                 {"source": "repository/README.md", "result": {"value": "1.2.3"}},
+                 {"source": "repository/codemeta.json", "result": {"value": "1.0.0"}},
+             ]
+         },
+         [{"source": "repository/codemeta.json", "version": "1.0.0"}]),
 
         # Missing result or value
         ({
              "version": [{
                  "source": "repository/codemeta.json"
              }]
-         }, None),
+         }, []),
         ({
              "version": [{
                  "source": "repository/codemeta.json",
                  "result": {}
              }]
-         }, None),
+         }, []),
     ])
     def test_extract_version_scenarios(self, somef_data, expected):
         """Test various scenarios for version extraction"""
@@ -297,3 +317,44 @@ class TestDetectVersionMismatch:
         assert "metadata_source" in result
         assert "metadata_source_file" in result
         assert "note_text" in result
+        assert "notes" in result
+        assert isinstance(result["notes"], list)
+
+    def test_multiple_metadata_sources_all_notes(self):
+        """Test that multiple metadata sources each produce a separate note entry"""
+        somef_data = {
+            "version": [
+                {"source": "repo/codemeta.json", "result": {"value": "0.4.3"}},
+                {"source": "repo/pyproject.toml", "result": {"value": "0.4.3"}},
+            ],
+            "releases": [{"tag": "0.4.2"}]
+        }
+        with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
+            with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', side_effect=lambda x: x.split('/')[-1]):
+                result = detect_version_mismatch(somef_data, "test.json")
+
+                assert result["has_pitfall"] is False
+                assert result["has_note"] is True
+                assert len(result["notes"]) == 2
+                assert result["notes"][0]["metadata_source_file"] == "codemeta.json"
+                assert result["notes"][1]["metadata_source_file"] == "pyproject.toml"
+                assert "version discrepancy" in result["notes"][0]["note_text"].lower()
+                assert "version discrepancy" in result["notes"][1]["note_text"].lower()
+
+    def test_multiple_metadata_sources_pitfall_and_note(self):
+        """Test pitfall from one source and note from another"""
+        somef_data = {
+            "version": [
+                {"source": "repo/codemeta.json", "result": {"value": "3.1.0"}},
+                {"source": "repo/pyproject.toml", "result": {"value": "1.0.1"}},
+            ],
+            "releases": [{"tag": "1.0.0"}]
+        }
+        with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
+            with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', side_effect=lambda x: x.split('/')[-1]):
+                result = detect_version_mismatch(somef_data, "test.json")
+
+                assert result["has_pitfall"] is True
+                assert result["has_note"] is True
+                assert len(result["notes"]) == 1
+                assert result["notes"][0]["metadata_source_file"] == "pyproject.toml"

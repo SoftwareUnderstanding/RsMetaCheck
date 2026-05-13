@@ -1,37 +1,44 @@
-import requests
 from typing import Dict
+from urllib.parse import urlparse
 
 
-def is_url_accessible(url: str, timeout: int = 10) -> bool:
+def is_valid_issue_tracker_format(url: str) -> bool:
     """
-    Check if a URL is accessible by making an HTTP request.
-    Returns True if the URL returns a successful HTTP status code.
+    Check if URL matches a recognized issue tracker format.
+    Validates that the URL has a proper scheme, hostname, and
+    a path ending in a recognized issue tracker pattern (/issues, /tickets).
     """
+    if not url:
+        return False
+
     try:
-        # Clean up the URL - remove leading/trailing whitespace and newlines
-        clean_url = url.strip()
-
-        # Make a HEAD request first (faster than GET)
-        response = requests.head(clean_url, timeout=timeout, allow_redirects=True)
-
-        # If HEAD is not allowed, try GET
-        if response.status_code == 405:  # Method Not Allowed
-            response = requests.get(clean_url, timeout=timeout, allow_redirects=True)
-
-        # Consider 2xx and 3xx status codes as successful
-        return response.status_code < 400
-
-    except requests.exceptions.RequestException:
-        # Any request exception means the URL is not accessible
-        return False
+        parsed = urlparse(url.strip())
     except Exception:
-        # Any other exception means the URL is not accessible
         return False
+
+    if parsed.scheme not in ('http', 'https'):
+        return False
+
+    if not parsed.netloc:
+        return False
+
+    path = parsed.path
+    if not path or path == '/':
+        return False
+
+    path_lower = path.lower()
+    valid_patterns = ['/issues', '/tickets']
+    for pattern in valid_patterns:
+        if path_lower.endswith(pattern) or (pattern + '/') in path_lower:
+            return True
+
+    return False
 
 
 def detect_issue_tracker_format_pitfall(somef_data: Dict, file_name: str) -> Dict:
     """
-    Detect when codemeta.json IssueTracker URL is not accessible.
+    Detect when codemeta.json IssueTracker URL does not follow
+    a recognized issue tracker format.
     """
     result = {
         "has_pitfall": False,
@@ -56,12 +63,11 @@ def detect_issue_tracker_format_pitfall(somef_data: Dict, file_name: str) -> Dic
             if "result" in entry and "value" in entry["result"]:
                 issue_url = entry["result"]["value"]
 
-                # Check if URL is accessible
-                if not is_url_accessible(issue_url):
+                if not is_valid_issue_tracker_format(issue_url):
                     result["has_pitfall"] = True
                     result["issue_url"] = issue_url
                     result["source"] = source
-                    result["format_violation"] = "URL is not accessible or returns error status"
+                    result["format_violation"] = "URL does not match recognized issue tracker format"
                     break
 
     return result

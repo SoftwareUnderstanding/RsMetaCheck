@@ -365,12 +365,25 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
                                 if "result" in item and "value" in item["result"]:
                                     repo_name = item["result"]["value"]
                                     break
-                        notes_list.append({
-                            "repository": repo_name,
-                            "file_name": json_file.name,
-                            "code": pitfall_code,
-                            "note": pitfall_result.get("note_text", "")
-                        })
+                        w3id_code = f"https://softwareunderstanding.github.io/RsMetaCheck/#{pitfall_code}"
+                        notes = pitfall_result.get("notes", [])
+                        if notes:
+                            for note_entry in notes:
+                                notes_list.append({
+                                    "repository": repo_name,
+                                    "somef_file": json_file.name,
+                                    "code": w3id_code,
+                                    "note": note_entry.get("note_text", "")
+                                })
+                        else:
+                            note_text = pitfall_result.get("note_text", "")
+                            if note_text:
+                                notes_list.append({
+                                    "repository": repo_name,
+                                    "somef_file": json_file.name,
+                                    "code": w3id_code,
+                                    "note": note_text
+                                })
                         print(f"{pitfall_code} - Note added for {json_file.name}")
 
                 except Exception as e:
