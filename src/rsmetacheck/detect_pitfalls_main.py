@@ -331,60 +331,64 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
 
             for idx, (detector_func, pitfall_code) in enumerate(pitfall_detectors):
                 try:
-                    pitfall_result = detector_func(somef_data, json_file.name)
+                    detector_results = detector_func(somef_data, json_file.name)
+                    if not isinstance(detector_results, list):
+                        detector_results = [detector_results]
 
-                    pitfall_result["pitfall_code"] = pitfall_code
-                    repo_pitfall_results.append(pitfall_result)
+                    for pitfall_result in detector_results:
 
-                    has_pitfall = pitfall_result.get("has_pitfall", False)
-                    has_warning = pitfall_result.get("has_warning", False)
-                    has_issue = has_pitfall or has_warning
+                        pitfall_result["pitfall_code"] = pitfall_code
+                        repo_pitfall_results.append(pitfall_result)
 
-                    if has_issue:
-                        pitfall_counts[idx] += 1
+                        has_pitfall = pitfall_result.get("has_pitfall", False)
+                        has_warning = pitfall_result.get("has_warning", False)
+                        has_issue = has_pitfall or has_warning
 
-                        if has_pitfall:
-                            total_pitfalls += 1
-                        if has_warning:
-                            total_warnings += 1
+                        if has_issue:
+                            pitfall_counts[idx] += 1
 
-                        if languages:
-                            for lang in languages:
-                                if lang in results["pitfalls & warnings"][idx]["languages"]:
-                                    results["pitfalls & warnings"][idx]["languages"][lang] += 1
-                                else:
-                                    results["pitfalls & warnings"][idx]["languages"][lang] = 1
+                            if has_pitfall:
+                                total_pitfalls += 1
+                            if has_warning:
+                                total_warnings += 1
 
-                        issue_type = "Pitfall" if pitfall_result.get("has_pitfall", False) else "Warning"
-                        print(f"{pitfall_code} - {issue_type} found in {json_file.name}")
+                            if languages:
+                                for lang in languages:
+                                    if lang in results["pitfalls & warnings"][idx]["languages"]:
+                                        results["pitfalls & warnings"][idx]["languages"][lang] += 1
+                                    else:
+                                        results["pitfalls & warnings"][idx]["languages"][lang] = 1
 
-                    if pitfall_result.get("has_note", False):
-                        repo_name = json_file.name
-                        if "full_name" in somef_data and somef_data["full_name"]:
-                            for item in somef_data["full_name"]:
-                                if "result" in item and "value" in item["result"]:
-                                    repo_name = item["result"]["value"]
-                                    break
-                        w3id_code = f"https://softwareunderstanding.github.io/RsMetaCheck/#{pitfall_code}"
-                        notes = pitfall_result.get("notes", [])
-                        if notes:
-                            for note_entry in notes:
-                                notes_list.append({
-                                    "repository": repo_name,
-                                    "somef_file": json_file.name,
-                                    "code": w3id_code,
-                                    "note": note_entry.get("note_text", "")
-                                })
-                        else:
-                            note_text = pitfall_result.get("note_text", "")
-                            if note_text:
-                                notes_list.append({
-                                    "repository": repo_name,
-                                    "somef_file": json_file.name,
-                                    "code": w3id_code,
-                                    "note": note_text
-                                })
-                        print(f"{pitfall_code} - Note added for {json_file.name}")
+                            issue_type = "Pitfall" if pitfall_result.get("has_pitfall", False) else "Warning"
+                            print(f"{pitfall_code} - {issue_type} found in {json_file.name}")
+
+                        if pitfall_result.get("has_note", False):
+                            repo_name = json_file.name
+                            if "full_name" in somef_data and somef_data["full_name"]:
+                                for item in somef_data["full_name"]:
+                                    if "result" in item and "value" in item["result"]:
+                                        repo_name = item["result"]["value"]
+                                        break
+                            w3id_code = f"https://softwareunderstanding.github.io/RsMetaCheck/#{pitfall_code}"
+                            notes = pitfall_result.get("notes", [])
+                            if notes:
+                                for note_entry in notes:
+                                    notes_list.append({
+                                        "repository": repo_name,
+                                        "somef_file": json_file.name,
+                                        "code": w3id_code,
+                                        "note": note_entry.get("note_text", "")
+                                    })
+                            else:
+                                note_text = pitfall_result.get("note_text", "")
+                                if note_text:
+                                    notes_list.append({
+                                        "repository": repo_name,
+                                        "somef_file": json_file.name,
+                                        "code": w3id_code,
+                                        "note": note_text
+                                    })
+                            print(f"{pitfall_code} - Note added for {json_file.name}")
 
                 except Exception as e:
                     print(f"Error running {pitfall_code} detector on {json_file.name}: {e}")

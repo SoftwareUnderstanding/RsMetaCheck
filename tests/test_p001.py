@@ -159,7 +159,7 @@ class TestExtractLatestReleaseVersion:
 class TestDetectVersionMismatch:
     """Test suite for detect_version_mismatch function"""
 
-    @pytest.mark.parametrize("somef_data,file_name,expected_has_pitfall,expected_metadata_ver,expected_release_ver,expected_has_note", [
+    @pytest.mark.parametrize("somef_data,file_name,expected_has_pitfall,expected_metadata_ver,expected_release_ver,expected_has_note,expected_count", [
         # No version mismatch - versions match
         (
                 {
@@ -173,7 +173,8 @@ class TestDetectVersionMismatch:
                 False,
                 "1.0.0",
                 "1.0.0",
-                False
+                False,
+                0
         ),
 
         # Version mismatch but release is ahead (metadata behind) - should not flag
@@ -189,7 +190,8 @@ class TestDetectVersionMismatch:
                 False,
                 "1.2.3",
                 "2.0.0",
-                False
+                False,
+                0
         ),
 
         # No metadata version
@@ -201,7 +203,8 @@ class TestDetectVersionMismatch:
                 False,
                 None,
                 None,
-                False
+                False,
+                0
         ),
 
         # No release version
@@ -216,7 +219,8 @@ class TestDetectVersionMismatch:
                 False,
                 None,
                 None,
-                False
+                False,
+                0
         ),
 
         # Version mismatch with normalization (v prefix) - release ahead, no flag
@@ -232,7 +236,8 @@ class TestDetectVersionMismatch:
                 False,
                 "2.5.0",
                 "2.5.1",
-                False
+                False,
+                0
         ),
 
         # Significant version diff, metadata ahead of release (0.12.4 vs 0.12.1) - should be pitfall
@@ -248,7 +253,8 @@ class TestDetectVersionMismatch:
                 True,
                 "0.12.4",
                 "0.12.1",
-                False
+                False,
+                1
         ),
 
         # Small version diff, metadata ahead of release (0.4.3 vs 0.4.2) - should be note only
@@ -264,7 +270,8 @@ class TestDetectVersionMismatch:
                 False,
                 "0.4.3",
                 "0.4.2",
-                True
+                True,
+                1
         ),
 
         # Pre-release vs stable, metadata ahead (0.4.3.dev1 vs 0.4.2) - should be note
@@ -280,35 +287,54 @@ class TestDetectVersionMismatch:
                 False,
                 "0.4.3.dev1",
                 "0.4.2",
-                True
+                True,
+                1
         ),
     ])
     def test_detect_mismatch_scenarios(self, somef_data, file_name,
                                        expected_has_pitfall, expected_metadata_ver,
-                                       expected_release_ver, expected_has_note):
+                                       expected_release_ver, expected_has_note,
+                                       expected_count):
         """Test various version mismatch detection scenarios"""
         with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
             with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', return_value="test_file"):
-                result = detect_version_mismatch(somef_data, file_name)
+                results = detect_version_mismatch(somef_data, file_name)
 
-                assert result["has_pitfall"] == expected_has_pitfall
-                assert result["has_note"] == expected_has_note
-                assert result["file_name"] == file_name
-                assert result["metadata_version"] == expected_metadata_ver
-                assert result["release_version"] == expected_release_ver
+                assert isinstance(results, list)
+                assert len(results) == expected_count
 
-                if expected_has_pitfall:
-                    assert result["metadata_source"] is not None
-                    assert result["metadata_source_file"] is not None
-
-                if expected_has_note:
-                    assert result["note_text"] is not None
+                if expected_count > 0:
+                    result = results[0]
+                    assert result["has_pitfall"] == expected_has_pitfall
+                    assert result["has_note"] == expected_has_note
+                    assert result["file_name"] == file_name
+                    if expected_metadata_ver is not None:
+                        assert result["metadata_version"] == expected_metadata_ver
+                        assert result["release_version"] == expected_release_ver
+                    if expected_has_pitfall:
+                        assert result["metadata_source"] is not None
+                        assert result["metadata_source_file"] is not None
+                    if expected_has_note:
+                        assert result["note_text"] is not None
 
     def test_result_structure(self):
-        """Test that result always has the expected structure"""
+        """Test that result for empty data returns an empty list"""
         somef_data = {}
-        result = detect_version_mismatch(somef_data, "test.json")
+        results = detect_version_mismatch(somef_data, "test.json")
+        assert results == []
 
+    def test_result_dict_structure(self):
+        """Test that each result dict has the expected structure"""
+        somef_data = {
+            "version": [{"source": "repo/codemeta.json", "result": {"value": "0.4.3"}}],
+            "releases": [{"tag": "0.4.2"}]
+        }
+        with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
+            with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', return_value="test_file"):
+                results = detect_version_mismatch(somef_data, "test.json")
+
+        assert len(results) == 1
+        result = results[0]
         assert "has_pitfall" in result
         assert "has_note" in result
         assert "file_name" in result
@@ -321,7 +347,7 @@ class TestDetectVersionMismatch:
         assert isinstance(result["notes"], list)
 
     def test_multiple_metadata_sources_all_notes(self):
-        """Test that multiple metadata sources each produce a separate note entry"""
+        """Test that multiple metadata sources each produce a separate result dict"""
         somef_data = {
             "version": [
                 {"source": "repo/codemeta.json", "result": {"value": "0.4.3"}},
@@ -331,18 +357,21 @@ class TestDetectVersionMismatch:
         }
         with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
             with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', side_effect=lambda x: x.split('/')[-1]):
-                result = detect_version_mismatch(somef_data, "test.json")
+                results = detect_version_mismatch(somef_data, "test.json")
 
-                assert result["has_pitfall"] is False
-                assert result["has_note"] is True
-                assert len(result["notes"]) == 2
-                assert result["notes"][0]["metadata_source_file"] == "codemeta.json"
-                assert result["notes"][1]["metadata_source_file"] == "pyproject.toml"
-                assert "version discrepancy" in result["notes"][0]["note_text"].lower()
-                assert "version discrepancy" in result["notes"][1]["note_text"].lower()
+        assert isinstance(results, list)
+        assert len(results) == 2
+
+        assert results[0]["has_note"] is True
+        assert results[0]["metadata_source_file"] == "codemeta.json"
+        assert results[1]["has_note"] is True
+        assert results[1]["metadata_source_file"] == "pyproject.toml"
+
+        assert "version discrepancy" in results[0]["note_text"].lower()
+        assert "version discrepancy" in results[1]["note_text"].lower()
 
     def test_multiple_metadata_sources_pitfall_and_note(self):
-        """Test pitfall from one source and note from another"""
+        """Test pitfall from one source and note from another return separate dicts"""
         somef_data = {
             "version": [
                 {"source": "repo/codemeta.json", "result": {"value": "3.1.0"}},
@@ -352,9 +381,12 @@ class TestDetectVersionMismatch:
         }
         with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
             with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', side_effect=lambda x: x.split('/')[-1]):
-                result = detect_version_mismatch(somef_data, "test.json")
+                results = detect_version_mismatch(somef_data, "test.json")
 
-                assert result["has_pitfall"] is True
-                assert result["has_note"] is True
-                assert len(result["notes"]) == 1
-                assert result["notes"][0]["metadata_source_file"] == "pyproject.toml"
+        assert isinstance(results, list)
+        assert len(results) == 2
+
+        assert results[0]["has_pitfall"] is True
+        assert results[0]["metadata_source_file"] == "codemeta.json"
+        assert results[1]["has_note"] is True
+        assert results[1]["metadata_source_file"] == "pyproject.toml"

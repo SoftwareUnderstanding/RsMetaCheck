@@ -87,39 +87,20 @@ def extract_latest_release_version(somef_data: Dict) -> Optional[str]:
 
     return None
 
-def detect_version_mismatch(somef_data: Dict, file_name: str) -> Dict:
+def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
     """
     Detect version mismatch pitfall for a single repository.
-    Checks all metadata files and returns per-source results.
+    Checks all metadata files and returns one result dict per metadata source
+    that has a pitfall or note.
     """
-    result = {
-        "has_pitfall": False,
-        "has_note": False,
-        "file_name": file_name,
-        "metadata_version": None,
-        "release_version": None,
-        "metadata_source": None,
-        "metadata_source_file": None,
-        "note_text": None,
-        "notes": []
-    }
-
     metadata_versions = extract_version_from_metadata(somef_data)
     release_version = extract_latest_release_version(somef_data)
 
     if not metadata_versions or not release_version:
-        return result
+        return []
 
     normalized_release_version = normalize_version(release_version)
-
-    first_entry = metadata_versions[0]
-    first_metadata_version = normalize_version(first_entry["version"])
-    first_metadata_source_file = extract_metadata_source_filename(first_entry["source"])
-
-    result["metadata_version"] = first_metadata_version
-    result["release_version"] = normalized_release_version
-    result["metadata_source"] = first_entry["source"]
-    result["metadata_source_file"] = first_metadata_source_file
+    results = []
 
     for md_info in metadata_versions:
         metadata_version = normalize_version(md_info["version"])
@@ -129,17 +110,34 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> Dict:
             continue
 
         if _version_diff_significant(metadata_version, normalized_release_version):
-            result["has_pitfall"] = True
-        else:
-            result["has_note"] = True
-            note_text = f"Version discrepancy: {metadata_source_file} version '{metadata_version}' vs release version '{normalized_release_version}'"
-            result["notes"].append({
-                "metadata_source_file": metadata_source_file,
+            results.append({
+                "has_pitfall": True,
+                "has_note": False,
+                "file_name": file_name,
                 "metadata_version": metadata_version,
                 "release_version": normalized_release_version,
-                "note_text": note_text
+                "metadata_source": md_info["source"],
+                "metadata_source_file": metadata_source_file,
+                "note_text": None,
+                "notes": []
             })
-            if result["note_text"] is None:
-                result["note_text"] = note_text
+        else:
+            note_text = f"Version discrepancy: {metadata_source_file} version '{metadata_version}' vs release version '{normalized_release_version}'"
+            results.append({
+                "has_pitfall": False,
+                "has_note": True,
+                "file_name": file_name,
+                "metadata_version": metadata_version,
+                "release_version": normalized_release_version,
+                "metadata_source": md_info["source"],
+                "metadata_source_file": metadata_source_file,
+                "note_text": note_text,
+                "notes": [{
+                    "metadata_source_file": metadata_source_file,
+                    "metadata_version": metadata_version,
+                    "release_version": normalized_release_version,
+                    "note_text": note_text
+                }]
+            })
 
-    return result
+    return results
