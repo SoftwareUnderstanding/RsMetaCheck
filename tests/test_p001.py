@@ -90,6 +90,38 @@ class TestExtractVersionFromMetadata:
                  "result": {}
              }]
          }, []),
+
+        # Source as a list (SoMEF aggregate when same value in multiple files)
+        ({
+             "version": [{
+                 "source": [
+                     "https://raw.githubusercontent.com/user/repo/main/codemeta.json",
+                     "https://raw.githubusercontent.com/user/repo/main/pyproject.toml",
+                 ],
+                 "result": {"value": "0.3.1"}
+             }]
+         },
+         [
+             {"source": "https://raw.githubusercontent.com/user/repo/main/codemeta.json", "version": "0.3.1"},
+             {"source": "https://raw.githubusercontent.com/user/repo/main/pyproject.toml", "version": "0.3.1"},
+         ]),
+
+        # result.source as a list
+        ({
+             "version": [{
+                 "result": {
+                     "source": [
+                         "https://raw.githubusercontent.com/user/repo/main/codemeta.json",
+                         "https://raw.githubusercontent.com/user/repo/main/package.json",
+                     ],
+                     "value": "1.0.0"
+                 }
+             }]
+         },
+         [
+             {"source": "https://raw.githubusercontent.com/user/repo/main/codemeta.json", "version": "1.0.0"},
+             {"source": "https://raw.githubusercontent.com/user/repo/main/package.json", "version": "1.0.0"},
+         ]),
     ])
     def test_extract_version_scenarios(self, somef_data, expected):
         """Test various scenarios for version extraction"""
@@ -177,7 +209,7 @@ class TestDetectVersionMismatch:
                 0
         ),
 
-        # Version mismatch but release is ahead (metadata behind) - should not flag
+        # Version mismatch - release ahead of metadata (metadata behind) → PITFALL
         (
                 {
                     "version": [{
@@ -187,11 +219,11 @@ class TestDetectVersionMismatch:
                     "releases": [{"tag": "v2.0.0"}]
                 },
                 "test_repo.json",
-                False,
+                True,
                 "1.2.3",
                 "2.0.0",
                 False,
-                0
+                1
         ),
 
         # No metadata version
@@ -223,7 +255,7 @@ class TestDetectVersionMismatch:
                 0
         ),
 
-        # Version mismatch with normalization (v prefix) - release ahead, no flag
+        # Release ahead of metadata (minor version behind) → PITFALL
         (
                 {
                     "version": [{
@@ -233,14 +265,14 @@ class TestDetectVersionMismatch:
                     "releases": [{"tag": "v2.5.1"}]
                 },
                 "another_repo.json",
-                False,
+                True,
                 "2.5.0",
                 "2.5.1",
                 False,
-                0
+                1
         ),
 
-        # Significant version diff, metadata ahead of release (0.12.4 vs 0.12.1) - should be pitfall
+        # Metadata significantly ahead of release (diff >= 2) → PITFALL
         (
                 {
                     "version": [{
@@ -257,7 +289,7 @@ class TestDetectVersionMismatch:
                 1
         ),
 
-        # Small version diff, metadata ahead of release (0.4.3 vs 0.4.2) - should be note only
+        # Metadata slightly ahead of release → NOTE
         (
                 {
                     "version": [{
@@ -274,7 +306,7 @@ class TestDetectVersionMismatch:
                 1
         ),
 
-        # Pre-release vs stable, metadata ahead (0.4.3.dev1 vs 0.4.2) - should be note
+        # Pre-release ahead of stable release → NOTE
         (
                 {
                     "version": [{
@@ -371,10 +403,10 @@ class TestDetectVersionMismatch:
         assert "version discrepancy" in results[1]["note_text"].lower()
 
     def test_multiple_metadata_sources_pitfall_and_note(self):
-        """Test pitfall from one source and note from another return separate dicts"""
+        """Test pitfall from one source (version behind release) and note from another (version ahead)"""
         somef_data = {
             "version": [
-                {"source": "repo/codemeta.json", "result": {"value": "3.1.0"}},
+                {"source": "repo/codemeta.json", "result": {"value": "0.9.0"}},
                 {"source": "repo/pyproject.toml", "result": {"value": "1.0.1"}},
             ],
             "releases": [{"tag": "1.0.0"}]

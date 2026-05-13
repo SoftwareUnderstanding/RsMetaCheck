@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Optional
+from typing import Dict, Optional, List, Union
 from rsmetacheck.utils.pitfall_utils import normalize_version
 from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
 
@@ -32,6 +32,8 @@ def extract_version_from_metadata(somef_data: Dict) -> list:
     """
     Extract versions from all metadata files (codemeta.json, DESCRIPTION, etc.) in SoMEF output.
     Returns a list of dicts with source and version.
+    Handles source being a single string or a list of strings (SoMEF aggregates when same value
+    appears in multiple files).
     """
     if "version" not in somef_data:
         return []
@@ -46,21 +48,27 @@ def extract_version_from_metadata(somef_data: Dict) -> list:
 
     for entry in version_entries:
         if "source" in entry:
-            source = entry["source"]
-            if any(meta_file in source for meta_file in metadata_sources):
-                if "result" in entry and "value" in entry["result"]:
-                    results.append({
-                        "source": source,
-                        "version": entry["result"]["value"]
-                    })
+            sources = entry["source"]
+            if not isinstance(sources, list):
+                sources = [sources]
+            for source in sources:
+                if any(meta_file in source for meta_file in metadata_sources):
+                    if "result" in entry and "value" in entry["result"]:
+                        results.append({
+                            "source": source,
+                            "version": entry["result"]["value"]
+                        })
         elif "result" in entry and "source" in entry["result"]:
-            source = entry["result"]["source"]
-            if any(meta_file in source for meta_file in metadata_sources):
-                if "value" in entry["result"]:
-                    results.append({
-                        "source": source,
-                        "version": entry["result"]["value"]
-                    })
+            sources = entry["result"]["source"]
+            if not isinstance(sources, list):
+                sources = [sources]
+            for source in sources:
+                if any(meta_file in source for meta_file in metadata_sources):
+                    if "value" in entry["result"]:
+                        results.append({
+                            "source": source,
+                            "version": entry["result"]["value"]
+                        })
 
     return results
 
@@ -89,9 +97,14 @@ def extract_latest_release_version(somef_data: Dict) -> Optional[str]:
 
 def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
     """
-    Detect version mismatch pitfall for a single repository.
+    Detect version mismatches between metadata files and the latest release.
     Checks all metadata files and returns one result dict per metadata source
-    that has a pitfall or note.
+    that has an inconsistency.
+
+    - Metadata version > release by >= 2 in any component: pitfall
+    - Metadata version > release by < 2: note (best practice to prepare ahead)
+    - Metadata version < release: pitfall (metadata was not updated)
+    - Metadata version == release: no issue
     """
     metadata_versions = extract_version_from_metadata(somef_data)
     release_version = extract_latest_release_version(somef_data)
@@ -106,10 +119,41 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
         metadata_version = normalize_version(md_info["version"])
         metadata_source_file = extract_metadata_source_filename(md_info["source"])
 
-        if not _metadata_ahead_of_release(metadata_version, normalized_release_version):
+        if metadata_version == normalized_release_version:
             continue
 
-        if _version_diff_significant(metadata_version, normalized_release_version):
+        if _metadata_ahead_of_release(metadata_version, normalized_release_version):
+            if _version_diff_significant(metadata_version, normalized_release_version):
+                results.append({
+                    "has_pitfall": True,
+                    "has_note": False,
+                    "file_name": file_name,
+                    "metadata_version": metadata_version,
+                    "release_version": normalized_release_version,
+                    "metadata_source": md_info["source"],
+                    "metadata_source_file": metadata_source_file,
+                    "note_text": None,
+                    "notes": []
+                })
+            else:
+                note_text = f"Version discrepancy: {metadata_source_file} version '{metadata_version}' is ahead of release version '{normalized_release_version}'"
+                results.append({
+                    "has_pitfall": False,
+                    "has_note": True,
+                    "file_name": file_name,
+                    "metadata_version": metadata_version,
+                    "release_version": normalized_release_version,
+                    "metadata_source": md_info["source"],
+                    "metadata_source_file": metadata_source_file,
+                    "note_text": note_text,
+                    "notes": [{
+                        "metadata_source_file": metadata_source_file,
+                        "metadata_version": metadata_version,
+                        "release_version": normalized_release_version,
+                        "note_text": note_text
+                    }]
+                })
+        else:
             results.append({
                 "has_pitfall": True,
                 "has_note": False,
@@ -120,24 +164,6 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
                 "metadata_source_file": metadata_source_file,
                 "note_text": None,
                 "notes": []
-            })
-        else:
-            note_text = f"Version discrepancy: {metadata_source_file} version '{metadata_version}' vs release version '{normalized_release_version}'"
-            results.append({
-                "has_pitfall": False,
-                "has_note": True,
-                "file_name": file_name,
-                "metadata_version": metadata_version,
-                "release_version": normalized_release_version,
-                "metadata_source": md_info["source"],
-                "metadata_source_file": metadata_source_file,
-                "note_text": note_text,
-                "notes": [{
-                    "metadata_source_file": metadata_source_file,
-                    "metadata_version": metadata_version,
-                    "release_version": normalized_release_version,
-                    "note_text": note_text
-                }]
             })
 
     return results

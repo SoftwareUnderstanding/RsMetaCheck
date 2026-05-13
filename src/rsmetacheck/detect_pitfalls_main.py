@@ -335,6 +335,9 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
                     if not isinstance(detector_results, list):
                         detector_results = [detector_results]
 
+                    detector_had_pitfall = False
+                    detector_had_warning = False
+
                     for pitfall_result in detector_results:
 
                         pitfall_result["pitfall_code"] = pitfall_code
@@ -345,19 +348,10 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
                         has_issue = has_pitfall or has_warning
 
                         if has_issue:
-                            pitfall_counts[idx] += 1
-
                             if has_pitfall:
-                                total_pitfalls += 1
+                                detector_had_pitfall = True
                             if has_warning:
-                                total_warnings += 1
-
-                            if languages:
-                                for lang in languages:
-                                    if lang in results["pitfalls & warnings"][idx]["languages"]:
-                                        results["pitfalls & warnings"][idx]["languages"][lang] += 1
-                                    else:
-                                        results["pitfalls & warnings"][idx]["languages"][lang] = 1
+                                detector_had_warning = True
 
                             issue_type = "Pitfall" if pitfall_result.get("has_pitfall", False) else "Warning"
                             print(f"{pitfall_code} - {issue_type} found in {json_file.name}")
@@ -389,6 +383,21 @@ def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[s
                                         "note": note_text
                                     })
                             print(f"{pitfall_code} - Note added for {json_file.name}")
+
+                    if detector_had_pitfall or detector_had_warning:
+                        pitfall_counts[idx] += 1
+
+                        if detector_had_pitfall:
+                            total_pitfalls += 1
+                        if detector_had_warning:
+                            total_warnings += 1
+
+                        if languages:
+                            for lang in languages:
+                                if lang in results["pitfalls & warnings"][idx]["languages"]:
+                                    results["pitfalls & warnings"][idx]["languages"][lang] += 1
+                                else:
+                                    results["pitfalls & warnings"][idx]["languages"][lang] = 1
 
                 except Exception as e:
                     print(f"Error running {pitfall_code} detector on {json_file.name}: {e}")
