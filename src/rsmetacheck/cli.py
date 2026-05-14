@@ -11,6 +11,15 @@ from rsmetacheck.run_somef import (
 
 
 def cli():
+    import sys
+
+    # Launch TUI directly if --tui is present, bypassing argparse --input requirement
+    if "--tui" in sys.argv:
+        sys.argv.remove("--tui")
+        from rsmetacheck.tui.app import launch_tui
+        launch_tui()
+        return
+
     parser = argparse.ArgumentParser(
         description="Detect metadata pitfalls in software repositories using SoMEF."
     )

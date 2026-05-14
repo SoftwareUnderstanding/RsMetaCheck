@@ -10,9 +10,12 @@ packages = [{include = "rsmetacheck", from = "src"}]
     python = ">=3.11,<3.13"
     requests = "*"
     somef = "0.10.3"
+    textual = ">=0.52.0"
+    pyfiglet = ">=1.0.0"
 
 [tool.poetry.scripts]
 rsmetacheck = "rsmetacheck.cli:cli"
+rsmetacheck-tui = "rsmetacheck.tui.cli:launch_tui"
 
 [build-system]
 requires = ["poetry-core"]
