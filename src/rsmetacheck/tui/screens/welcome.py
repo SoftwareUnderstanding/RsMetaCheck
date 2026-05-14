@@ -14,6 +14,17 @@ VERSION = importlib.metadata.version("rsmetacheck")
 TITLE_ART = Figlet(font="standard", width=80).renderText("RSMetaCheck")
 
 
+def _color_text(words: list[str], first_color: str = "#EF2818", rest_color: str = "#3974B4") -> str:
+    """Color the first letter of each word in first_color, the rest in rest_color."""
+    parts = []
+    for w in words:
+        parts.append(f"[{first_color}]{w[0]}[/][{rest_color}]{w[1:]}[/]")
+    return "\n".join(parts)
+
+
+PROVIDER_TEXT = _color_text(["Ontology", "Engineering", "Group"])
+
+
 class WelcomeScreen(Screen):
     """Welcome screen with mode selection."""
 
@@ -23,7 +34,7 @@ class WelcomeScreen(Screen):
     }
 
     #welcome-title {
-        color: blue;
+        color: #3974B4;
         content-align: center middle;
         padding: 1 2 0 2;
     }
@@ -34,8 +45,12 @@ class WelcomeScreen(Screen):
         padding: 0 2 3 2;
     }
 
-    #version-bar {
+    #bottom {
         dock: bottom;
+        height: auto;
+    }
+
+    #version-bar {
         height: 1;
         padding: 0 1;
         align-horizontal: right;
@@ -43,7 +58,16 @@ class WelcomeScreen(Screen):
 
     #version-text {
         color: gray;
-        width: auto;
+    }
+
+    #provided-by {
+        height: auto;
+        padding: 0 1;
+    }
+
+    #provided-by-label {
+        color: white;
+        padding: 0 0 1 0;
     }
 
     Center Button {
@@ -58,12 +82,12 @@ class WelcomeScreen(Screen):
 
     Center Button:focus {
         color: black;
-        background: blue;
+        background: #3974B4;
     }
 
     Center Button:hover {
         color: black;
-        background: blue;
+        background: #3974B4;
     }
 
     #btn-quit {
@@ -86,8 +110,12 @@ class WelcomeScreen(Screen):
                 yield Button("Skip SoMEF (existing outputs)", id="btn-skip", disabled=True)
             with Center():
                 yield Button("Quit", id="btn-quit")
-        with Horizontal(id="version-bar"):
-            yield Static(f"RSMetaCheck v{VERSION}", id="version-text")
+        with Vertical(id="bottom"):
+            with Vertical(id="provided-by"):
+                yield Static("Provided by:", id="provided-by-label")
+                yield Static(PROVIDER_TEXT, id="provided-by-art")
+            with Horizontal(id="version-bar"):
+                yield Static(f"[#7FD88F]\u25cf[/] RSMetaCheck v{VERSION}", id="version-text")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "btn-quit":
