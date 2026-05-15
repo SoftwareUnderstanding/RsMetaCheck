@@ -368,7 +368,7 @@
     "pitfalls": {},
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "requirements.txt",
         "description": "SoftwareRequirements don’t have versions"
       }
     },
@@ -391,24 +391,16 @@
       "P002": {
         "source_file": "LICENSE",
         "description": "Copyright section taken as template without modification"
-      },
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
       }
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "source_file": "pyproject.toml",
+        "description": "SoftwareRequirement don’t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
         "description": "dateModified is outdated"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -421,7 +413,7 @@
     "url": "https://github.com/ropensci/geojson",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "DESCRIPTION",
         "description": "Version does not correspond to the version used in the latest release"
       },
       "P010": {
@@ -429,7 +421,7 @@
         "description": "The file does not have any specific license except for copyright"
       },
       "P017": {
-        "source_file": "codemeta.json",
+        "source_file": "codemeta.json, DESCRIPTION",
         "description": "version does not match the package’s"
       }
     },
@@ -455,12 +447,8 @@
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "pyproject.toml",
         "description": "SoftwareRequirements don’t have versions"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -481,17 +469,13 @@
     "url": "https://github.com/NeuralEnsemble/PyNN",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta",
         "description": "Version does not correspond to the version used in the latest release"
-      },
-      "P012": {
-        "source_file": "codemeta.json",
-        "description": "downloadURL is outdated"
       }
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "pyproject.toml ",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
@@ -501,10 +485,6 @@
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
-      },
-      "W005": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "softwareRequirements have more than one req, but it’s written as one string"
       }
     },
     "commit ID": "5a53a5144e5c8c739a0ad65435cea23579574a19"
@@ -513,17 +493,17 @@
     "url": "https://github.com/Rbfinch/grepq",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Version does not correspond to the version used in the latest release"
       },
       "P017": {
-        "source_file": "codemeta.json",
+        "source_file": "codemeta.json, Cargo.toml",
         "description": "version does not match the package’s"
       }
     },
     "warnings": {
       "W002": {
-        "source_file": "codemeta.json",
+        "source_file": "codemeta.json, ",
         "description": "dateModified is outdated"
       }
     },
@@ -533,23 +513,15 @@
     "url": "https://github.com/ms609/TreeSearch",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Version does not correspond to the version used in the latest release"
       },
       "P002": {
         "source_file": "LICENSE",
         "description": "Copyright section taken as template without modification"
-      },
-      "P013": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "License does not have the specific version"
       }
     },
     "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
@@ -587,12 +559,7 @@
   },
   "repo_32": {
     "url": "https://github.com/ms609/Quartet",
-    "pitfalls": {
-      "P013": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "License does not have the specific version"
-      }
-    },
+    "pitfalls": {},
     "warnings": {
       "W004": {
         "source_file": "codemeta.json",
@@ -609,25 +576,21 @@
     "url": "https://github.com/tvwenger/bayes_spec",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Version does not correspond to the version used in the latest release"
       }
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "requirements.txt",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
         "description": "dateModified is outdated"
       },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W007": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Identifier is empty"
       }
     },
@@ -642,10 +605,6 @@
       }
     },
     "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
@@ -661,21 +620,13 @@
     "url": "https://github.com/sep-developers/sep",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Version does not correspond to the version used in the latest release"
-      },
-      "P013": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "License does not have the specific version"
-      },
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
       }
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "pyproject.toml",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
@@ -693,15 +644,11 @@
         "description": "Copyright section taken as template without modification"
       },
       "P009": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "coderepository points to their homepage"
       },
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
-      },
       "P017": {
-        "source_file": "codemeta.json",
+        "source_file": "codemeta.json, DESCRIPTION",
         "description": "version does not match the package’s"
       }
     },
@@ -799,7 +746,7 @@
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "requirements.txt",
         "description": "SoftwareRequirements don’t have versions"
       }
     },
@@ -834,42 +781,18 @@
     "pitfalls": {},
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "requirements.txt",
         "description": "SoftwareRequirements don’t have versions"
       }
     },
     "commit ID": "b046bd00569ae3930b51581d559cc5c5afde866a"
-  },
-  "repo_43": {
-    "url": "https://github.com/fair-test/license-already-here",
-    "pitfalls": {
-      "P010": {
-        "source_file": "LICENSE",
-        "description": "The file does not have any specific license except for copyright"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
-      },
-      "W002": {
-        "source_file": "codemeta.json",
-        "description": "dateModified is outdated"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "programmingLanguages do not have versions"
-      }
-    },
-    "commit ID": "4ca932834fe48821f39300c8de3bf92a4ffd366b"
   },
   "repo_44": {
     "url": "https://github.com/SedFoam/sedfoam",
     "pitfalls": {},
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
@@ -887,22 +810,18 @@
     "url": "https://github.com/assume-framework/assume",
     "pitfalls": {
       "P001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Version does not correspond to the version used in the latest release"
       }
     },
     "warnings": {
       "W001": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "pyproject.toml",
         "description": "SoftwareRequirements don’t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
         "description": "dateModified is outdated"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
       }
     },
     "commit ID": "aaa904c603ef267aaab6872d67cd87affcb17688"
@@ -911,12 +830,8 @@
     "url": "https://github.com/felixsc1/COSplay",
     "pitfalls": {
       "P013": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "License does not have the specific version"
-      },
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
       }
     },
     "warnings": {
@@ -924,12 +839,8 @@
         "source_file": "codemeta.json",
         "description": "dateModified is outdated"
       },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W007": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
+        "source_file": "codemeta.json",
         "description": "Identifier is empty"
       }
     },
@@ -945,10 +856,6 @@
       "P011": {
         "source_file": "codemeta.json",
         "description": "IssueTracker violates the expected URL format"
-      },
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
       }
     },
     "warnings": {
