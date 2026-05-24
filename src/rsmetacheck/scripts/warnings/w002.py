@@ -101,7 +101,11 @@ def calculate_date_difference_days(date1: datetime, date2: datetime) -> int:
     return diff
 
 
-def detect_outdated_datemodified(somef_data: Dict, file_name: str) -> Dict:
+def detect_outdated_datemodified(
+    somef_data: Dict,
+    file_name: str,
+    stale_after_days: int = 1,
+) -> Dict:
     """
     Detect outdated dateModified in codemeta.json warning for a single repository.
     Returns detection result with warning info.
@@ -140,7 +144,7 @@ def detect_outdated_datemodified(somef_data: Dict, file_name: str) -> Dict:
     difference_days = calculate_date_difference_days(github_date_parsed, codemeta_date_parsed)
     result["difference_days"] = difference_days
 
-    if github_date_parsed > codemeta_date_parsed and difference_days > 1:
+    if github_date_parsed > codemeta_date_parsed and difference_days > stale_after_days:
         result["has_warning"] = True
 
     return result
