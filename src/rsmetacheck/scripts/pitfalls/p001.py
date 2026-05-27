@@ -140,17 +140,7 @@ def detect_version_mismatch(
                 normalized_release_version,
                 threshold=ahead_significant_diff,
             ):
-                results.append({
-                    "has_pitfall": True,
-                    "has_note": False,
-                    "file_name": file_name,
-                    "metadata_version": metadata_version,
-                    "release_version": normalized_release_version,
-                    "metadata_source": md_info["source"],
-                    "metadata_source_file": metadata_source_file,
-                    "note_text": None,
-                    "notes": []
-                })
+                pitfall_sources.append(metadata_source_file)
             else:
                 note_sources.append(metadata_source_file)
         else:
