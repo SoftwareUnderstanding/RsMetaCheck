@@ -314,8 +314,8 @@ class TestDetectCodeRepositoryHomepagePitfall:
             assert result["has_pitfall"] is True
             assert result["metadata_source_file"] == metadata_file
 
-    def test_stops_at_first_match(self):
-        """Test that function stops after finding first homepage URL"""
+    def test_collects_all_matches(self):
+        """Test that function collects all homepage URLs across multiple sources"""
         somef_data = {
             "code_repository": [
                 {
@@ -337,6 +337,7 @@ class TestDetectCodeRepositoryHomepagePitfall:
 
             assert result["has_pitfall"] is True
             assert result["repository_url"] == "https://www.example1.org/"
+            assert result["metadata_source_files"] == ["codemeta.json", "package.json"]
 
     @pytest.mark.parametrize("homepage_url", [
         "https://www.example.org/",

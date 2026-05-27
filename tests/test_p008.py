@@ -458,8 +458,8 @@ class TestDetectInvalidSoftwareRequirementPitfall:
 
     @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
     @patch('rsmetacheck.scripts.pitfalls.p008.extract_metadata_source_filename')
-    def test_stops_at_first_invalid_url(self, mock_extract, mock_check):
-        """Test that function stops after finding first invalid URL"""
+    def test_collects_all_invalid_urls(self, mock_extract, mock_check):
+        """Test that function collects all invalid URLs across multiple sources"""
         mock_check.return_value = {
             "is_accessible": False,
             "status_code": 404,
@@ -485,9 +485,10 @@ class TestDetectInvalidSoftwareRequirementPitfall:
         result = detect_invalid_software_requirement_pitfall(somef_data, "test.json")
 
         assert result["has_pitfall"] is True
-        # Should only process first entry
-        assert len(result["invalid_urls"]) == 1
+        assert len(result["invalid_urls"]) == 2
         assert result["invalid_urls"][0]["url"] == "https://broken1.com"
+        assert result["invalid_urls"][1]["url"] == "https://broken2.com"
+        assert result["metadata_source_files"] == ["codemeta.json", "package.json"]
 
     @patch('rsmetacheck.scripts.pitfalls.p008.check_url_status')
     def test_wrong_technique_no_check(self, mock_check):

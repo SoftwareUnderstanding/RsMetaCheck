@@ -43,6 +43,7 @@ def detect_multiple_requirements_in_string(requirement_string: str) -> List[str]
 def detect_multiple_requirements_string_warning(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect when software requirements have multiple requirements written as one string.
+    Checks all metadata sources and collects all affected files.
     """
     result = {
         "has_warning": False,
@@ -51,6 +52,7 @@ def detect_multiple_requirements_string_warning(somef_data: Dict, file_name: str
         "detected_requirements": [],
         "source": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
         "count_detected": 0
     }
 
@@ -76,13 +78,15 @@ def detect_multiple_requirements_string_warning(somef_data: Dict, file_name: str
                     detected_reqs = detect_multiple_requirements_in_string(requirement_value)
 
                     if detected_reqs:
+                        if result["requirement_string"] is None:
+                            result["requirement_string"] = requirement_value
+                            result["detected_requirements"] = detected_reqs
+                            result["source"] = source if source else f"technique: {technique}"
+                            result["metadata_source_file"] = extract_metadata_source_filename(source)
+                            result["count_detected"] = len(detected_reqs)
+                        source_filename = extract_metadata_source_filename(source)
+                        result["metadata_source_files"].append(source_filename)
                         result["has_warning"] = True
-                        result["requirement_string"] = requirement_value
-                        result["detected_requirements"] = detected_reqs
-                        result["source"] = source if source else f"technique: {technique}"
-                        result["metadata_source_file"] = extract_metadata_source_filename(source)
-                        result["count_detected"] = len(detected_reqs)
-                        break
 
                 elif isinstance(requirement_value, list) and len(requirement_value) == 1:
                     single_req = requirement_value[0]
@@ -90,12 +94,14 @@ def detect_multiple_requirements_string_warning(somef_data: Dict, file_name: str
                         detected_reqs = detect_multiple_requirements_in_string(single_req)
 
                         if detected_reqs:
+                            if result["requirement_string"] is None:
+                                result["requirement_string"] = single_req
+                                result["detected_requirements"] = detected_reqs
+                                result["source"] = source if source else f"technique: {technique}"
+                                result["metadata_source_file"] = extract_metadata_source_filename(source)
+                                result["count_detected"] = len(detected_reqs)
+                            source_filename = extract_metadata_source_filename(source)
+                            result["metadata_source_files"].append(source_filename)
                             result["has_warning"] = True
-                            result["requirement_string"] = single_req
-                            result["detected_requirements"] = detected_reqs
-                            result["source"] = source if source else f"technique: {technique}"
-                            result["metadata_source_file"] = extract_metadata_source_filename(source)
-                            result["count_detected"] = len(detected_reqs)
-                            break
 
     return result

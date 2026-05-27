@@ -203,13 +203,13 @@ class TestDetectVersionMismatch:
                 },
                 "test_repo.json",
                 False,
-                "1.0.0",
-                "1.0.0",
+                None,
+                None,
                 False,
                 0
         ),
 
-        # Version mismatch - release ahead of metadata (metadata behind) → PITFALL
+        # Version mismatch - release ahead of metadata (metadata behind) -> PITFALL
         (
                 {
                     "version": [{
@@ -255,7 +255,7 @@ class TestDetectVersionMismatch:
                 0
         ),
 
-        # Release ahead of metadata (minor version behind) → PITFALL
+        # Release ahead of metadata (minor version behind) -> PITFALL
         (
                 {
                     "version": [{
@@ -272,7 +272,7 @@ class TestDetectVersionMismatch:
                 1
         ),
 
-        # Metadata significantly ahead of release (diff >= 2) → PITFALL
+        # Metadata significantly ahead of release (diff >= 2) -> PITFALL
         (
                 {
                     "version": [{
@@ -289,7 +289,7 @@ class TestDetectVersionMismatch:
                 1
         ),
 
-        # Metadata slightly ahead of release → NOTE
+        # Metadata slightly ahead of release -> NOTE
         (
                 {
                     "version": [{
@@ -306,7 +306,7 @@ class TestDetectVersionMismatch:
                 1
         ),
 
-        # Pre-release ahead of stable release → NOTE
+        # Pre-release ahead of stable release -> NOTE
         (
                 {
                     "version": [{
@@ -324,9 +324,9 @@ class TestDetectVersionMismatch:
         ),
     ])
     def test_detect_mismatch_scenarios(self, somef_data, file_name,
-                                       expected_has_pitfall, expected_metadata_ver,
-                                       expected_release_ver, expected_has_note,
-                                       expected_count):
+                                        expected_has_pitfall, expected_metadata_ver,
+                                        expected_release_ver, expected_has_note,
+                                        expected_count):
         """Test various version mismatch detection scenarios"""
         with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
             with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', return_value="test_file"):
@@ -340,14 +340,14 @@ class TestDetectVersionMismatch:
                     assert result["has_pitfall"] == expected_has_pitfall
                     assert result["has_note"] == expected_has_note
                     assert result["file_name"] == file_name
+                    assert result["release_version"] == expected_release_ver
+                    assert "mismatched_sources" in result
+                    assert "metadata_source_files" in result
                     if expected_metadata_ver is not None:
-                        assert result["metadata_version"] == expected_metadata_ver
-                        assert result["release_version"] == expected_release_ver
-                    if expected_has_pitfall:
-                        assert result["metadata_source"] is not None
-                        assert result["metadata_source_file"] is not None
+                        assert result["mismatched_sources"][0]["metadata_version"] == expected_metadata_ver
                     if expected_has_note:
                         assert result["note_text"] is not None
+                        assert len(result["notes"]) > 0
 
     def test_result_structure(self):
         """Test that result for empty data returns an empty list"""
@@ -356,7 +356,7 @@ class TestDetectVersionMismatch:
         assert results == []
 
     def test_result_dict_structure(self):
-        """Test that each result dict has the expected structure"""
+        """Test that result dict has the expected structure with mismatched_sources"""
         somef_data = {
             "version": [{"source": "repo/codemeta.json", "result": {"value": "0.4.3"}}],
             "releases": [{"tag": "0.4.2"}]
@@ -370,16 +370,19 @@ class TestDetectVersionMismatch:
         assert "has_pitfall" in result
         assert "has_note" in result
         assert "file_name" in result
-        assert "metadata_version" in result
+        assert "mismatched_sources" in result
+        assert "metadata_source_files" in result
         assert "release_version" in result
+        assert "metadata_version" in result
         assert "metadata_source" in result
         assert "metadata_source_file" in result
         assert "note_text" in result
         assert "notes" in result
         assert isinstance(result["notes"], list)
+        assert isinstance(result["mismatched_sources"], list)
 
     def test_multiple_metadata_sources_all_notes(self):
-        """Test that multiple metadata sources each produce a separate result dict"""
+        """Test that multiple metadata sources are merged into a single result with all sources listed"""
         somef_data = {
             "version": [
                 {"source": "repo/codemeta.json", "result": {"value": "0.4.3"}},
@@ -392,18 +395,17 @@ class TestDetectVersionMismatch:
                 results = detect_version_mismatch(somef_data, "test.json")
 
         assert isinstance(results, list)
-        assert len(results) == 2
+        assert len(results) == 1
 
-        assert results[0]["has_note"] is True
-        assert results[0]["metadata_source_file"] == "codemeta.json"
-        assert results[1]["has_note"] is True
-        assert results[1]["metadata_source_file"] == "pyproject.toml"
-
-        assert "version discrepancy" in results[0]["note_text"].lower()
-        assert "version discrepancy" in results[1]["note_text"].lower()
+        result = results[0]
+        assert result["has_note"] is True
+        assert result["has_pitfall"] is False
+        assert result["mismatched_sources"][0]["source_file"] == "codemeta.json"
+        assert result["mismatched_sources"][1]["source_file"] == "pyproject.toml"
+        assert result["metadata_source_files"] == ["codemeta.json", "pyproject.toml"]
 
     def test_multiple_metadata_sources_pitfall_and_note(self):
-        """Test pitfall from one source (version behind release) and note from another (version ahead)"""
+        """Test merged result when one source has a pitfall and another has a note"""
         somef_data = {
             "version": [
                 {"source": "repo/codemeta.json", "result": {"value": "0.9.0"}},
@@ -416,9 +418,41 @@ class TestDetectVersionMismatch:
                 results = detect_version_mismatch(somef_data, "test.json")
 
         assert isinstance(results, list)
-        assert len(results) == 2
+        assert len(results) == 1
 
-        assert results[0]["has_pitfall"] is True
-        assert results[0]["metadata_source_file"] == "codemeta.json"
-        assert results[1]["has_note"] is True
-        assert results[1]["metadata_source_file"] == "pyproject.toml"
+        result = results[0]
+        assert result["has_pitfall"] is True
+        assert result["has_note"] is False
+        assert len(result["mismatched_sources"]) == 2
+        assert result["mismatched_sources"][0]["source_file"] == "codemeta.json"
+        assert result["mismatched_sources"][0]["metadata_version"] == "0.9.0"
+        assert result["mismatched_sources"][1]["source_file"] == "pyproject.toml"
+        assert result["mismatched_sources"][1]["metadata_version"] == "1.0.1"
+        assert result["metadata_source_files"] == ["codemeta.json", "pyproject.toml"]
+
+    def test_multiple_metadata_sources_all_pitfalls(self):
+        """Test merged result when multiple sources all have pitfalls"""
+        somef_data = {
+            "version": [
+                {"source": "repo/codemeta.json", "result": {"value": "1.0.0"}},
+                {"source": "repo/DESCRIPTION", "result": {"value": "1.0.1"}},
+                {"source": "repo/pyproject.toml", "result": {"value": "1.1.0"}},
+            ],
+            "releases": [{"tag": "2.1.0"}]
+        }
+        with patch('rsmetacheck.scripts.pitfalls.p001.normalize_version', side_effect=lambda x: x.lstrip('v')):
+            with patch('rsmetacheck.scripts.pitfalls.p001.extract_metadata_source_filename', side_effect=lambda x: x.split('/')[-1]):
+                results = detect_version_mismatch(somef_data, "test.json")
+
+        assert isinstance(results, list)
+        assert len(results) == 1
+
+        result = results[0]
+        assert result["has_pitfall"] is True
+        assert len(result["mismatched_sources"]) == 3
+        assert result["metadata_source_files"] == ["codemeta.json", "DESCRIPTION", "pyproject.toml"]
+
+        versions = [m["metadata_version"] for m in result["mismatched_sources"]]
+        assert "1.0.0" in versions
+        assert "1.0.1" in versions
+        assert "1.1.0" in versions

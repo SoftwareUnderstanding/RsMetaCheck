@@ -92,6 +92,7 @@ def extract_urls_from_requirements(requirement_text: str) -> list:
 def detect_invalid_software_requirement_pitfall(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect when metadata files have software requirements pointing to invalid pages.
+    Checks all metadata sources and collects all affected files.
     """
     result = {
         "has_pitfall": False,
@@ -99,6 +100,7 @@ def detect_invalid_software_requirement_pitfall(somef_data: Dict, file_name: str
         "invalid_urls": [],
         "source": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
         "requirement_text": None
     }
 
@@ -129,16 +131,18 @@ def detect_invalid_software_requirement_pitfall(somef_data: Dict, file_name: str
                     url_status = check_url_status(req_value)
 
                     if not url_status["is_accessible"]:
-                        result["has_pitfall"] = True
-                        result["invalid_urls"] = [{
+                        source_filename = extract_metadata_source_filename(source)
+                        if result["source"] is None:
+                            result["source"] = source
+                            result["metadata_source_file"] = source_filename
+                            result["requirement_text"] = req_value
+                        result["invalid_urls"].append({
                             "url": req_value,
                             "status_code": url_status["status_code"],
                             "error": url_status["error"]
-                        }]
-                        result["source"] = source
-                        result["metadata_source_file"] = extract_metadata_source_filename(source)
-                        result["requirement_text"] = req_value
-                        break
+                        })
+                        result["metadata_source_files"].append(source_filename)
+                        result["has_pitfall"] = True
                 else:
                     requirement_text = ""
                     if isinstance(req_value, str):
@@ -167,11 +171,13 @@ def detect_invalid_software_requirement_pitfall(somef_data: Dict, file_name: str
                                     })
 
                             if invalid_urls:
+                                source_filename = extract_metadata_source_filename(source)
+                                if result["source"] is None:
+                                    result["source"] = source
+                                    result["metadata_source_file"] = source_filename
+                                    result["requirement_text"] = requirement_text
+                                result["invalid_urls"].extend(invalid_urls)
+                                result["metadata_source_files"].append(source_filename)
                                 result["has_pitfall"] = True
-                                result["invalid_urls"] = invalid_urls
-                                result["source"] = source
-                                result["metadata_source_file"] = extract_metadata_source_filename(source)
-                                result["requirement_text"] = requirement_text
-                                break
 
     return result

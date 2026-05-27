@@ -40,6 +40,7 @@ def is_local_file_license(license_value: str) -> bool:
 def detect_local_file_license_pitfall(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect when license in metadata files points to a local file instead of stating the name.
+    Checks all metadata sources and collects all affected files.
     """
     result = {
         "has_pitfall": False,
@@ -47,6 +48,7 @@ def detect_local_file_license_pitfall(somef_data: Dict, file_name: str) -> Dict:
         "license_value": None,
         "source": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
         "is_local_file": False
     }
 
@@ -68,11 +70,13 @@ def detect_local_file_license_pitfall(somef_data: Dict, file_name: str) -> Dict:
                 license_value = entry["result"]["value"]
 
                 if is_local_file_license(license_value):
+                    source_filename = extract_metadata_source_filename(source)
+                    if result["license_value"] is None:
+                        result["license_value"] = license_value
+                        result["source"] = source if source else f"technique: {technique}"
+                        result["metadata_source_file"] = source_filename
+                    result["metadata_source_files"].append(source_filename)
                     result["has_pitfall"] = True
-                    result["license_value"] = license_value
-                    result["source"] = source if source else f"technique: {technique}"
-                    result["metadata_source_file"] = extract_metadata_source_filename(source)
                     result["is_local_file"] = True
-                    break
 
     return result

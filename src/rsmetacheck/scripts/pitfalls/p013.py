@@ -6,12 +6,14 @@ from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
 def detect_license_no_version_pitfall(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect when license from metadata files doesn't have specific version.
+    Checks all metadata sources and collects all affected files.
     """
     result = {
         "has_pitfall": False,
         "file_name": file_name,
         "license_value": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
         "source": None
     }
 
@@ -52,17 +54,19 @@ def detect_license_no_version_pitfall(somef_data: Dict, file_name: str) -> Dict:
 
                     if "0BSD" in license_value:
                         continue
-                    
+
                     if "LICENSEREF-" in license_upper:
                         continue
 
                     for license_name, version_pattern in versioned_patterns.items():
                         if re.search(rf"\b{license_name}\b", license_upper):
                             if not re.search(version_pattern, license_upper, re.IGNORECASE):
+                                source_filename = extract_metadata_source_filename(source)
+                                if result["license_value"] is None:
+                                    result["license_value"] = license_value
+                                    result["source"] = source
+                                    result["metadata_source_file"] = source_filename
+                                result["metadata_source_files"].append(source_filename)
                                 result["has_pitfall"] = True
-                                result["license_value"] = license_value
-                                result["source"] = source
-                                result["metadata_source_file"] = extract_metadata_source_filename(source)
-                                return result
 
     return result

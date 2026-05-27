@@ -475,8 +475,8 @@ class TestDetectLicenseNoVersionPitfall:
 
     # REMOVED: test_license_in_longer_string - contained Apache License tests
 
-    def test_stops_at_first_match(self):
-        """Test that function stops after finding first license without version"""
+    def test_collects_all_matches(self):
+        """Test that function collects all licenses without version across multiple sources"""
         somef_data = {
             "license": [
                 {
@@ -498,5 +498,6 @@ class TestDetectLicenseNoVersionPitfall:
 
             assert result["has_pitfall"] is True
             assert result["license_value"] == "GPL"
+            assert result["metadata_source_files"] == ["codemeta.json", "package.json"]
 
     # REMOVED: test_multiple_metadata_sources_mixed - contained Apache test

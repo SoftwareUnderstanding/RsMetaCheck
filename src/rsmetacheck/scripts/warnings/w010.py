@@ -30,6 +30,7 @@ def is_git_remote_shorthand(url: str) -> bool:
 def detect_git_remote_shorthand_pitfall(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect when metadata files use Git remote-style shorthand in codeRepository.
+    Checks all metadata sources and collects all affected files.
     """
     result = {
         "has_warning": False,
@@ -37,6 +38,7 @@ def detect_git_remote_shorthand_pitfall(somef_data: Dict, file_name: str) -> Dic
         "repository_url": None,
         "source": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
         "is_shorthand": False
     }
 
@@ -64,11 +66,13 @@ def detect_git_remote_shorthand_pitfall(somef_data: Dict, file_name: str) -> Dic
                 repo_url = entry["result"]["value"]
 
                 if is_git_remote_shorthand(repo_url):
+                    source_filename = extract_metadata_source_filename(source)
+                    if result["repository_url"] is None:
+                        result["repository_url"] = repo_url
+                        result["source"] = source if source else f"technique: {technique}"
+                        result["metadata_source_file"] = source_filename
+                    result["metadata_source_files"].append(source_filename)
                     result["has_warning"] = True
-                    result["repository_url"] = repo_url
-                    result["source"] = source if source else f"technique: {technique}"
-                    result["metadata_source_file"] = extract_metadata_source_filename(source)
                     result["is_shorthand"] = True
-                    break
 
     return result

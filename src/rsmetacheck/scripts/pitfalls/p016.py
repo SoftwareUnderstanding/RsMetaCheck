@@ -33,7 +33,8 @@ def detect_different_repository_pitfall(somef_data: Dict, file_name: str) -> Dic
         "file_name": file_name,
         "github_api_url": None,
         "metadata_urls": [],
-        "different_urls": []
+        "different_urls": [],
+        "metadata_source_files": []
     }
 
     if "code_repository" not in somef_data:
@@ -79,5 +80,6 @@ def detect_different_repository_pitfall(somef_data: Dict, file_name: str) -> Dic
         result["github_api_url"] = github_api_url
         result["metadata_urls"] = metadata_urls
         result["different_urls"] = different_urls
+        result["metadata_source_files"] = ["codemeta.json"]
 
     return result

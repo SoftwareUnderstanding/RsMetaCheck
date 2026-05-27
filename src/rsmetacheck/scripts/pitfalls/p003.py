@@ -32,6 +32,7 @@ def has_multiple_authors_in_single_field(author_value: str) -> bool:
 def detect_multiple_authors_single_field_pitfall(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect when metadata files have multiple authors in a single field instead of a list.
+    Checks all metadata sources and collects all affected files.
     """
     result = {
         "has_pitfall": False,
@@ -39,6 +40,7 @@ def detect_multiple_authors_single_field_pitfall(somef_data: Dict, file_name: st
         "author_value": None,
         "source": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
         "multiple_authors_detected": False
     }
 
@@ -69,22 +71,26 @@ def detect_multiple_authors_single_field_pitfall(somef_data: Dict, file_name: st
                 # Handle different value formats
                 if isinstance(author_value, str):
                     if has_multiple_authors_in_single_field(author_value):
+                        source_filename = extract_metadata_source_filename(source)
+                        if result["author_value"] is None:
+                            result["author_value"] = author_value
+                            result["source"] = source
+                            result["metadata_source_file"] = source_filename
+                        result["metadata_source_files"].append(source_filename)
                         result["has_pitfall"] = True
-                        result["author_value"] = author_value
-                        result["source"] = source
-                        result["metadata_source_file"] = extract_metadata_source_filename(source)
                         result["multiple_authors_detected"] = True
-                        break
 
                 elif isinstance(author_value, dict) and "name" in author_value:
                     # Handle structured author data
                     name_value = author_value["name"]
                     if isinstance(name_value, str) and has_multiple_authors_in_single_field(name_value):
+                        source_filename = extract_metadata_source_filename(source)
+                        if result["author_value"] is None:
+                            result["author_value"] = name_value
+                            result["source"] = source
+                            result["metadata_source_file"] = source_filename
+                        result["metadata_source_files"].append(source_filename)
                         result["has_pitfall"] = True
-                        result["author_value"] = name_value
-                        result["source"] = source
-                        result["metadata_source_file"] = extract_metadata_source_filename(source)
                         result["multiple_authors_detected"] = True
-                        break
 
     return result

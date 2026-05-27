@@ -1,4 +1,5 @@
 from typing import Dict
+from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
 
 
 def get_codemeta_version(somef_data: Dict) -> str:
@@ -65,6 +66,7 @@ def detect_codemeta_version_mismatch_pitfall(somef_data: Dict, file_name: str) -
         "file_name": file_name,
         "codemeta_version": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
         "other_versions": [],
         "mismatched_versions": []
     }
@@ -78,11 +80,16 @@ def detect_codemeta_version_mismatch_pitfall(somef_data: Dict, file_name: str) -
         return result
 
     mismatched_versions = []
+    mismatched_source_files = []
+
     for other_version_entry in other_versions:
         other_version = other_version_entry["version"]
 
         if codemeta_version.strip() != other_version.strip():
             mismatched_versions.append(other_version_entry)
+            mismatched_source_files.append(
+                extract_metadata_source_filename(other_version_entry.get("source", ""))
+            )
 
     if mismatched_versions:
         result["has_pitfall"] = True
@@ -90,5 +97,6 @@ def detect_codemeta_version_mismatch_pitfall(somef_data: Dict, file_name: str) -
         result["other_versions"] = other_versions
         result["mismatched_versions"] = mismatched_versions
         result["metadata_source_file"] = "codemeta.json"
+        result["metadata_source_files"] = ["codemeta.json"] + mismatched_source_files
 
     return result

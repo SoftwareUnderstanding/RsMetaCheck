@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Optional, List, Union
+from typing import Dict, Optional, List
 from rsmetacheck.utils.pitfall_utils import normalize_version
 from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
 
@@ -95,15 +95,15 @@ def extract_latest_release_version(somef_data: Dict) -> Optional[str]:
 
     return None
 
+
 def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
     """
     Detect version mismatches between metadata files and the latest release.
-    Checks all metadata files and returns one result dict per metadata source
-    that has an inconsistency.
+    Returns a single result with all mismatched sources merged into one evidence message.
 
     - Metadata version > release by >= 2 in any component: pitfall
-    - Metadata version > release by < 2: note (best practice to prepare ahead)
-    - Metadata version < release: pitfall (metadata was not updated)
+    - Metadata version > release by < 2: note
+    - Metadata version < release: pitfall
     - Metadata version == release: no issue
     """
     metadata_versions = extract_version_from_metadata(somef_data)
@@ -113,7 +113,10 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
         return []
 
     normalized_release_version = normalize_version(release_version)
-    results = []
+
+    pitfall_sources = []
+    note_sources = []
+    all_mismatches = []
 
     for md_info in metadata_versions:
         metadata_version = normalize_version(md_info["version"])
@@ -122,48 +125,56 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
         if metadata_version == normalized_release_version:
             continue
 
+        all_mismatches.append({
+            "source_file": metadata_source_file,
+            "source": md_info["source"],
+            "metadata_version": metadata_version,
+        })
+
         if _metadata_ahead_of_release(metadata_version, normalized_release_version):
             if _version_diff_significant(metadata_version, normalized_release_version):
-                results.append({
-                    "has_pitfall": True,
-                    "has_note": False,
-                    "file_name": file_name,
-                    "metadata_version": metadata_version,
-                    "release_version": normalized_release_version,
-                    "metadata_source": md_info["source"],
-                    "metadata_source_file": metadata_source_file,
-                    "note_text": None,
-                    "notes": []
-                })
+                pitfall_sources.append(metadata_source_file)
             else:
-                note_text = f"Version discrepancy: {metadata_source_file} version '{metadata_version}' is ahead of release version '{normalized_release_version}'"
-                results.append({
-                    "has_pitfall": False,
-                    "has_note": True,
-                    "file_name": file_name,
-                    "metadata_version": metadata_version,
-                    "release_version": normalized_release_version,
-                    "metadata_source": md_info["source"],
-                    "metadata_source_file": metadata_source_file,
-                    "note_text": note_text,
-                    "notes": [{
-                        "metadata_source_file": metadata_source_file,
-                        "metadata_version": metadata_version,
-                        "release_version": normalized_release_version,
-                        "note_text": note_text
-                    }]
-                })
+                note_sources.append(metadata_source_file)
         else:
-            results.append({
-                "has_pitfall": True,
-                "has_note": False,
-                "file_name": file_name,
-                "metadata_version": metadata_version,
-                "release_version": normalized_release_version,
-                "metadata_source": md_info["source"],
-                "metadata_source_file": metadata_source_file,
-                "note_text": None,
-                "notes": []
-            })
+            pitfall_sources.append(metadata_source_file)
 
-    return results
+    if not all_mismatches:
+        return []
+
+    has_any_pitfall = len(pitfall_sources) > 0
+    has_any_note = len(note_sources) > 0
+
+    all_source_files = [m["source_file"] for m in all_mismatches]
+
+    # Build notes for any ahead-by-small-amount sources
+    notes = []
+    note_text = None
+    for m in all_mismatches:
+        m_version = m["metadata_version"]
+        if _metadata_ahead_of_release(m_version, normalized_release_version) and not _version_diff_significant(m_version, normalized_release_version):
+            text = f"Version discrepancy: {m['source_file']} version '{m_version}' is ahead of release version '{normalized_release_version}'"
+            notes.append({
+                "metadata_source_file": m["source_file"],
+                "metadata_version": m_version,
+                "release_version": normalized_release_version,
+                "note_text": text
+            })
+            if note_text is None:
+                note_text = text
+
+    result = {
+        "has_pitfall": has_any_pitfall,
+        "has_note": (not has_any_pitfall and has_any_note),
+        "file_name": file_name,
+        "mismatched_sources": all_mismatches,
+        "metadata_source_files": all_source_files,
+        "release_version": normalized_release_version,
+        "note_text": note_text,
+        "notes": notes,
+        "metadata_version": all_mismatches[0]["metadata_version"] if all_mismatches else None,
+        "metadata_source_file": all_mismatches[0]["source_file"] if all_mismatches else None,
+        "metadata_source": all_mismatches[0]["source"] if all_mismatches else None,
+    }
+
+    return [result]

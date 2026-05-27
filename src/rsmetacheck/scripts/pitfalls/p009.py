@@ -68,6 +68,7 @@ def is_homepage_url_repo(url: str) -> bool:
 def detect_coderepository_homepage_pitfall(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect when code repository in metadata files points to homepage instead of repository.
+    Checks all metadata sources and collects all affected files.
     """
     result = {
         "has_pitfall": False,
@@ -75,6 +76,7 @@ def detect_coderepository_homepage_pitfall(somef_data: Dict, file_name: str) -> 
         "repository_url": None,
         "source": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
         "is_homepage": False
     }
 
@@ -103,11 +105,13 @@ def detect_coderepository_homepage_pitfall(somef_data: Dict, file_name: str) -> 
                 repo_url = entry["result"]["value"]
 
                 if is_homepage_url_repo(repo_url):
+                    source_filename = extract_metadata_source_filename(source)
+                    if result["repository_url"] is None:
+                        result["repository_url"] = repo_url
+                        result["source"] = source if source else f"technique: {technique}"
+                        result["metadata_source_file"] = source_filename
+                    result["metadata_source_files"].append(source_filename)
                     result["has_pitfall"] = True
-                    result["repository_url"] = repo_url
-                    result["source"] = source if source else f"technique: {technique}"
-                    result["metadata_source_file"] = extract_metadata_source_filename(source)
                     result["is_homepage"] = True
-                    break
 
     return result

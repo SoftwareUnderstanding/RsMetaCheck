@@ -377,8 +377,8 @@ class TestDetectGitRemoteShorthandPitfall:
             assert result["has_warning"] is True
             assert result["metadata_source_file"] == metadata_file
 
-    def test_stops_at_first_match(self):
-        """Test that function returns after finding first shorthand"""
+    def test_collects_all_matches(self):
+        """Test that function collects all shorthand URLs across multiple sources"""
         somef_data = {
             "code_repository": [
                 {
@@ -400,6 +400,7 @@ class TestDetectGitRemoteShorthandPitfall:
 
             assert result["has_warning"] is True
             assert result["repository_url"] == "github.com:user/repo1.git"
+            assert result["metadata_source_files"] == ["codemeta.json", "package.json"]
 
     @pytest.mark.parametrize("shorthand_url", [
         "github.com:user/repo.git",

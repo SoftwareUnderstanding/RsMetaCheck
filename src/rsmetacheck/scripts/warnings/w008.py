@@ -6,6 +6,7 @@ from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
 def detect_author_name_list_warning(somef_data: Dict, file_name: str) -> Dict:
     """
     Detect when author's givenName is a list instead of a string (multiple authors in single field).
+    Checks all metadata sources and collects all affected files.
     """
     result = {
         "has_warning": False,
@@ -13,6 +14,7 @@ def detect_author_name_list_warning(somef_data: Dict, file_name: str) -> Dict:
         "author_value": None,
         "source": None,
         "metadata_source_file": None,
+        "metadata_source_files": [],
     }
 
     if "authors" not in somef_data:
@@ -46,10 +48,13 @@ def detect_author_name_list_warning(somef_data: Dict, file_name: str) -> Dict:
                         if list_content:
                             for content in list_content:
                                 if "," in content and len(content.split(",")) > 1:
+                                    if result["author_value"] is None:
+                                        result["author_value"] = author_value
+                                        result["source"] = source
+                                        result["metadata_source_file"] = extract_metadata_source_filename(source)
+                                    source_filename = extract_metadata_source_filename(source)
+                                    result["metadata_source_files"].append(source_filename)
                                     result["has_warning"] = True
-                                    result["author_value"] = author_value
-                                    result["source"] = source
-                                    result["metadata_source_file"] = extract_metadata_source_filename(source)
                                     break
 
     return result
