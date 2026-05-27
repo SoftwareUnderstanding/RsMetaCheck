@@ -13,11 +13,11 @@ def _parse_version_components(version_str: str) -> tuple:
     return tuple(components)
 
 
-def _version_diff_significant(v1: str, v2: str) -> bool:
+def _version_diff_significant(v1: str, v2: str, threshold: int = 2) -> bool:
     c1 = _parse_version_components(v1)
     c2 = _parse_version_components(v2)
     for a, b in zip(c1, c2):
-        if abs(a - b) >= 2:
+        if abs(a - b) >= threshold:
             return True
     return False
 
@@ -95,8 +95,11 @@ def extract_latest_release_version(somef_data: Dict) -> Optional[str]:
 
     return None
 
-
-def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
+def detect_version_mismatch(
+    somef_data: Dict,
+    file_name: str,
+    ahead_significant_diff: int = 2,
+) -> list:
     """
     Detect version mismatches between metadata files and the latest release.
     Returns a single result with all mismatched sources merged into one evidence message.
@@ -132,8 +135,22 @@ def detect_version_mismatch(somef_data: Dict, file_name: str) -> list:
         })
 
         if _metadata_ahead_of_release(metadata_version, normalized_release_version):
-            if _version_diff_significant(metadata_version, normalized_release_version):
-                pitfall_sources.append(metadata_source_file)
+            if _version_diff_significant(
+                metadata_version,
+                normalized_release_version,
+                threshold=ahead_significant_diff,
+            ):
+                results.append({
+                    "has_pitfall": True,
+                    "has_note": False,
+                    "file_name": file_name,
+                    "metadata_version": metadata_version,
+                    "release_version": normalized_release_version,
+                    "metadata_source": md_info["source"],
+                    "metadata_source_file": metadata_source_file,
+                    "note_text": None,
+                    "notes": []
+                })
             else:
                 note_sources.append(metadata_source_file)
         else:
