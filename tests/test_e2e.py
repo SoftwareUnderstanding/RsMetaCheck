@@ -3,7 +3,6 @@
 import json
 from pathlib import Path
 
-from rsmetacheck.config import AnalysisConfig
 from rsmetacheck.detect_pitfalls_main import detect_all_pitfalls
 from rsmetacheck.detect_pitfalls_main import main as detect_pitfalls_main
 
@@ -33,14 +32,6 @@ def _write_somef_file(dir_path, filename, somef_data):
     filepath = dir_path / filename
     filepath.write_text(json.dumps(somef_data))
     return filepath
-
-
-def _find_issue_count(summary_data, code):
-    for item in summary_data["pitfalls & warnings"]:
-        current_code = item.get("pitfall_code") or item.get("warning_code")
-        if current_code == code:
-            return item["count"]
-    raise AssertionError(f"Code not found in summary: {code}")
 
 
 class TestSingleRepoPipeline:
@@ -370,89 +361,3 @@ class TestErrorHandling:
 
         summary = json.loads(summary_file.read_text())
         assert summary["summary"]["total_repositories_analyzed"] == 2
-
-
-class TestAnalysisConfiguration:
-    """Tests for root config behavior in analysis."""
-
-    def test_ignore_check_code_skips_detector(self, tmp_path):
-        somef_dir = tmp_path / "somef_inputs"
-        somef_dir.mkdir()
-        pitfalls_dir = tmp_path / "pitfalls_outputs"
-        summary_file = tmp_path / "summary.json"
-
-        _write_somef_file(
-            somef_dir,
-            "repo_1.json",
-            _make_somef_data(version="2.0.0", release_tag="1.0.0"),
-        )
-
-        detect_all_pitfalls(
-            list(somef_dir.glob("*.json")),
-            pitfalls_dir,
-            summary_file,
-            analysis_config=AnalysisConfig(ignored_checks={"P001"}),
-        )
-
-        summary = json.loads(summary_file.read_text())
-        assert _find_issue_count(summary, "P001") == 0
-
-    def test_p001_threshold_override_changes_note_to_pitfall(self, tmp_path):
-        somef_dir = tmp_path / "somef_inputs"
-        somef_dir.mkdir()
-        pitfalls_dir = tmp_path / "pitfalls_outputs"
-        summary_file = tmp_path / "summary.json"
-
-        _write_somef_file(
-            somef_dir,
-            "repo_1.json",
-            _make_somef_data(version="0.4.3", release_tag="0.4.2"),
-        )
-
-        detect_all_pitfalls(
-            list(somef_dir.glob("*.json")),
-            pitfalls_dir,
-            summary_file,
-            analysis_config=AnalysisConfig(
-                check_parameters={"P001": {"ahead_significant_diff": 1}}
-            ),
-        )
-
-        summary = json.loads(summary_file.read_text())
-        assert _find_issue_count(summary, "P001") == 1
-
-    def test_exclude_files_removes_source_from_checks(self, tmp_path):
-        somef_dir = tmp_path / "somef_inputs"
-        somef_dir.mkdir()
-        pitfalls_dir = tmp_path / "pitfalls_outputs"
-        summary_file = tmp_path / "summary.json"
-
-        somef_data = {
-            "full_name": [{"result": {"value": "owner/repo"}}],
-            "code_repository": [{"result": {"value": "https://github.com/owner/repo"}}],
-            "version": [
-                {
-                    "source": "repository/codemeta.json",
-                    "result": {"value": "2.0.0"},
-                }
-            ],
-            "releases": [{"tag": "1.0.0"}],
-            "description": [],
-            "name": [],
-            "owner": [],
-            "date_created": [],
-            "date_updated": [],
-            "license": [],
-            "programming_languages": [],
-        }
-        _write_somef_file(somef_dir, "repo_1.json", somef_data)
-
-        detect_all_pitfalls(
-            list(somef_dir.glob("*.json")),
-            pitfalls_dir,
-            summary_file,
-            analysis_config=AnalysisConfig(exclude_files=["codemeta.json"]),
-        )
-
-        summary = json.loads(summary_file.read_text())
-        assert _find_issue_count(summary, "P001") == 0

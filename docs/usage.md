@@ -35,36 +35,6 @@ Run the analysis:
 poetry run rsmetacheck --input repositories.json
 ```
 
-### Configure Analysis Rules
-
-RsMetaCheck can load a root-level `.rsmetacheck.toml` file to customize analysis behavior.
-
-```toml
-ignore = ["W002"]
-exclude_files = ["tmp_metadata.json"]
-
-[parameters.P001]
-ahead_significant_diff = 10
-
-[profiles.prerelease]
-ignore = []
-
-[profiles.unstable]
-ignore = ["W002", "P017"]
-```
-
-Use a profile:
-
-```bash
-poetry run rsmetacheck --input https://github.com/example/repo --config-profile unstable
-```
-
-Use an explicit config path:
-
-```bash
-poetry run rsmetacheck --input https://github.com/example/repo --config ./ci/rsmetacheck.toml
-```
-
 ## GitHub Action
 
 You can integrate RSMetaCheck into your GitHub workflows:

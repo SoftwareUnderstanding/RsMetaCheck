@@ -1,11 +1,7 @@
 import json
-import copy
-import fnmatch
-import inspect
 from pathlib import Path
 from typing import Iterable, Union
 from rsmetacheck.run_somef import CODEMETA_DEFAULT_NAME
-from rsmetacheck.config import AnalysisConfig
 from rsmetacheck.utils.pitfall_utils import extract_programming_languages
 from rsmetacheck.utils.json_ld_utils import create_pitfall_jsonld, save_individual_pitfall_jsonld
 from rsmetacheck.utils.somef_compat import normalize_somef_data
@@ -44,89 +40,7 @@ from rsmetacheck.scripts.warnings.w009 import detect_development_status_url_pitf
 from rsmetacheck.scripts.warnings.w010 import detect_git_remote_shorthand_pitfall
 
 
-def _source_matches_exclude_patterns(source_value: str, exclude_patterns: list[str]) -> bool:
-    source = str(source_value)
-    basename = Path(source).name
-
-    for pattern in exclude_patterns:
-        if fnmatch.fnmatch(source, pattern):
-            return True
-        if fnmatch.fnmatch(basename, pattern):
-            return True
-        if pattern in source:
-            return True
-
-    return False
-
-
-def _filter_somef_data_by_excluded_files(data, exclude_patterns: list[str]):
-    if isinstance(data, dict):
-        filtered_dict = {}
-
-        for key, value in data.items():
-            if key == "source":
-                if isinstance(value, list):
-                    kept_sources = [
-                        src for src in value if not _source_matches_exclude_patterns(src, exclude_patterns)
-                    ]
-                    if not kept_sources:
-                        return None
-                    filtered_dict[key] = kept_sources
-                else:
-                    if _source_matches_exclude_patterns(value, exclude_patterns):
-                        return None
-                    filtered_dict[key] = value
-                continue
-
-            filtered_value = _filter_somef_data_by_excluded_files(value, exclude_patterns)
-            if filtered_value is not None:
-                filtered_dict[key] = filtered_value
-
-        return filtered_dict
-
-    if isinstance(data, list):
-        filtered_list = []
-        for item in data:
-            filtered_item = _filter_somef_data_by_excluded_files(item, exclude_patterns)
-            if filtered_item is not None:
-                filtered_list.append(filtered_item)
-        return filtered_list
-
-    return data
-
-
-def _run_detector_with_parameters(detector_func, somef_data, file_name: str, parameters: dict):
-    if not parameters:
-        return detector_func(somef_data, file_name)
-
-    signature = inspect.signature(detector_func)
-    accepts_kwargs = any(
-        param.kind == inspect.Parameter.VAR_KEYWORD
-        for param in signature.parameters.values()
-    )
-
-    if accepts_kwargs:
-        return detector_func(somef_data, file_name, **parameters)
-
-    accepted_parameter_names = set(signature.parameters.keys()) - {"somef_data", "file_name"}
-    filtered_parameters = {
-        key: value for key, value in parameters.items() if key in accepted_parameter_names
-    }
-
-    if filtered_parameters:
-        return detector_func(somef_data, file_name, **filtered_parameters)
-
-    return detector_func(somef_data, file_name)
-
-
-def detect_all_pitfalls(
-    json_files: Iterable[Path],
-    pitfalls_output_dir: Union[str, Path],
-    output_file: Union[str, Path],
-    verbose: bool = False,
-    notes_output: Union[str, Path] = None,
-    analysis_config: AnalysisConfig = None,
-):
+def detect_all_pitfalls(json_files: Iterable[Path], pitfalls_output_dir: Union[str, Path], output_file: Union[str, Path], verbose: bool = False, notes_output: Union[str, Path] = None):
     """
     Detect all software repository pitfalls in SoMEF output files using modular detectors.
     Now also generates individual JSON-LD files for each repository.
@@ -135,21 +49,12 @@ def detect_all_pitfalls(
     pitfalls_output_dir = Path(pitfalls_output_dir)
     pitfalls_output_dir.mkdir(exist_ok=True, parents=True)
     json_files = list(json_files)
-    config = analysis_config or AnalysisConfig.empty()
 
     if not json_files:
         print("No JSON files found for analysis.")
         return
 
     print(f"Analyzing {len(json_files)} SoMEF JSON files...")
-    if config.source_path:
-        print(f"Using config file: {config.source_path}")
-    if config.profile:
-        print(f"Using config profile: {config.profile}")
-    if config.ignored_checks:
-        print(f"Ignoring checks: {', '.join(sorted(config.ignored_checks))}")
-    if config.exclude_files:
-        print(f"Excluded source patterns: {config.exclude_files}")
 
     results = {
         "summary": {
@@ -416,13 +321,6 @@ def detect_all_pitfalls(
                 somef_data = json.load(f)
 
             somef_data = normalize_somef_data(somef_data)
-            if config.exclude_files:
-                somef_data = _filter_somef_data_by_excluded_files(
-                    copy.deepcopy(somef_data),
-                    config.exclude_files,
-                )
-                if somef_data is None:
-                    somef_data = {}
 
             languages = extract_programming_languages(somef_data)
 
@@ -432,16 +330,8 @@ def detect_all_pitfalls(
             repo_pitfall_results = []
 
             for idx, (detector_func, pitfall_code) in enumerate(pitfall_detectors):
-                if config.is_ignored(pitfall_code):
-                    continue
-
                 try:
-                    detector_results = _run_detector_with_parameters(
-                        detector_func,
-                        somef_data,
-                        json_file.name,
-                        config.get_parameters(pitfall_code),
-                    )
+                    detector_results = detector_func(somef_data, json_file.name)
                     if not isinstance(detector_results, list):
                         detector_results = [detector_results]
 
@@ -610,15 +500,7 @@ def detect_all_pitfalls(
         print(f"Error writing output file: {e}")
 
 
-def main(
-    input_dir=None,
-    somef_json_paths=None,
-    pitfalls_dir=None,
-    analysis_output=None,
-    verbose=False,
-    notes_output=None,
-    analysis_config: AnalysisConfig = None,
-):
+def main(input_dir=None, somef_json_paths=None, pitfalls_dir=None, analysis_output=None, verbose=False, notes_output=None):
     """
     Main function to run all pitfall detections.
 
@@ -659,14 +541,7 @@ def main(
         print("No JSON files found for analysis.")
         return
 
-    detect_all_pitfalls(
-        json_files,
-        pitfalls_directory,
-        output_file,
-        verbose,
-        notes_output,
-        analysis_config=analysis_config,
-    )
+    detect_all_pitfalls(json_files, pitfalls_directory, output_file, verbose, notes_output)
 
 if __name__ == "__main__":
     main()

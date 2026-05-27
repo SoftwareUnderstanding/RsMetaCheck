@@ -3,8 +3,6 @@
 import importlib
 from unittest.mock import MagicMock
 
-from rsmetacheck.config import AnalysisConfig
-
 cli_module = importlib.import_module("rsmetacheck.cli")
 
 REPO_URL = "https://github.com/SoftwareUnderstanding/sw-metadata-bot"
@@ -440,30 +438,6 @@ def test_cli_multiple_inputs_triggers_multiple_calls(monkeypatch, tmp_path):
     run_somef_batch_mock.assert_called_once()
 
 
-def test_cli_aborts_analysis_when_somef_produces_no_outputs(monkeypatch, capsys):
-    """When all SoMEF runs fail, CLI should stop before run_analysis."""
-    run_analysis_mock = MagicMock()
-    run_somef_single_mock = MagicMock(return_value=False)
-
-    monkeypatch.setattr(
-        "sys.argv",
-        [
-            "rsmetacheck",
-            "--input",
-            REPO_URL,
-        ],
-    )
-    monkeypatch.setattr(cli_module, "ensure_somef_configured", lambda: True)
-    monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
-    monkeypatch.setattr(cli_module, "run_somef_single", run_somef_single_mock)
-
-    cli_module.cli()
-
-    captured = capsys.readouterr()
-    assert "SoMEF did not produce any outputs" in captured.out
-    run_analysis_mock.assert_not_called()
-
-
 def test_cli_input_required(monkeypatch):
     """CLI should fail if --input is not provided."""
     monkeypatch.setattr(
@@ -476,66 +450,3 @@ def test_cli_input_required(monkeypatch):
         assert False, "Expected SystemExit"
     except SystemExit:
         pass
-
-
-def test_cli_config_profile_forwarded_to_run_analysis(monkeypatch, tmp_path):
-    """--config and --config-profile should load and forward analysis config."""
-    somef_file = tmp_path / "somef_output.json"
-    somef_file.write_text("{}")
-
-    run_analysis_mock = MagicMock()
-    expected_config = AnalysisConfig(profile="unstable")
-    load_config_mock = MagicMock(return_value=expected_config)
-
-    monkeypatch.setattr(
-        "sys.argv",
-        [
-            "rsmetacheck",
-            "--input",
-            str(somef_file),
-            "--skip-somef",
-            "--config",
-            "custom.toml",
-            "--config-profile",
-            "unstable",
-        ],
-    )
-    monkeypatch.setattr(cli_module, "load_analysis_config", load_config_mock)
-    monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
-
-    cli_module.cli()
-
-    load_config_mock.assert_called_once_with(config_path="custom.toml", profile="unstable")
-    assert run_analysis_mock.call_args.kwargs["analysis_config"] is expected_config
-
-
-def test_cli_config_load_error_stops_execution(monkeypatch, tmp_path, capsys):
-    """Config loading errors should stop execution and print a message."""
-    somef_file = tmp_path / "somef_output.json"
-    somef_file.write_text("{}")
-
-    run_analysis_mock = MagicMock()
-
-    monkeypatch.setattr(
-        "sys.argv",
-        [
-            "rsmetacheck",
-            "--input",
-            str(somef_file),
-            "--skip-somef",
-            "--config",
-            "missing.toml",
-        ],
-    )
-    monkeypatch.setattr(
-        cli_module,
-        "load_analysis_config",
-        MagicMock(side_effect=FileNotFoundError("missing")),
-    )
-    monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
-
-    cli_module.cli()
-
-    captured = capsys.readouterr()
-    assert "Error loading config" in captured.out
-    run_analysis_mock.assert_not_called()
