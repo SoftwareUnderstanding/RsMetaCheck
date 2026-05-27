@@ -29,22 +29,10 @@ def run_somef(repo_url, output_file, threshold, branch=None, codemeta_file=None)
     if codemeta_file:
         cmd.extend(["-c", codemeta_file])
     try:
-        subprocess.run(cmd, check=True, capture_output=True, text=True)
+        subprocess.run(cmd, check=True)
         print(f"SoMEF finished for: {repo_url}")
         return True
     except subprocess.CalledProcessError as e:
-        stderr = (e.stderr or "").strip()
-        stdout = (e.stdout or "").strip()
-        combined_output = "\n".join(part for part in [stderr, stdout] if part)
-
-        if "GitHub token lacks required permissions or scopes" in combined_output:
-            print(
-                "SoMEF failed due to an invalid/insufficient GitHub token configured in SoMEF."
-            )
-            print(
-                "Run `somef configure` and set a token with appropriate scopes, or remove the token from ~/.somef/config.json."
-            )
-
         print(f"Error running SoMEF for {repo_url}: {e}")
         return False
 
@@ -70,7 +58,7 @@ def run_somef_single(
         branch,
         codemeta_file=codemeta_file if generate_codemeta else None,
     )
-    return bool(success)
+    return output_dir if success else None
 
 
 def run_somef_batch(
@@ -94,22 +82,28 @@ def run_somef_batch(
     base_name = os.path.splitext(os.path.basename(json_file))[0]
     print(f"Running SoMEF for {len(repos)} repositories in {base_name}...")
 
-    success_count = 0
-
     for idx, repo_url in enumerate(repos, start=1):
         output_file = os.path.join(output_dir, f"{base_name}_output_{idx}.json")
         codemeta_file = os.path.join(
             output_dir, f"{base_name}_{CODEMETA_DEFAULT_NAME}_{idx}.json"
         )
         print(f"[{idx}/{len(repos)}] {repo_url}")
-        if run_somef(
+        run_somef(
             repo_url,
             output_file,
             threshold,
             branch,
             codemeta_file=codemeta_file if generate_codemeta else None,
-        ):
-            success_count += 1
+        )
 
     print(f"Completed SoMEF for {base_name}. Results in {output_dir}")
-    return success_count > 0
+    return True
+
+    success = run_somef(
+        repo_url,
+        output_file,
+        threshold,
+        branch,
+        codemeta_file=codemeta_file if generate_codemeta else None,
+    )
+    return output_dir if success else None

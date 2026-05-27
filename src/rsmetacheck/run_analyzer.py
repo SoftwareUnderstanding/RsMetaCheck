@@ -1,17 +1,9 @@
 from pathlib import Path
 from typing import Union, Iterable
 from rsmetacheck.detect_pitfalls_main import main
-from rsmetacheck.config import AnalysisConfig
 
 
-def run_analysis(
-    somef_input: Union[str, Path, Iterable[Path]],
-    pitfalls_dir: Union[str, Path],
-    analysis_file: Union[str, Path],
-    verbose: bool = False,
-    notes_output: Union[str, Path] = None,
-    analysis_config: AnalysisConfig = None,
-):
+def run_analysis(somef_input: Union[str, Path, Iterable[Path]], pitfalls_dir: Union[str, Path], analysis_file: Union[str, Path], verbose: bool = False, notes_output: Union[str, Path] = None):
     """
     Run metadata analysis using existing code.
 
@@ -29,24 +21,10 @@ def run_analysis(
         somef_path = Path(somef_input)
         if somef_path.is_dir():
             print(f"Using directory: {somef_input}")
-            main(
-                input_dir=somef_input,
-                pitfalls_dir=pitfalls_dir,
-                analysis_output=analysis_file,
-                verbose=verbose,
-                notes_output=notes_output,
-                analysis_config=analysis_config,
-            )
+            main(input_dir=somef_input, pitfalls_dir=pitfalls_dir, analysis_output=analysis_file, verbose=verbose, notes_output=notes_output)
         else:
             print(f"Error: {somef_input} is not a valid directory")
     else:
         json_files = list(somef_input)
         print(f"Using {len(json_files)} specified JSON files")
-        main(
-            somef_json_paths=json_files,
-            pitfalls_dir=pitfalls_dir,
-            analysis_output=analysis_file,
-            verbose=verbose,
-            notes_output=notes_output,
-            analysis_config=analysis_config,
-        )
+        main(somef_json_paths=json_files, pitfalls_dir=pitfalls_dir, analysis_output=analysis_file, verbose=verbose, notes_output=notes_output)
