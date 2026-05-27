@@ -2,6 +2,7 @@ import argparse
 import os
 from pathlib import Path
 
+from rsmetacheck.config import load_analysis_config
 from rsmetacheck.run_analyzer import run_analysis
 from rsmetacheck.run_somef import (
     ensure_somef_configured,
@@ -69,8 +70,27 @@ def cli():
         action="store_true",
         help="Include both detected AND undetected pitfalls in the output JSON-LD.",
     )
+    parser.add_argument(
+        "--config",
+        default=None,
+        help="Path to RsMetaCheck TOML config file (default: auto-detect .rsmetacheck.toml at repository root).",
+    )
+    parser.add_argument(
+        "--config-profile",
+        default=None,
+        help="Name of config profile to apply (e.g., unstable, prerelease).",
+    )
 
     args = parser.parse_args()
+
+    try:
+        analysis_config = load_analysis_config(
+            config_path=args.config,
+            profile=args.config_profile,
+        )
+    except (FileNotFoundError, ValueError, OSError, Exception) as exc:
+        print(f"Error loading config: {exc}")
+        return
 
     if args.skip_somef:
         print(
@@ -95,6 +115,7 @@ def cli():
             args.analysis_output,
             verbose=args.verbose,
             notes_output=args.notes_output,
+            analysis_config=analysis_config,
         )
 
     else:
@@ -110,29 +131,42 @@ def cli():
                 "Codemeta generation is ENABLED. Codemeta files will be created for each repository."
             )
 
+        any_somef_success = False
+
         for input_item in args.input:
             if input_item.startswith("http://") or input_item.startswith("https://"):
                 print(f"Processing repository URL: {input_item}")
-                run_somef_single(
+                success = run_somef_single(
                     input_item,
                     somef_output_dir,
                     threshold,
                     branch=args.branch,
                     generate_codemeta=generate_codemeta,
                 )
+                any_somef_success = any_somef_success or bool(success)
             elif os.path.exists(input_item):
                 print(f"Processing repositories from file: {input_item}")
-                run_somef_batch(
+                success = run_somef_batch(
                     input_item,
                     somef_output_dir,
                     threshold,
                     branch=args.branch,
                     generate_codemeta=generate_codemeta,
                 )
+                any_somef_success = any_somef_success or bool(success)
             else:
                 print(
                     f"Warning: Skipping invalid input (not a URL or existing file): {input_item}"
                 )
+
+        if not any_somef_success:
+            print(
+                "Error: SoMEF did not produce any outputs. Analysis is aborted."
+            )
+            print(
+                "Fix SoMEF/authentication issues and rerun, or run with --skip-somef on existing SoMEF JSON files."
+            )
+            return
 
         print(f"\nRunning analysis on outputs in {somef_output_dir}...")
         run_analysis(
@@ -141,6 +175,7 @@ def cli():
             args.analysis_output,
             verbose=args.verbose,
             notes_output=args.notes_output,
+            analysis_config=analysis_config,
         )
 
 
