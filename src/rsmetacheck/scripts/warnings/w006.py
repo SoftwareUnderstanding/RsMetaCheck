@@ -1,6 +1,8 @@
 from typing import Dict, List
 import re
 
+from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
+
 
 def is_valid_identifier(identifier: str) -> bool:
     """
@@ -95,6 +97,7 @@ def detect_identifier_name_warning(somef_data: Dict, file_name: str) -> Dict:
 
     codemeta_identifier = None
     codemeta_source = None
+    codemeta_has_valid_id = False
     other_identifier = None
     other_source = None
     other_identifiers = []
@@ -110,10 +113,18 @@ def detect_identifier_name_warning(somef_data: Dict, file_name: str) -> Dict:
 
         if is_codemeta:
             if "result" in entry and "value" in entry["result"]:
-                if codemeta_identifier is None:  # Use first one found
-                    codemeta_identifier = entry["result"]["value"]
+                if codemeta_identifier is None:
+                    raw_value = entry["result"]["value"]
                     codemeta_source = source
-                    break  # Stop at first codemeta identifier
+                    if isinstance(raw_value, list):
+                        codemeta_has_valid_id = any(
+                            isinstance(item, str) and is_valid_identifier(item)
+                            for item in raw_value
+                        )
+                        codemeta_identifier = ", ".join(str(item) for item in raw_value) if raw_value else None
+                    else:
+                        codemeta_identifier = raw_value
+                    break
 
     for entry in identifier_entries:
         source = entry.get("source", "")
@@ -142,12 +153,14 @@ def detect_identifier_name_warning(somef_data: Dict, file_name: str) -> Dict:
 
     result["codemeta_identifier"] = codemeta_identifier
     result["codemeta_source"] = codemeta_source
+    result["metadata_source_file"] = extract_metadata_source_filename(codemeta_source) if codemeta_source else "codemeta.json"
     result["other_identifier"] = other_identifier
     result["other_source"] = other_source
     result["other_identifiers"] = other_identifiers
     result["has_valid_identifier_elsewhere"] = len(other_identifiers) > 0
 
     if (codemeta_identifier and
+            not codemeta_has_valid_id and
             not is_valid_identifier(codemeta_identifier) and
             other_identifier):
         result["has_warning"] = True
