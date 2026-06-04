@@ -74,9 +74,32 @@ pip install git+https://github.com/SoftwareUnderstanding/RsMetaCheck.git
 
 ### GitHub Action
 
-RsMetaCheck can be easily integrated into your CI/CD pipelines as a GitHub Action. We have set it up in GitHub Action in the following repository: [rs-metacheck-action](https://github.com/SoftwareUnderstanding/rs-metacheck-action) and is up in GitHub MarketPlace at [rsmetacheck actions](https://github.com/marketplace/actions/rsmetacheck).
+RSMetaCheck can be easily integrated into your CI/CD pipelines as a GitHub Action. We have set it up in GitHub Action in the following repository: [rs-metacheck-action](https://github.com/SoftwareUnderstanding/rs-metacheck-action) and is up in GitHub MarketPlace at [rsmetacheck actions](https://github.com/marketplace/actions/rsmetacheck).
 
 The action will generate `all_pitfalls_results.json`, along with the `pitfalls/` and `somef_outputs/` directories directly in your workflow workspace.
+
+### GitLab CI/CD
+
+Add the following snippet to your `.gitlab-ci.yml` to run RSMetaCheck on your GitLab repository:
+
+```yaml
+rsmetacheck:
+  image: python:3.11
+  stage: test
+  script:
+    - pip install rsmetacheck
+    - somef configure -a
+    - rsmetacheck --input $CI_PROJECT_URL
+  artifacts:
+    paths:
+      - pitfalls_outputs/
+      - somef_outputs/
+      - analysis_results.json
+    when: always
+    expire_in: 1 week
+```
+
+`$CI_PROJECT_URL` is a built-in GitLab CI/CD variable that automatically resolves to your repository's URL. To avoid GitHub API rate limits when SoMEF fetches metadata, store your GitHub personal access token as a GitLab CI/CD variable named `GITHUB_TOKEN` and pass it via `somef configure -a -t $GITHUB_TOKEN`.
 
 ### Run the Detection Tool locally
 
