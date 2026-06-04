@@ -62,7 +62,7 @@ poetry run rsmetacheck --input repositories.json \
 
 ### Version Discrepancy Notes
 
-When a metadata version differs from the release version only slightly (every component differs by less than 2, e.g. `0.4.3.dev1` vs `0.4.2`), RSMetaCheck records a **note** instead of a full pitfall. Notes are only written when `--notes-output` is provided:
+When a metadata version differs from the release version only slightly (every component differs by less than 2, e.g. `0.4.3.dev1` vs `0.4.2` — the pre-release suffix means it is numerically close), RSMetaCheck records a **note** instead of a full pitfall. Notes are only written when `--notes-output` is provided:
 
 ```bash
 poetry run rsmetacheck --input https://github.com/example/repo --notes-output ./notes.json
@@ -84,7 +84,7 @@ Example notes file:
 }
 ```
 
-When the difference is significant (any component differs by 2 or more, e.g. `0.12.4` vs `0.12.1`), the issue is still reported as a pitfall regardless.
+When the difference is significant (any component differs by 2 or more, e.g. `0.12.3` vs `0.12.1`), the issue is still reported as a pitfall regardless.
 
 ### Skip SoMEF and Analyze Existing Outputs
 
