@@ -30,9 +30,12 @@
             background-color: #fff;
         }
         th, td {
-            padding: 12px 15px;
+            padding: 6px 10px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
+            word-wrap: break-word;
+            word-break: break-word;
+            max-width: 350px;
         }
         th {
             background-color: #f8f9fa;
@@ -75,17 +78,35 @@
             color: #666;
             margin-top: 4px;
         }
+        .cell-only-030 {
+            background-color: #ffebee !important;
+        }
+        .cell-only-032 {
+            background-color: #e8f5e9 !important;
+        }
+        .cell-missing {
+            color: #bbb;
+            font-style: italic;
+            text-align: center;
+        }
+        .section-divider {
+            border: none;
+            border-top: 3px solid #e0e0e0;
+            max-width: 95%;
+            margin: 40px auto 20px auto;
+        }
+        .section-title {
+            text-align: center;
+            color: #2c3e50;
+            margin: 0 auto 20px auto;
+        }
     </style>
 </head>
 <body>
 
     <h1>Ground TruthReport</h1>
     
-    <p style="text-align: center; color: #444; font-size: 1.05em; line-height: 1.4;">
-        Total repositories studied: 200 extracted<br>
-        Every repository being studied has codemeta.json, and at least one metadata file<br>
-        Currently: Covered 150 out 200 repository
-    </p>
+    <p id="summary-text" style="text-align: center; color: #444; font-size: 1.05em; line-height: 1.4;"></p>
     
     <div class="table-container">
         <table id="pitfallsTable">
@@ -101,58 +122,129 @@
         </table>
     </div>
 
+    <hr class="section-divider">
+    <h2 class="section-title">0.3.0 vs 0.3.2 &mdash; Comparison</h2>
+
+    <div class="table-container">
+        <table id="comparisonTable">
+            <thead>
+                <tr>
+                    <th>Repository</th>
+                    <th>Code</th>
+                    <th>0.3.0 Source</th>
+                    <th>0.3.0 Description</th>
+                    <th>0.3.2 Source</th>
+                    <th>0.3.2 Description</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            fetch('summary_pitfalls_warnings.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const table = document.querySelector('#pitfallsTable');
-                    
-                    for (const [repoId, repoData] of Object.entries(data)) {
-                        const url = repoData.url || 'Unknown URL';
-                        
-                        const pEntries = repoData.pitfalls ? Object.entries(repoData.pitfalls) : [];
-                        const wEntries = repoData.warnings ? Object.entries(repoData.warnings) : [];
-                        const totalRows = pEntries.length + wEntries.length;
-                        
-                        if (totalRows === 0) continue;
-                        
-                        const tbody = document.createElement('tbody');
-                        let isFirstContext = true;
-                        
-                        for (const [code, info] of pEntries) {
-                            addRow(tbody, url, code, info, 'p', isFirstContext, totalRows, repoData);
-                            isFirstContext = false;
-                        }
-                        for (const [code, info] of wEntries) {
-                            addRow(tbody, url, code, info, 'w', isFirstContext, totalRows, repoData);
-                            isFirstContext = false;
-                        }
-                        
-                        table.appendChild(tbody);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading the JSON data:', error);
-                    const table = document.querySelector('#pitfallsTable');
-                    table.innerHTML += `<tbody><tr><td colspan="5" style="text-align: center; color: red;">Error loading data. Please ensure you are viewing this file via a local server.</td></tr></tbody>`;
-                });
+            const gtTable = document.querySelector('#pitfallsTable');
+            const cmpTable = document.querySelector('#comparisonTable');
+
+            Promise.all([
+                fetch('summary_pitfalls_warnings.json').then(r => r.json()),
+                fetch('summary_0_3_0.json').then(r => r.json()),
+                fetch('summary_0_3_2.json').then(r => r.json())
+            ])
+            .then(([gtData, data030, data032]) => {
+                const gtNames = new Set();
+                for (const entry of Object.values(gtData)) {
+                    const url = (entry.url || '').replace(/\/$/, "").split("/");
+                    if (url.length >= 2) gtNames.add(url.slice(-2).join("/"));
+                }
+                const allThree = new Set(
+                    [...gtNames].filter(r => data030[r] && data032[r])
+                );
+
+                document.getElementById('summary-text').textContent =
+                    `${allThree.size} repositories present across all three datasets (ground truth, 0.3.0, 0.3.2)`;
+
+                buildGroundTruthTable(gtTable, gtData, data030, data032, allThree);
+                buildComparisonTable(cmpTable, data030, data032, allThree);
+            })
+            .catch(err => {
+                console.error('Failed to load data:', err);
+                gtTable.innerHTML += '<tbody><tr><td colspan="5" style="text-align:center;color:red;">Error loading data.</td></tr></tbody>';
+                cmpTable.innerHTML += '<tbody><tr><td colspan="6" style="text-align:center;color:red;">Error loading comparison data.</td></tr></tbody>';
+            });
         });
 
-        function addRow(tbody, url, code, info, type, isFirstContext, totalRows, repoData) {
+        function buildGroundTruthTable(table, gtData, data030, data032, allThree) {
+            for (const [repoId, repoData] of Object.entries(gtData)) {
+                const url = repoData.url || 'Unknown URL';
+                const repoName = url.replace(/\/$/, "").split("/").slice(-2).join("/");
+
+                if (!allThree.has(repoName)) continue;
+
+                const r030 = data030[repoName] || {};
+                const r032 = data032[repoName] || {};
+
+                const matchedPitfalls = {};
+                for (const [code, info] of Object.entries(repoData.pitfalls || {})) {
+                    const r032Code = r032.pitfalls && r032.pitfalls[code];
+                    const r030Code = r030.pitfalls && r030.pitfalls[code];
+                    if (r032Code || r030Code) {
+                        const gtInfo = { source_file: info.source_file, description: info.description };
+                        if (gtInfo.source_file === 'Metadata files (codemeta.json, setup.py, pom.xml etc...)') {
+                            const resCode = r032Code || r030Code;
+                            if (resCode && resCode.source_file) {
+                                gtInfo.source_file = resCode.source_file;
+                            }
+                        }
+                        matchedPitfalls[code] = gtInfo;
+                    }
+                }
+
+                const matchedWarnings = {};
+                for (const [code, info] of Object.entries(repoData.warnings || {})) {
+                    if (code === 'W003') continue;
+                    const r032Code = r032.warnings && r032.warnings[code];
+                    const r030Code = r030.warnings && r030.warnings[code];
+                    if (r032Code || r030Code) {
+                        const gtInfo = { source_file: info.source_file, description: info.description };
+                        if (gtInfo.source_file === 'Metadata files (codemeta.json, setup.py, pom.xml etc...)') {
+                            const resCode = r032Code || r030Code;
+                            if (resCode && resCode.source_file) {
+                                gtInfo.source_file = resCode.source_file;
+                            }
+                        }
+                        matchedWarnings[code] = gtInfo;
+                    }
+                }
+
+                const pEntries = Object.entries(matchedPitfalls);
+                const wEntries = Object.entries(matchedWarnings);
+                const totalRows = pEntries.length + wEntries.length;
+
+                if (totalRows === 0) continue;
+
+                const tbody = document.createElement('tbody');
+                let isFirstContext = true;
+
+                for (const [code, info] of pEntries) {
+                    addGTRow(tbody, url, repoName, code, info, 'p', isFirstContext, totalRows, repoData, allThree);
+                    isFirstContext = false;
+                }
+                for (const [code, info] of wEntries) {
+                    addGTRow(tbody, url, repoName, code, info, 'w', isFirstContext, totalRows, repoData, allThree);
+                    isFirstContext = false;
+                }
+
+                table.appendChild(tbody);
+            }
+        }
+
+        function addGTRow(tbody, url, repoName, code, info, type, isFirstContext, totalRows, repoData, allThree) {
             const tr = document.createElement('tr');
-            
+
             if (isFirstContext) {
                 const tdRepo = document.createElement('td');
                 const aRepo = document.createElement('a');
                 aRepo.href = url;
-                // Extract "user/repo" from the URL
-                const repoName = url.replace(/\/$/, "").split("/").slice(-2).join("/");
                 aRepo.textContent = repoName;
                 aRepo.className = 'repo-link';
                 aRepo.target = '_blank';
@@ -179,15 +271,13 @@
                 tdCommit.rowSpan = totalRows;
                 tr.appendChild(tdCommit);
             }
-            
-            // Code Column
+
             const tdCode = document.createElement('td');
             const spanCode = document.createElement('span');
             spanCode.textContent = code;
             spanCode.className = `code-badge code-${type}`;
             tdCode.appendChild(spanCode);
-            
-            // Description Column
+
             const tdDesc = document.createElement('td');
             if (info.description && info.description !== "No description available") {
                 tdDesc.textContent = info.description;
@@ -195,16 +285,97 @@
             } else {
                 tdDesc.textContent = '';
             }
-            
-            // Source File Column
+
             const tdSource = document.createElement('td');
             tdSource.textContent = info.source_file || 'Unknown';
-            
+
             tr.appendChild(tdCode);
             tr.appendChild(tdDesc);
             tr.appendChild(tdSource);
 
             tbody.appendChild(tr);
+        }
+
+        function buildComparisonTable(table, data030, data032, allThree) {
+            for (const repoName of Object.keys(data030).sort()) {
+                const r030 = data030[repoName];
+                const r032 = data032[repoName];
+                if (!r032) continue;
+                if (!allThree.has(repoName)) continue;
+
+                const codes030 = Object.assign(
+                    {}, r030.pitfalls || {}, r030.warnings || {}
+                );
+                const codes032 = Object.assign(
+                    {}, r032.pitfalls || {}, r032.warnings || {}
+                );
+                const allCodes = Array.from(
+                    new Set([...Object.keys(codes030), ...Object.keys(codes032)])
+                ).sort((a, b) => {
+                    const ta = a.startsWith('P') ? 0 : 1;
+                    const tb = b.startsWith('P') ? 0 : 1;
+                    if (ta !== tb) return ta - tb;
+                    return a.localeCompare(b);
+                });
+
+                if (allCodes.length === 0) continue;
+
+                const tbody = document.createElement('tbody');
+                const url = r030.url || r032.url;
+
+                allCodes.forEach((code, i) => {
+                    const entry030 = codes030[code];
+                    const entry032 = codes032[code];
+                    const only030 = entry030 && !entry032;
+                    const only032 = entry032 && !entry030;
+                    const type = code.startsWith('P') ? 'p' : 'w';
+
+                    const tr = document.createElement('tr');
+
+                    if (i === 0) {
+                        const tdRepo = document.createElement('td');
+                        const aRepo = document.createElement('a');
+                        aRepo.href = url;
+                        aRepo.textContent = repoName;
+                        aRepo.className = 'repo-link';
+                        aRepo.target = '_blank';
+                        tdRepo.appendChild(aRepo);
+                        tdRepo.rowSpan = allCodes.length;
+                        tr.appendChild(tdRepo);
+                    }
+
+                    const tdCode = document.createElement('td');
+                    const spanCode = document.createElement('span');
+                    spanCode.textContent = code;
+                    spanCode.className = `code-badge code-${type}`;
+                    tdCode.appendChild(spanCode);
+                    tr.appendChild(tdCode);
+
+                    const cellDefs = [
+                        { data: entry030, key: 'source_file', ver: only030 ? '030' : '' },
+                        { data: entry030, key: 'description', ver: only030 ? '030' : '' },
+                        { data: entry032, key: 'source_file', ver: only032 ? '032' : '' },
+                        { data: entry032, key: 'description', ver: only032 ? '032' : '' }
+                    ];
+
+                    for (const { data, key, ver } of cellDefs) {
+                        const td = document.createElement('td');
+                        if (data) {
+                            td.textContent = data[key] || '';
+                        } else {
+                            td.textContent = '\u2014';
+                            td.classList.add('cell-missing');
+                        }
+                        if (ver === '030') td.classList.add('cell-only-030');
+                        if (ver === '032') td.classList.add('cell-only-032');
+                        tr.appendChild(td);
+                    }
+
+                    tbody.appendChild(tr);
+                });
+
+                table.appendChild(tbody);
+            }
         }
     </script>
 </body>
