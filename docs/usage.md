@@ -67,24 +67,9 @@ poetry run rsmetacheck --input https://github.com/example/repo --config ./ci/rsm
 
 ## GitHub Action
 
-You can integrate RSMetaCheck into your GitHub workflows:
+You can integrate RSMetaCheck into your GitHub workflow to test your own repository and detect issues automatically. 
+Please refer to our action in the GitHub MarketPlace at [rsmetacheck actions](https://github.com/marketplace/actions/rsmetacheck) for more information.
 
-```yaml
-name: RsMetaCheck
-
-on: [push, pull_request]
-
-jobs:
-  check-metadata:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: SoftwareUnderstanding/RsMetaCheck@v0.2.1
-        with:
-          verbose: "false"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
 
 ## GitLab CI/CD
 
@@ -109,23 +94,3 @@ rsmetacheck:
 
 `$CI_PROJECT_URL` is a [built-in GitLab CI/CD variable](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html) that automatically resolves to your repository's URL.
 
-### Providing a GitHub Token (recommended)
-
-SoMEF fetches repository metadata from GitHub's API. Without a token, anonymous requests are subject to low rate limits. To avoid this, store your GitHub personal access token as a [GitLab CI/CD variable](https://docs.gitlab.com/ee/ci/variables/) named `GITHUB_TOKEN` and pass it to `somef configure`:
-
-```yaml
-rsmetacheck:
-  image: python:3.11
-  stage: test
-  script:
-    - pip install rsmetacheck
-    - somef configure -a -t $GITHUB_TOKEN
-    - rsmetacheck --input $CI_PROJECT_URL
-  artifacts:
-    paths:
-      - pitfalls_outputs/
-      - somef_outputs/
-      - analysis_results.json
-    when: always
-    expire_in: 1 week
-```
