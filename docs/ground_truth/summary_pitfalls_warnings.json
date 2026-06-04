@@ -10,7 +10,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "245b109d77370eec2eb7c4dce0370638887aa7c6"
@@ -34,7 +34,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -58,7 +58,7 @@
       },
       "P006": {
         "source_file": "codemeta.json",
-        "description": "License pointing to a local file instead of stating the name. For example: “license”: LICENSE.MD"
+        "description": "License pointing to a local file instead of stating the name. For example: \u201clicense\u201d: LICENSE.MD"
       }
     },
     "warnings": {},
@@ -70,7 +70,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -114,7 +114,7 @@
     "warnings": {
       "W001": {
         "source_file": "codemeta.json",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -149,7 +149,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W009": {
         "source_file": "codemeta.json",
@@ -189,7 +189,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W006": {
         "source_file": "codemeta.json",
@@ -207,13 +207,13 @@
     "pitfalls": {
       "P017": {
         "source_file": "codemeta.json & DESCRIPTION",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "DESCRIPTION",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "df013a97e144086980317527de6fab39dc54e9fa"
@@ -223,13 +223,13 @@
     "pitfalls": {
       "P006": {
         "source_file": "pyproject.toml",
-        "description": "License pointing to a local file instead of stating the name. For example: “license”: LICENSE.MD"
+        "description": "License pointing to a local file instead of stating the name. For example: \u201clicense\u201d: LICENSE.MD"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "d44b74f990c3e2d03d9a3ced3a89ffa619b59d63"
@@ -240,7 +240,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -269,7 +269,7 @@
     "warnings": {
       "W001": {
         "source_file": "codemeta.json",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -316,7 +316,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -339,12 +339,6 @@
   "repo_21": {
     "url": "https://github.com/arthurcuri/flixfinder-tis1",
     "pitfalls": {},
-    "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      }
-    },
     "commit ID": "8771f700fd168e2e6c16a4f85b6631ca6b9c569f"
   },
   "repo_22": {
@@ -352,13 +346,13 @@
     "pitfalls": {
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "824222911d158f0ffc6929605f8a925ff08fcf64"
@@ -369,21 +363,10 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "3973da62a683b34548d07acb48e334ac5b4cfe6d"
-  },
-  "repo_24": {
-    "url": "https://github.com/iljah/hdintegrator",
-    "pitfalls": {},
-    "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      }
-    },
-    "commit ID": "f2ab7fb246ef88a79789e492d1f40d3a07b602d9"
   },
   "repo_25": {
     "url": "https://github.com/peterpolidoro/kicad_netlist_reader",
@@ -396,7 +379,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirement don’t have versions"
+        "description": "SoftwareRequirement don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -422,13 +405,13 @@
       },
       "P017": {
         "source_file": "codemeta.json, DESCRIPTION",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -448,7 +431,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -476,7 +459,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml ",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -498,7 +481,7 @@
       },
       "P017": {
         "source_file": "codemeta.json, Cargo.toml",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -583,7 +566,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -627,7 +610,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -649,7 +632,7 @@
       },
       "P017": {
         "source_file": "codemeta.json, DESCRIPTION",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -677,13 +660,13 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -721,10 +704,6 @@
       }
     },
     "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
@@ -747,7 +726,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "9f5357bb55d53c66e9cfc63ef39fddb05c1c1ad7"
@@ -763,7 +742,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -782,7 +761,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "b046bd00569ae3930b51581d559cc5c5afde866a"
@@ -793,7 +772,7 @@
     "warnings": {
       "W001": {
         "source_file": "codemeta.json",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -817,7 +796,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -910,7 +889,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -930,7 +909,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -994,7 +973,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "00a6eff9dcb21f31b8990d232d46fba5d6b18cbf"
@@ -1008,14 +987,10 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
@@ -1037,7 +1012,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "17db2298e25bb439873e3746ddab6aad05b9014f"
@@ -1045,10 +1020,6 @@
   "repo_58": {
     "url": "https://github.com/Mariizero/ECGRat",
     "pitfalls": {
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
-      }
     },
     "warnings": {
       "W004": {
@@ -1069,15 +1040,11 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
         "description": "dateModified is outdated"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1097,7 +1064,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1109,7 +1076,7 @@
       },
       "W005": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "softwareRequirements have more than one req, but it’s written as one string"
+        "description": "softwareRequirements have more than one req, but it\u2019s written as one string"
       }
     },
     "commit ID": "fcd2149561ab1796fba4d2500facdd3e532a6b86"
@@ -1125,7 +1092,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1155,13 +1122,13 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1180,15 +1147,11 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
         "description": "dateModified is outdated"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1212,11 +1175,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1238,7 +1197,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -1254,13 +1213,13 @@
     "pitfalls": {
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1286,14 +1245,10 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
@@ -1338,14 +1293,10 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
@@ -1379,7 +1330,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1403,7 +1354,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1431,7 +1382,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1457,13 +1408,13 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1478,7 +1429,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "5a217b0410ba73d0e6b2df712d04569497a3be97"
@@ -1500,7 +1451,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -1521,11 +1472,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1547,7 +1494,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -1590,10 +1537,6 @@
       }
     },
     "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      },
       "W004": {
         "source_file": "codemeta.json",
         "description": "programmingLanguages do not have versions"
@@ -1626,7 +1569,7 @@
       },
       "P006": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "License pointing to a local file instead of stating the name. For example: “license”: LICENSE.MD"
+        "description": "License pointing to a local file instead of stating the name. For example: \u201clicense\u201d: LICENSE.MD"
       },
       "P013": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
@@ -1640,15 +1583,11 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
         "description": "dateModified is outdated"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
       }
     },
     "commit ID": "a017a16c73c7c8bbb2869ceb05080c5c5098ac8e"
@@ -1659,7 +1598,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1687,7 +1626,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "03eb1c942bf1dc3be98cb30c3592b42e82a94f16"
@@ -1698,12 +1637,6 @@
       "P002": {
         "source_file": "LICENSE",
         "description": "Copyright section taken as template without modification"
-      }
-    },
-    "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
       }
     },
     "commit ID": "9eafc76b75a52846b9bf78aa8a2fd0c24c5f2b9d"
@@ -1740,12 +1673,6 @@
         "description": "Copyright section taken as template without modification"
       }
     },
-    "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      }
-    },
     "commit ID": "2eb355240d0a66147309c783c91877af350414a9"
   },
   "repo_88": {
@@ -1756,12 +1683,6 @@
         "description": "Copyright section taken as template without modification"
       }
     },
-    "warnings": {
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
-      }
-    },
     "commit ID": "a0f9fc12d1bf44811423b1fc212c0b6d398b677c"
   },
   "repo_89": {
@@ -1770,7 +1691,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1808,13 +1729,13 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1838,15 +1759,11 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
         "description": "dateModified is outdated"
-      },
-      "W003": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "Inconsistent use of licenses in metadata files"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1865,7 +1782,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "eb92fb81d422e76c1501d196bf14db6756430d03"
@@ -1900,10 +1817,6 @@
       "P009": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
         "description": "coderepository points to their homepage"
-      },
-      "P016": {
-        "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "codeRepository does not point to the same repository"
       }
     },
     "commit ID": "fa1898e88b9a31a05c2b722f36d6993595536a12"
@@ -1942,7 +1855,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "a12a44cbc077dbd4c20b5f4764f9d53da5647b86"
@@ -1953,7 +1866,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "17fbd909db0122eeca39d0c313b11742e7fd8164"
@@ -1969,7 +1882,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1995,7 +1908,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       },
       "P018": {
         "source_file": "codemeta.json",
@@ -2005,7 +1918,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -2033,7 +1946,7 @@
     "pitfalls": {
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "commit ID": "1273245299f477b47754319cf0e22b8cdf4995a8"
@@ -2043,7 +1956,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -2055,7 +1968,7 @@
       },
       "W005": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "softwareRequirements have more than one req, but it’s written as one string"
+        "description": "softwareRequirements have more than one req, but it\u2019s written as one string"
       }
     },
     "commit ID": "ce7e8f0296333ca952d5f5554c068cc44a500380"
@@ -2066,7 +1979,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "a8ec8da19a3cc5d8207d362add83181bffa18c4e"
@@ -2111,7 +2024,7 @@
     "pitfalls": {
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -2151,7 +2064,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "48211f102defdb16d0cd3cf6fc281518a4a96442"
