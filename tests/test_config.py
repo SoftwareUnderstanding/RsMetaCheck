@@ -1,4 +1,4 @@
-from rsmetacheck.config import load_analysis_config
+from rsmetacheck.config import AnalysisConfig, load_analysis_config
 
 
 def test_load_analysis_config_auto_detects_default_file(tmp_path):
@@ -59,3 +59,57 @@ def test_load_analysis_config_missing_profile_raises(tmp_path):
         assert False, "Expected ValueError"
     except ValueError:
         pass
+
+
+def test_analysis_config_fail_flags_default_to_true():
+    """fail_on_pitfalls and fail_on_warnings should default to True."""
+    config = AnalysisConfig()
+    assert config.fail_on_pitfalls is True
+    assert config.fail_on_warnings is True
+
+
+def test_load_analysis_config_reads_fail_flags_from_toml(tmp_path):
+    """fail_on_pitfalls and fail_on_warnings should be read from TOML root."""
+    config_file = tmp_path / ".rsmetacheck.toml"
+    config_file.write_text(
+        """
+fail_on_pitfalls = false
+fail_on_warnings = false
+""".strip()
+    )
+
+    config = load_analysis_config(cwd=tmp_path)
+
+    assert config.fail_on_pitfalls is False
+    assert config.fail_on_warnings is False
+
+
+def test_load_analysis_config_fail_flags_default_when_absent(tmp_path):
+    """When TOML has no fail flags, they should default to True."""
+    config_file = tmp_path / ".rsmetacheck.toml"
+    config_file.write_text('ignore = ["P001"]\n')
+
+    config = load_analysis_config(cwd=tmp_path)
+
+    assert config.fail_on_pitfalls is True
+    assert config.fail_on_warnings is True
+
+
+def test_load_analysis_config_profile_overrides_fail_flags(tmp_path):
+    """Profile-level fail flags should override base values."""
+    config_file = tmp_path / ".rsmetacheck.toml"
+    config_file.write_text(
+        """
+fail_on_pitfalls = true
+fail_on_warnings = true
+
+[profiles.permissive]
+fail_on_pitfalls = false
+fail_on_warnings = false
+""".strip()
+    )
+
+    config = load_analysis_config(cwd=tmp_path, profile="permissive")
+
+    assert config.fail_on_pitfalls is False
+    assert config.fail_on_warnings is False

@@ -1,7 +1,10 @@
 """Unit tests verifying CLI argument handling and dispatch."""
 
 import importlib
+import json
 from unittest.mock import MagicMock
+
+import pytest
 
 from rsmetacheck.config import AnalysisConfig
 
@@ -539,3 +542,125 @@ def test_cli_config_load_error_stops_execution(monkeypatch, tmp_path, capsys):
     captured = capsys.readouterr()
     assert "Error loading config" in captured.out
     run_analysis_mock.assert_not_called()
+
+
+def test_exit_on_findings_pitfalls_cause_exit(tmp_path, capsys):
+    """Exit code 1 when pitfalls detected and fail_on_pitfalls=True."""
+    analysis_file = tmp_path / "analysis.json"
+    analysis_file.write_text(json.dumps({
+        "summary": {
+            "total_pitfalls_detected": 3,
+            "total_warnings_detected": 0,
+        }
+    }))
+    config = AnalysisConfig(fail_on_pitfalls=True, fail_on_warnings=False)
+
+    with pytest.raises(SystemExit) as exc_info:
+        cli_module._exit_on_findings(str(analysis_file), config)
+
+    assert exc_info.value.code == 1
+    captured = capsys.readouterr()
+    assert "CI gate: 3 pitfall(s) detected" in captured.out
+
+
+def test_exit_on_findings_warnings_cause_exit(tmp_path, capsys):
+    """Exit code 1 when warnings detected and fail_on_warnings=True."""
+    analysis_file = tmp_path / "analysis.json"
+    analysis_file.write_text(json.dumps({
+        "summary": {
+            "total_pitfalls_detected": 0,
+            "total_warnings_detected": 2,
+        }
+    }))
+    config = AnalysisConfig(fail_on_pitfalls=False, fail_on_warnings=True)
+
+    with pytest.raises(SystemExit) as exc_info:
+        cli_module._exit_on_findings(str(analysis_file), config)
+
+    assert exc_info.value.code == 1
+    captured = capsys.readouterr()
+    assert "CI gate: 2 warning(s) detected" in captured.out
+
+
+def test_exit_on_findings_both_cause_exit(tmp_path, capsys):
+    """Exit code 1 when both pitfalls and warnings detected with both flags True."""
+    analysis_file = tmp_path / "analysis.json"
+    analysis_file.write_text(json.dumps({
+        "summary": {
+            "total_pitfalls_detected": 1,
+            "total_warnings_detected": 1,
+        }
+    }))
+    config = AnalysisConfig(fail_on_pitfalls=True, fail_on_warnings=True)
+
+    with pytest.raises(SystemExit) as exc_info:
+        cli_module._exit_on_findings(str(analysis_file), config)
+
+    assert exc_info.value.code == 1
+    captured = capsys.readouterr()
+    assert "CI gate: 1 pitfall(s) detected" in captured.out
+    assert "CI gate: 1 warning(s) detected" in captured.out
+
+
+def test_exit_on_findings_no_exit_when_flags_false(tmp_path):
+    """No exit when fail flags are False even with findings."""
+    analysis_file = tmp_path / "analysis.json"
+    analysis_file.write_text(json.dumps({
+        "summary": {
+            "total_pitfalls_detected": 5,
+            "total_warnings_detected": 5,
+        }
+    }))
+    config = AnalysisConfig(fail_on_pitfalls=False, fail_on_warnings=False)
+
+    # Should not raise SystemExit
+    cli_module._exit_on_findings(str(analysis_file), config)
+
+
+def test_exit_on_findings_no_exit_with_zero_findings(tmp_path):
+    """No exit when zero pitfalls and warnings even with flags True."""
+    analysis_file = tmp_path / "analysis.json"
+    analysis_file.write_text(json.dumps({
+        "summary": {
+            "total_pitfalls_detected": 0,
+            "total_warnings_detected": 0,
+        }
+    }))
+    config = AnalysisConfig(fail_on_pitfalls=True, fail_on_warnings=True)
+
+    # Should not raise SystemExit
+    cli_module._exit_on_findings(str(analysis_file), config)
+
+
+def test_exit_on_findings_missing_file_prints_warning(tmp_path, capsys):
+    """Missing analysis file should print warning and not exit."""
+    config = AnalysisConfig(fail_on_pitfalls=True, fail_on_warnings=True)
+
+    cli_module._exit_on_findings(str(tmp_path / "nonexistent.json"), config)
+
+    captured = capsys.readouterr()
+    assert "Warning: Could not read analysis output" in captured.out
+
+
+def test_exit_on_findings_malformed_json_prints_warning(tmp_path, capsys):
+    """Malformed analysis file should print warning and not exit."""
+    analysis_file = tmp_path / "analysis.json"
+    analysis_file.write_text("not valid json")
+
+    config = AnalysisConfig(fail_on_pitfalls=True, fail_on_warnings=True)
+
+    cli_module._exit_on_findings(str(analysis_file), config)
+
+    captured = capsys.readouterr()
+    assert "Warning: Could not read analysis output" in captured.out
+
+
+def test_exit_on_findings_missing_summary_fields_treated_as_zero(tmp_path):
+    """Missing summary fields should be treated as 0 (no exit)."""
+    analysis_file = tmp_path / "analysis.json"
+    analysis_file.write_text(json.dumps({"summary": {}}))
+
+    config = AnalysisConfig(fail_on_pitfalls=True, fail_on_warnings=True)
+
+    # Should not raise SystemExit
+    cli_module._exit_on_findings(str(analysis_file), config)

@@ -1,14 +1,40 @@
 import argparse
+import json
 import os
+import sys
 from pathlib import Path
 
-from rsmetacheck.config import load_analysis_config
+from rsmetacheck.config import AnalysisConfig, load_analysis_config
 from rsmetacheck.run_analyzer import run_analysis
 from rsmetacheck.run_somef import (
     ensure_somef_configured,
     run_somef_batch,
     run_somef_single,
 )
+
+
+def _exit_on_findings(analysis_output: str, analysis_config: AnalysisConfig) -> None:
+    try:
+        with open(analysis_output) as f:
+            data = json.load(f)
+    except Exception as e:
+        print(f"Warning: Could not read analysis output to evaluate exit code: {e}")
+        return
+
+    summary = data.get("summary", {})
+    pitfalls = summary.get("total_pitfalls_detected", 0)
+    warnings = summary.get("total_warnings_detected", 0)
+
+    should_fail = False
+    if analysis_config.fail_on_pitfalls and pitfalls > 0:
+        print(f"CI gate: {pitfalls} pitfall(s) detected (fail_on_pitfalls=true).")
+        should_fail = True
+    if analysis_config.fail_on_warnings and warnings > 0:
+        print(f"CI gate: {warnings} warning(s) detected (fail_on_warnings=true).")
+        should_fail = True
+
+    if should_fail:
+        sys.exit(1)
 
 
 def cli():
@@ -118,6 +144,8 @@ def cli():
             analysis_config=analysis_config,
         )
 
+        _exit_on_findings(args.analysis_output, analysis_config)
+
     else:
         ensure_somef_configured()
 
@@ -177,6 +205,8 @@ def cli():
             notes_output=args.notes_output,
             analysis_config=analysis_config,
         )
+
+        _exit_on_findings(args.analysis_output, analysis_config)
 
 
 if __name__ == "__main__":

@@ -15,6 +15,8 @@ class AnalysisConfig:
     ignored_checks: Set[str] = field(default_factory=set)
     exclude_files: list[str] = field(default_factory=list)
     check_parameters: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    fail_on_pitfalls: bool = True
+    fail_on_warnings: bool = True
     profile: Optional[str] = None
     source_path: Optional[Path] = None
 
@@ -129,6 +131,9 @@ def load_analysis_config(
     base_exclude_files = _normalize_exclude_files(raw.get("exclude_files", []))
     base_parameters = _normalize_parameters(raw.get("parameters", {}))
 
+    fail_on_pitfalls = raw.get("fail_on_pitfalls", True)
+    fail_on_warnings = raw.get("fail_on_warnings", True)
+
     profile_ignore: Set[str] = set()
     profile_exclude_files: list[str] = []
     profile_parameters: Dict[str, Dict[str, Any]] = {}
@@ -146,12 +151,19 @@ def load_analysis_config(
         profile_exclude_files = _normalize_exclude_files(selected.get("exclude_files", []))
         profile_parameters = _normalize_parameters(selected.get("parameters", {}))
 
+        if "fail_on_pitfalls" in selected:
+            fail_on_pitfalls = selected["fail_on_pitfalls"]
+        if "fail_on_warnings" in selected:
+            fail_on_warnings = selected["fail_on_warnings"]
+
     merged_parameters = _merge_parameters(base_parameters, profile_parameters)
 
     return AnalysisConfig(
         ignored_checks=base_ignore | profile_ignore,
         exclude_files=base_exclude_files + profile_exclude_files,
         check_parameters=merged_parameters,
+        fail_on_pitfalls=fail_on_pitfalls,
+        fail_on_warnings=fail_on_warnings,
         profile=selected_profile,
         source_path=resolved_path,
     )
