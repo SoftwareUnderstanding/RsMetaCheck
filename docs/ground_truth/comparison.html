@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.2 Comparison</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            margin: 0;
+            padding: 20px;
+        }
+        .nav {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.95em;
+            padding: 6px 14px;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            margin: 0 6px;
+        }
+        .nav a:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h1 { margin-bottom: 10px; }
+        h2 { margin-bottom: 20px; }
+        .table-container {
+            max-width: 95%;
+            margin: 0 auto;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 6px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            word-wrap: break-word;
+            word-break: break-word;
+            max-width: 350px;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        tbody:hover {
+            background-color: #f5f5f5;
+        }
+        .repo-link {
+            color: #3498db;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .repo-link:hover {
+            text-decoration: underline;
+        }
+        .code-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .code-p {
+            background-color: #ffebee;
+            color: #c0392b;
+            border: 1px solid #ffcdd2;
+        }
+        .code-w {
+            background-color: #fff8e1;
+            color: #e67e22;
+            border: 1px solid #ffecb3;
+        }
+        .cell-only-030 {
+            background-color: #ffebee !important;
+        }
+        .cell-only-032 {
+            background-color: #e8f5e9 !important;
+        }
+        .cell-missing {
+            color: #bbb;
+            font-style: italic;
+            text-align: center;
+        }
+        .section-divider {
+            border: none;
+            border-top: 3px solid #e0e0e0;
+            max-width: 95%;
+            margin: 40px auto 20px auto;
+        }
+        .charts-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 95%;
+            margin: 0 auto 40px auto;
+        }
+        .chart-box {
+            flex: 1 1 500px;
+            max-width: 700px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+        .chart-box h3 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 0 0 12px 0;
+            font-size: 1.05em;
+        }
+        canvas { width: 100% !important; height: auto !important; }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <a href="index.html">&larr; Ground Truth Report</a>
+    </div>
+
+    <h1>0.3.0 vs 0.3.2 &mdash; Comparison</h1>
+
+    <p id="summary-text" style="text-align: center; color: #444; font-size: 1.05em; line-height: 1.4;"></p>
+
+    <hr class="section-divider">
+    <h2>0.3.0 Pitfall &amp; Warning Distribution</h2>
+
+    <div class="charts-row">
+        <div class="chart-box">
+            <h3>Pitfalls (P001&ndash;P019)</h3>
+            <canvas id="pitfallsChart030"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Warnings (W001&ndash;W010)</h3>
+            <canvas id="warningsChart030"></canvas>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+    <h2>0.3.2 Pitfall &amp; Warning Distribution</h2>
+
+    <div class="charts-row">
+        <div class="chart-box">
+            <h3>Pitfalls (P001&ndash;P019)</h3>
+            <canvas id="pitfallsChart032"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Warnings (W001&ndash;W010)</h3>
+            <canvas id="warningsChart032"></canvas>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+    <h2>The &ldquo;Before &amp; After&rdquo; Comparison</h2>
+
+    <div class="charts-row">
+        <div class="chart-box">
+            <h3>Pitfalls</h3>
+            <canvas id="groupedPitfallsChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Warnings</h3>
+            <canvas id="groupedWarningsChart"></canvas>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+    <h2>Repository-Level Comparison</h2>
+
+    <div class="table-container">
+        <table id="comparisonTable">
+            <thead>
+                <tr>
+                    <th>Repository</th>
+                    <th>Code</th>
+                    <th>0.3.0 Source</th>
+                    <th>0.3.0 Description</th>
+                    <th>0.3.2 Source</th>
+                    <th>0.3.2 Description</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cmpTable = document.querySelector('#comparisonTable');
+
+            Promise.all([
+                fetch('summary_pitfalls_warnings.json').then(r => r.json()),
+                fetch('summary_0_3_0.json').then(r => r.json()),
+                fetch('summary_0_3_2.json').then(r => r.json())
+            ])
+            .then(([gtData, data030, data032]) => {
+                const gtNames = new Set();
+                for (const entry of Object.values(gtData)) {
+                    const url = (entry.url || '').replace(/\/$/, "").split("/");
+                    if (url.length >= 2) gtNames.add(url.slice(-2).join("/"));
+                }
+                const allThree = new Set(
+                    [...gtNames].filter(r => data030[r] && data032[r])
+                );
+
+                document.getElementById('summary-text').textContent =
+                    `${allThree.size} repositories present across all three datasets (ground truth, 0.3.0, 0.3.2)`;
+
+                buildCharts(data030, '030');
+                buildCharts(data032, '032');
+                buildGroupedCharts(data030, data032);
+                buildComparisonTable(cmpTable, data030, data032, allThree);
+            })
+            .catch(err => {
+                console.error('Failed to load data:', err);
+                cmpTable.innerHTML += '<tbody><tr><td colspan="6" style="text-align:center;color:red;">Error loading data.</td></tr></tbody>';
+            });
+        });
+
+        function buildCharts(data, version) {
+            const pitfallCounts = {};
+            const warningCounts = {};
+
+            for (const repoName of Object.keys(data)) {
+                const repo = data[repoName];
+                for (const code of Object.keys(repo.pitfalls || {})) {
+                    pitfallCounts[code] = (pitfallCounts[code] || 0) + 1;
+                }
+                for (const code of Object.keys(repo.warnings || {})) {
+                    warningCounts[code] = (warningCounts[code] || 0) + 1;
+                }
+            }
+
+            const sortedPitfalls = Object.keys(pitfallCounts).sort();
+            const sortedWarnings = Object.keys(warningCounts).sort();
+
+            const pitfallColor = version === '030'
+                ? { bg: 'rgba(192, 57, 43, 0.7)', border: '#c0392b' }
+                : { bg: 'rgba(46, 134, 193, 0.7)', border: '#2980b9' };
+            const warningColor = version === '030'
+                ? { bg: 'rgba(230, 126, 34, 0.7)', border: '#e67e22' }
+                : { bg: 'rgba(39, 174, 96, 0.7)', border: '#27ae60' };
+
+            new Chart(document.getElementById('pitfallsChart' + version), {
+                type: 'bar',
+                data: {
+                    labels: sortedPitfalls,
+                    datasets: [{
+                        label: 'Repositories affected',
+                        data: sortedPitfalls.map(c => pitfallCounts[c]),
+                        backgroundColor: pitfallColor.bg,
+                        borderColor: pitfallColor.border,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1, precision: 0 },
+                            title: { display: true, text: 'Number of repositories' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Pitfall code' }
+                        }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('warningsChart' + version), {
+                type: 'bar',
+                data: {
+                    labels: sortedWarnings,
+                    datasets: [{
+                        label: 'Repositories affected',
+                        data: sortedWarnings.map(c => warningCounts[c]),
+                        backgroundColor: warningColor.bg,
+                        borderColor: warningColor.border,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1, precision: 0 },
+                            title: { display: true, text: 'Number of repositories' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Warning code' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function buildGroupedCharts(data030, data032) {
+            const allPitfallCodes = new Set();
+            const allWarningCodes = new Set();
+            const p030 = {}, p032 = {}, w030 = {}, w032 = {};
+
+            for (const repoName of Object.keys(data030)) {
+                const repo = data030[repoName];
+                for (const code of Object.keys(repo.pitfalls || {})) {
+                    allPitfallCodes.add(code);
+                    p030[code] = (p030[code] || 0) + 1;
+                }
+                for (const code of Object.keys(repo.warnings || {})) {
+                    allWarningCodes.add(code);
+                    w030[code] = (w030[code] || 0) + 1;
+                }
+            }
+            for (const repoName of Object.keys(data032)) {
+                const repo = data032[repoName];
+                for (const code of Object.keys(repo.pitfalls || {})) {
+                    allPitfallCodes.add(code);
+                    p032[code] = (p032[code] || 0) + 1;
+                }
+                for (const code of Object.keys(repo.warnings || {})) {
+                    allWarningCodes.add(code);
+                    w032[code] = (w032[code] || 0) + 1;
+                }
+            }
+
+            const sortedPitfalls = Array.from(allPitfallCodes).sort();
+            const sortedWarnings = Array.from(allWarningCodes).sort();
+
+            new Chart(document.getElementById('groupedPitfallsChart'), {
+                type: 'bar',
+                data: {
+                    labels: sortedPitfalls,
+                    datasets: [
+                        {
+                            label: '0.3.0',
+                            data: sortedPitfalls.map(c => p030[c] || 0),
+                            backgroundColor: 'rgba(192, 57, 43, 0.75)',
+                            borderColor: '#c0392b',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '0.3.2',
+                            data: sortedPitfalls.map(c => p032[c] || 0),
+                            backgroundColor: 'rgba(46, 134, 193, 0.75)',
+                            borderColor: '#2980b9',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { usePointStyle: true, padding: 16 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1, precision: 0 },
+                            title: { display: true, text: 'Number of repositories' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Pitfall code' }
+                        }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('groupedWarningsChart'), {
+                type: 'bar',
+                data: {
+                    labels: sortedWarnings,
+                    datasets: [
+                        {
+                            label: '0.3.0',
+                            data: sortedWarnings.map(c => w030[c] || 0),
+                            backgroundColor: 'rgba(230, 126, 34, 0.75)',
+                            borderColor: '#e67e22',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '0.3.2',
+                            data: sortedWarnings.map(c => w032[c] || 0),
+                            backgroundColor: 'rgba(39, 174, 96, 0.75)',
+                            borderColor: '#27ae60',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { usePointStyle: true, padding: 16 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1, precision: 0 },
+                            title: { display: true, text: 'Number of repositories' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Warning code' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function buildComparisonTable(table, data030, data032, allThree) {
+            for (const repoName of Object.keys(data030).sort()) {
+                const r030 = data030[repoName];
+                const r032 = data032[repoName];
+                if (!r032) continue;
+                if (!allThree.has(repoName)) continue;
+
+                const codes030 = Object.assign(
+                    {}, r030.pitfalls || {}, r030.warnings || {}
+                );
+                const codes032 = Object.assign(
+                    {}, r032.pitfalls || {}, r032.warnings || {}
+                );
+                const allCodes = Array.from(
+                    new Set([...Object.keys(codes030), ...Object.keys(codes032)])
+                ).sort((a, b) => {
+                    const ta = a.startsWith('P') ? 0 : 1;
+                    const tb = b.startsWith('P') ? 0 : 1;
+                    if (ta !== tb) return ta - tb;
+                    return a.localeCompare(b);
+                });
+
+                if (allCodes.length === 0) continue;
+
+                const tbody = document.createElement('tbody');
+                const url = r030.url || r032.url;
+
+                allCodes.forEach((code, i) => {
+                    const entry030 = codes030[code];
+                    const entry032 = codes032[code];
+                    const only030 = entry030 && !entry032;
+                    const only032 = entry032 && !entry030;
+                    const type = code.startsWith('P') ? 'p' : 'w';
+
+                    const tr = document.createElement('tr');
+
+                    if (i === 0) {
+                        const tdRepo = document.createElement('td');
+                        const aRepo = document.createElement('a');
+                        aRepo.href = url;
+                        aRepo.textContent = repoName;
+                        aRepo.className = 'repo-link';
+                        aRepo.target = '_blank';
+                        tdRepo.appendChild(aRepo);
+                        tdRepo.rowSpan = allCodes.length;
+                        tr.appendChild(tdRepo);
+                    }
+
+                    const tdCode = document.createElement('td');
+                    const spanCode = document.createElement('span');
+                    spanCode.textContent = code;
+                    spanCode.className = `code-badge code-${type}`;
+                    tdCode.appendChild(spanCode);
+                    tr.appendChild(tdCode);
+
+                    const cellDefs = [
+                        { data: entry030, key: 'source_file', ver: only030 ? '030' : '' },
+                        { data: entry030, key: 'description', ver: only030 ? '030' : '' },
+                        { data: entry032, key: 'source_file', ver: only032 ? '032' : '' },
+                        { data: entry032, key: 'description', ver: only032 ? '032' : '' }
+                    ];
+
+                    for (const { data, key, ver } of cellDefs) {
+                        const td = document.createElement('td');
+                        if (data) {
+                            td.textContent = data[key] || '';
+                        } else {
+                            td.textContent = '\u2014';
+                            td.classList.add('cell-missing');
+                        }
+                        if (ver === '030') td.classList.add('cell-only-030');
+                        if (ver === '032') td.classList.add('cell-only-032');
+                        tr.appendChild(td);
+                    }
+
+                    tbody.appendChild(tr);
+                });
+
+                table.appendChild(tbody);
+            }
+        }
+    </script>
+</body>
+</html>
