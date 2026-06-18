@@ -121,11 +121,20 @@
 <body>
 
     <div class="nav">
-        <a href="comparison.html">0.3.0 vs 0.3.2 Comparison &rarr;</a>
+        <a href="comparison.html">0.3.0 vs 0.3.1 Comparison &rarr;</a>
     </div>
 
     <h1>Ground Truth Report</h1>
     
+    <p style="text-align: center; color: #555; font-size: 0.95em; line-height: 1.5; max-width: 800px; margin: 0 auto 20px auto;">
+        This ground truth study evaluated 84 software repositories from the openAIRE graph.
+        All repositories contain a <code>codemeta.json</code> file and were examined across
+        multiple metadata sources including package manifests (e.g., <code>setup.py</code>,
+        <code>package.json</code>, <code>DESCRIPTION</code>), citation files
+        (<code>CITATION.cff</code>), licensing files, README documentation, and other
+        structured or semi-structured metadata artifacts.
+    </p>
+
     <p id="summary-text" style="text-align: center; color: #444; font-size: 1.05em; line-height: 1.4;"></p>
     
     <div class="table-container">
@@ -149,22 +158,19 @@
             Promise.all([
                 fetch('summary_pitfalls_warnings.json').then(r => r.json()),
                 fetch('summary_0_3_0.json').then(r => r.json()),
-                fetch('summary_0_3_2.json').then(r => r.json())
+                fetch('summary_0_3_1.json').then(r => r.json())
             ])
-            .then(([gtData, data030, data032]) => {
+            .then(([gtData, data030, data031]) => {
                 const gtNames = new Set();
                 for (const entry of Object.values(gtData)) {
                     const url = (entry.url || '').replace(/\/$/, "").split("/");
                     if (url.length >= 2) gtNames.add(url.slice(-2).join("/"));
                 }
                 const allThree = new Set(
-                    [...gtNames].filter(r => data030[r] && data032[r])
+                    [...gtNames].filter(r => data030[r] && data031[r])
                 );
 
-                document.getElementById('summary-text').textContent =
-                    `${allThree.size} repositories present across all three datasets (ground truth, 0.3.0, 0.3.2)`;
-
-                buildGroundTruthTable(gtTable, gtData, data030, data032, allThree);
+                buildGroundTruthTable(gtTable, gtData, data030, data031, allThree);
             })
             .catch(err => {
                 console.error('Failed to load data:', err);
@@ -172,7 +178,7 @@
             });
         });
 
-        function buildGroundTruthTable(table, gtData, data030, data032, allThree) {
+        function buildGroundTruthTable(table, gtData, data030, data031, allThree) {
             for (const [repoId, repoData] of Object.entries(gtData)) {
                 const url = repoData.url || 'Unknown URL';
                 const repoName = url.replace(/\/$/, "").split("/").slice(-2).join("/");
@@ -180,16 +186,16 @@
                 if (!allThree.has(repoName)) continue;
 
                 const r030 = data030[repoName] || {};
-                const r032 = data032[repoName] || {};
+                const r031 = data031[repoName] || {};
 
                 const matchedPitfalls = {};
                 for (const [code, info] of Object.entries(repoData.pitfalls || {})) {
-                    const r032Code = r032.pitfalls && r032.pitfalls[code];
+                    const r031Code = r031.pitfalls && r031.pitfalls[code];
                     const r030Code = r030.pitfalls && r030.pitfalls[code];
-                    if (r032Code || r030Code) {
+                    if (r031Code || r030Code) {
                         const gtInfo = { source_file: info.source_file, description: info.description };
                         if (gtInfo.source_file === 'Metadata files (codemeta.json, setup.py, pom.xml etc...)') {
-                            const resCode = r032Code || r030Code;
+                            const resCode = r031Code || r030Code;
                             if (resCode && resCode.source_file) {
                                 gtInfo.source_file = resCode.source_file;
                             }
@@ -201,12 +207,12 @@
                 const matchedWarnings = {};
                 for (const [code, info] of Object.entries(repoData.warnings || {})) {
                     if (code === 'W003') continue;
-                    const r032Code = r032.warnings && r032.warnings[code];
+                    const r031Code = r031.warnings && r031.warnings[code];
                     const r030Code = r030.warnings && r030.warnings[code];
-                    if (r032Code || r030Code) {
+                    if (r031Code || r030Code) {
                         const gtInfo = { source_file: info.source_file, description: info.description };
                         if (gtInfo.source_file === 'Metadata files (codemeta.json, setup.py, pom.xml etc...)') {
-                            const resCode = r032Code || r030Code;
+                            const resCode = r031Code || r030Code;
                             if (resCode && resCode.source_file) {
                                 gtInfo.source_file = resCode.source_file;
                             }

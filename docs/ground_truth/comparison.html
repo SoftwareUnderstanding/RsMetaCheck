@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.2 Comparison</title>
+    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.1 Comparison</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -94,7 +94,7 @@
         .cell-only-030 {
             background-color: #ffebee !important;
         }
-        .cell-only-032 {
+        .cell-only-031 {
             background-color: #e8f5e9 !important;
         }
         .cell-missing {
@@ -140,7 +140,14 @@
         <a href="index.html">&larr; Ground Truth Report</a>
     </div>
 
-    <h1>0.3.0 vs 0.3.2 &mdash; Comparison</h1>
+    <h1>0.3.0 vs 0.3.1 &mdash; Comparison</h1>
+
+    <p style="text-align: center; color: #555; font-size: 0.95em; line-height: 1.5; max-width: 800px; margin: 0 auto 20px auto;">
+        This page compares the detection results of RsMetaCheck version 0.3.0 and
+        version 0.3.1 on the ground truth dataset, highlighting improvements and
+        corrections in pitfall and warning detection across the 85 openAIRE
+        repositories.
+    </p>
 
     <p id="summary-text" style="text-align: center; color: #444; font-size: 1.05em; line-height: 1.4;"></p>
 
@@ -159,16 +166,16 @@
     </div>
 
     <hr class="section-divider">
-    <h2>0.3.2 Pitfall &amp; Warning Distribution</h2>
+    <h2>0.3.1 Pitfall &amp; Warning Distribution</h2>
 
     <div class="charts-row">
         <div class="chart-box">
             <h3>Pitfalls (P001&ndash;P019)</h3>
-            <canvas id="pitfallsChart032"></canvas>
+            <canvas id="pitfallsChart031"></canvas>
         </div>
         <div class="chart-box">
             <h3>Warnings (W001&ndash;W010)</h3>
-            <canvas id="warningsChart032"></canvas>
+            <canvas id="warningsChart031"></canvas>
         </div>
     </div>
 
@@ -197,8 +204,8 @@
                     <th>Code</th>
                     <th>0.3.0 Source</th>
                     <th>0.3.0 Description</th>
-                    <th>0.3.2 Source</th>
-                    <th>0.3.2 Description</th>
+                    <th>0.3.1 Source</th>
+                    <th>0.3.1 Description</th>
                 </tr>
             </thead>
         </table>
@@ -212,25 +219,22 @@
             Promise.all([
                 fetch('summary_pitfalls_warnings.json').then(r => r.json()),
                 fetch('summary_0_3_0.json').then(r => r.json()),
-                fetch('summary_0_3_2.json').then(r => r.json())
+                fetch('summary_0_3_1.json').then(r => r.json())
             ])
-            .then(([gtData, data030, data032]) => {
+            .then(([gtData, data030, data031]) => {
                 const gtNames = new Set();
                 for (const entry of Object.values(gtData)) {
                     const url = (entry.url || '').replace(/\/$/, "").split("/");
                     if (url.length >= 2) gtNames.add(url.slice(-2).join("/"));
                 }
                 const allThree = new Set(
-                    [...gtNames].filter(r => data030[r] && data032[r])
+                    [...gtNames].filter(r => data030[r] && data031[r])
                 );
 
-                document.getElementById('summary-text').textContent =
-                    `${allThree.size} repositories present across all three datasets (ground truth, 0.3.0, 0.3.2)`;
-
                 buildCharts(data030, '030');
-                buildCharts(data032, '032');
-                buildGroupedCharts(data030, data032);
-                buildComparisonTable(cmpTable, data030, data032, allThree);
+                buildCharts(data031, '031');
+                buildGroupedCharts(data030, data031);
+                buildComparisonTable(cmpTable, data030, data031, allThree);
             })
             .catch(err => {
                 console.error('Failed to load data:', err);
@@ -323,10 +327,10 @@
             });
         }
 
-        function buildGroupedCharts(data030, data032) {
+        function buildGroupedCharts(data030, data031) {
             const allPitfallCodes = new Set();
             const allWarningCodes = new Set();
-            const p030 = {}, p032 = {}, w030 = {}, w032 = {};
+            const p030 = {}, p031 = {}, w030 = {}, w031 = {};
 
             for (const repoName of Object.keys(data030)) {
                 const repo = data030[repoName];
@@ -339,15 +343,15 @@
                     w030[code] = (w030[code] || 0) + 1;
                 }
             }
-            for (const repoName of Object.keys(data032)) {
-                const repo = data032[repoName];
+            for (const repoName of Object.keys(data031)) {
+                const repo = data031[repoName];
                 for (const code of Object.keys(repo.pitfalls || {})) {
                     allPitfallCodes.add(code);
-                    p032[code] = (p032[code] || 0) + 1;
+                    p031[code] = (p031[code] || 0) + 1;
                 }
                 for (const code of Object.keys(repo.warnings || {})) {
                     allWarningCodes.add(code);
-                    w032[code] = (w032[code] || 0) + 1;
+                    w031[code] = (w031[code] || 0) + 1;
                 }
             }
 
@@ -367,8 +371,8 @@
                             borderWidth: 1
                         },
                         {
-                            label: '0.3.2',
-                            data: sortedPitfalls.map(c => p032[c] || 0),
+                            label: '0.3.1',
+                            data: sortedPitfalls.map(c => p031[c] || 0),
                             backgroundColor: 'rgba(46, 134, 193, 0.75)',
                             borderColor: '#2980b9',
                             borderWidth: 1
@@ -409,8 +413,8 @@
                             borderWidth: 1
                         },
                         {
-                            label: '0.3.2',
-                            data: sortedWarnings.map(c => w032[c] || 0),
+                            label: '0.3.1',
+                            data: sortedWarnings.map(c => w031[c] || 0),
                             backgroundColor: 'rgba(39, 174, 96, 0.75)',
                             borderColor: '#27ae60',
                             borderWidth: 1
@@ -439,21 +443,21 @@
             });
         }
 
-        function buildComparisonTable(table, data030, data032, allThree) {
+        function buildComparisonTable(table, data030, data031, allThree) {
             for (const repoName of Object.keys(data030).sort()) {
                 const r030 = data030[repoName];
-                const r032 = data032[repoName];
-                if (!r032) continue;
+                const r031 = data031[repoName];
+                if (!r031) continue;
                 if (!allThree.has(repoName)) continue;
 
                 const codes030 = Object.assign(
                     {}, r030.pitfalls || {}, r030.warnings || {}
                 );
-                const codes032 = Object.assign(
-                    {}, r032.pitfalls || {}, r032.warnings || {}
+                const codes031 = Object.assign(
+                    {}, r031.pitfalls || {}, r031.warnings || {}
                 );
                 const allCodes = Array.from(
-                    new Set([...Object.keys(codes030), ...Object.keys(codes032)])
+                    new Set([...Object.keys(codes030), ...Object.keys(codes031)])
                 ).sort((a, b) => {
                     const ta = a.startsWith('P') ? 0 : 1;
                     const tb = b.startsWith('P') ? 0 : 1;
@@ -464,13 +468,13 @@
                 if (allCodes.length === 0) continue;
 
                 const tbody = document.createElement('tbody');
-                const url = r030.url || r032.url;
+                const url = r030.url || r031.url;
 
                 allCodes.forEach((code, i) => {
                     const entry030 = codes030[code];
-                    const entry032 = codes032[code];
-                    const only030 = entry030 && !entry032;
-                    const only032 = entry032 && !entry030;
+                    const entry031 = codes031[code];
+                    const only030 = entry030 && !entry031;
+                    const only031 = entry031 && !entry030;
                     const type = code.startsWith('P') ? 'p' : 'w';
 
                     const tr = document.createElement('tr');
@@ -497,8 +501,8 @@
                     const cellDefs = [
                         { data: entry030, key: 'source_file', ver: only030 ? '030' : '' },
                         { data: entry030, key: 'description', ver: only030 ? '030' : '' },
-                        { data: entry032, key: 'source_file', ver: only032 ? '032' : '' },
-                        { data: entry032, key: 'description', ver: only032 ? '032' : '' }
+                        { data: entry031, key: 'source_file', ver: only031 ? '031' : '' },
+                        { data: entry031, key: 'description', ver: only031 ? '031' : '' }
                     ];
 
                     for (const { data, key, ver } of cellDefs) {
@@ -510,7 +514,7 @@
                             td.classList.add('cell-missing');
                         }
                         if (ver === '030') td.classList.add('cell-only-030');
-                        if (ver === '032') td.classList.add('cell-only-032');
+                        if (ver === '031') td.classList.add('cell-only-031');
                         tr.appendChild(td);
                     }
 
