@@ -100,12 +100,41 @@
             color: #2c3e50;
             margin: 0 auto 20px auto;
         }
+        .nav {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.95em;
+            padding: 6px 14px;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+        }
+        .nav a:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Ground TruthReport</h1>
+    <div class="nav">
+        <a href="comparison.html">0.3.0 vs 0.3.1 Comparison &rarr;</a>
+    </div>
+
+    <h1>Ground Truth Report</h1>
     
+    <p style="text-align: center; color: #555; font-size: 0.95em; line-height: 1.5; max-width: 800px; margin: 0 auto 20px auto;">
+        This ground truth study evaluated 84 software repositories from the openAIRE graph.
+        All repositories contain a <code>codemeta.json</code> file and were examined across
+        multiple metadata sources including package manifests (e.g., <code>setup.py</code>,
+        <code>package.json</code>, <code>DESCRIPTION</code>), citation files
+        (<code>CITATION.cff</code>), licensing files, README documentation, and other
+        structured or semi-structured metadata artifacts.
+    </p>
+
     <p id="summary-text" style="text-align: center; color: #444; font-size: 1.05em; line-height: 1.4;"></p>
     
     <div class="table-container">
@@ -122,58 +151,34 @@
         </table>
     </div>
 
-    <hr class="section-divider">
-    <h2 class="section-title">0.3.0 vs 0.3.2 &mdash; Comparison</h2>
-
-    <div class="table-container">
-        <table id="comparisonTable">
-            <thead>
-                <tr>
-                    <th>Repository</th>
-                    <th>Code</th>
-                    <th>0.3.0 Source</th>
-                    <th>0.3.0 Description</th>
-                    <th>0.3.2 Source</th>
-                    <th>0.3.2 Description</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const gtTable = document.querySelector('#pitfallsTable');
-            const cmpTable = document.querySelector('#comparisonTable');
 
             Promise.all([
                 fetch('summary_pitfalls_warnings.json').then(r => r.json()),
                 fetch('summary_0_3_0.json').then(r => r.json()),
-                fetch('summary_0_3_2.json').then(r => r.json())
+                fetch('summary_0_3_1.json').then(r => r.json())
             ])
-            .then(([gtData, data030, data032]) => {
+            .then(([gtData, data030, data031]) => {
                 const gtNames = new Set();
                 for (const entry of Object.values(gtData)) {
                     const url = (entry.url || '').replace(/\/$/, "").split("/");
                     if (url.length >= 2) gtNames.add(url.slice(-2).join("/"));
                 }
                 const allThree = new Set(
-                    [...gtNames].filter(r => data030[r] && data032[r])
+                    [...gtNames].filter(r => data030[r] && data031[r])
                 );
 
-                document.getElementById('summary-text').textContent =
-                    `${allThree.size} repositories present across all three datasets (ground truth, 0.3.0, 0.3.2)`;
-
-                buildGroundTruthTable(gtTable, gtData, data030, data032, allThree);
-                buildComparisonTable(cmpTable, data030, data032, allThree);
+                buildGroundTruthTable(gtTable, gtData, data030, data031, allThree);
             })
             .catch(err => {
                 console.error('Failed to load data:', err);
                 gtTable.innerHTML += '<tbody><tr><td colspan="5" style="text-align:center;color:red;">Error loading data.</td></tr></tbody>';
-                cmpTable.innerHTML += '<tbody><tr><td colspan="6" style="text-align:center;color:red;">Error loading comparison data.</td></tr></tbody>';
             });
         });
 
-        function buildGroundTruthTable(table, gtData, data030, data032, allThree) {
+        function buildGroundTruthTable(table, gtData, data030, data031, allThree) {
             for (const [repoId, repoData] of Object.entries(gtData)) {
                 const url = repoData.url || 'Unknown URL';
                 const repoName = url.replace(/\/$/, "").split("/").slice(-2).join("/");
@@ -181,16 +186,16 @@
                 if (!allThree.has(repoName)) continue;
 
                 const r030 = data030[repoName] || {};
-                const r032 = data032[repoName] || {};
+                const r031 = data031[repoName] || {};
 
                 const matchedPitfalls = {};
                 for (const [code, info] of Object.entries(repoData.pitfalls || {})) {
-                    const r032Code = r032.pitfalls && r032.pitfalls[code];
+                    const r031Code = r031.pitfalls && r031.pitfalls[code];
                     const r030Code = r030.pitfalls && r030.pitfalls[code];
-                    if (r032Code || r030Code) {
+                    if (r031Code || r030Code) {
                         const gtInfo = { source_file: info.source_file, description: info.description };
                         if (gtInfo.source_file === 'Metadata files (codemeta.json, setup.py, pom.xml etc...)') {
-                            const resCode = r032Code || r030Code;
+                            const resCode = r031Code || r030Code;
                             if (resCode && resCode.source_file) {
                                 gtInfo.source_file = resCode.source_file;
                             }
@@ -202,12 +207,12 @@
                 const matchedWarnings = {};
                 for (const [code, info] of Object.entries(repoData.warnings || {})) {
                     if (code === 'W003') continue;
-                    const r032Code = r032.warnings && r032.warnings[code];
+                    const r031Code = r031.warnings && r031.warnings[code];
                     const r030Code = r030.warnings && r030.warnings[code];
-                    if (r032Code || r030Code) {
+                    if (r031Code || r030Code) {
                         const gtInfo = { source_file: info.source_file, description: info.description };
                         if (gtInfo.source_file === 'Metadata files (codemeta.json, setup.py, pom.xml etc...)') {
-                            const resCode = r032Code || r030Code;
+                            const resCode = r031Code || r030Code;
                             if (resCode && resCode.source_file) {
                                 gtInfo.source_file = resCode.source_file;
                             }
@@ -294,88 +299,6 @@
             tr.appendChild(tdSource);
 
             tbody.appendChild(tr);
-        }
-
-        function buildComparisonTable(table, data030, data032, allThree) {
-            for (const repoName of Object.keys(data030).sort()) {
-                const r030 = data030[repoName];
-                const r032 = data032[repoName];
-                if (!r032) continue;
-                if (!allThree.has(repoName)) continue;
-
-                const codes030 = Object.assign(
-                    {}, r030.pitfalls || {}, r030.warnings || {}
-                );
-                const codes032 = Object.assign(
-                    {}, r032.pitfalls || {}, r032.warnings || {}
-                );
-                const allCodes = Array.from(
-                    new Set([...Object.keys(codes030), ...Object.keys(codes032)])
-                ).sort((a, b) => {
-                    const ta = a.startsWith('P') ? 0 : 1;
-                    const tb = b.startsWith('P') ? 0 : 1;
-                    if (ta !== tb) return ta - tb;
-                    return a.localeCompare(b);
-                });
-
-                if (allCodes.length === 0) continue;
-
-                const tbody = document.createElement('tbody');
-                const url = r030.url || r032.url;
-
-                allCodes.forEach((code, i) => {
-                    const entry030 = codes030[code];
-                    const entry032 = codes032[code];
-                    const only030 = entry030 && !entry032;
-                    const only032 = entry032 && !entry030;
-                    const type = code.startsWith('P') ? 'p' : 'w';
-
-                    const tr = document.createElement('tr');
-
-                    if (i === 0) {
-                        const tdRepo = document.createElement('td');
-                        const aRepo = document.createElement('a');
-                        aRepo.href = url;
-                        aRepo.textContent = repoName;
-                        aRepo.className = 'repo-link';
-                        aRepo.target = '_blank';
-                        tdRepo.appendChild(aRepo);
-                        tdRepo.rowSpan = allCodes.length;
-                        tr.appendChild(tdRepo);
-                    }
-
-                    const tdCode = document.createElement('td');
-                    const spanCode = document.createElement('span');
-                    spanCode.textContent = code;
-                    spanCode.className = `code-badge code-${type}`;
-                    tdCode.appendChild(spanCode);
-                    tr.appendChild(tdCode);
-
-                    const cellDefs = [
-                        { data: entry030, key: 'source_file', ver: only030 ? '030' : '' },
-                        { data: entry030, key: 'description', ver: only030 ? '030' : '' },
-                        { data: entry032, key: 'source_file', ver: only032 ? '032' : '' },
-                        { data: entry032, key: 'description', ver: only032 ? '032' : '' }
-                    ];
-
-                    for (const { data, key, ver } of cellDefs) {
-                        const td = document.createElement('td');
-                        if (data) {
-                            td.textContent = data[key] || '';
-                        } else {
-                            td.textContent = '\u2014';
-                            td.classList.add('cell-missing');
-                        }
-                        if (ver === '030') td.classList.add('cell-only-030');
-                        if (ver === '032') td.classList.add('cell-only-032');
-                        tr.appendChild(td);
-                    }
-
-                    tbody.appendChild(tr);
-                });
-
-                table.appendChild(tbody);
-            }
         }
     </script>
 </body>
