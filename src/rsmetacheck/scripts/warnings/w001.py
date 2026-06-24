@@ -121,7 +121,7 @@ def detect_unversioned_requirements(somef_data: Dict, file_name: str) -> Dict:
 
     result["total_requirements"] = total_reqs
     result["unversioned_count"] = unversioned_count
-    result["unversioned_requirements"] = unversioned_names
+    result["unversioned_requirements"] = list(dict.fromkeys(unversioned_names))
 
     if total_reqs > 0:
         result["percentage_unversioned"] = round((unversioned_count / total_reqs) * 100, 2)

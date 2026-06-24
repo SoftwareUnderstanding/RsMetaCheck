@@ -45,6 +45,13 @@ def detect_programming_language_no_version_pitfall(somef_data: Dict, file_name: 
                             if isinstance(lang_name, str) and _name_contains_version(lang_name):
                                 continue
 
+                            non_versioned_languages = {
+                                "HTML", "CSS", "JavaScript", "Shell", "Makefile",
+                                "Dockerfile", "Batchfile", "PowerShell", "CMake",
+                            }
+                            if isinstance(lang_name, str) and lang_name in non_versioned_languages:
+                                continue
+
                             result["programming_languages_without_version"].append(lang_name)
                             result["source"] = source
                             result["has_warning"] = True
