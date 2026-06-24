@@ -46,7 +46,7 @@ def detect_programming_language_no_version_pitfall(somef_data: Dict, file_name: 
                                 continue
 
                             non_versioned_languages = {
-                                "HTML", "CSS", "JavaScript", "Shell", "Makefile",
+                                "HTML", "CSS", "Shell", "Makefile",
                                 "Dockerfile", "Batchfile", "PowerShell", "CMake",
                             }
                             if isinstance(lang_name, str) and lang_name in non_versioned_languages:

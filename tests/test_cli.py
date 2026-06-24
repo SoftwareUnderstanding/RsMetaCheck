@@ -36,6 +36,7 @@ def test_cli_with_generate_codemeta_adds_codemeta_output(monkeypatch, tmp_path):
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
     monkeypatch.setattr("rsmetacheck.run_somef.subprocess.run", subprocess_run_mock)
 
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
     cli_module.cli()
 
     command = subprocess_run_mock.call_args.args[0]
@@ -67,6 +68,7 @@ def test_cli_without_generate_codemeta_keeps_default_behavior(monkeypatch, tmp_p
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
     monkeypatch.setattr("rsmetacheck.run_somef.subprocess.run", subprocess_run_mock)
 
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
     cli_module.cli()
 
     command = subprocess_run_mock.call_args.args[0]
@@ -95,6 +97,7 @@ def test_cli_skip_somef_bypasses_somef_execution(monkeypatch, tmp_path):
     )
     monkeypatch.setattr(cli_module, "ensure_somef_configured", ensure_somef_mock)
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -141,6 +144,7 @@ def test_cli_verbose_flag_passed_to_run_analysis(monkeypatch, tmp_path):
         ],
     )
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -163,8 +167,9 @@ def test_cli_verbose_defaults_to_false(monkeypatch, tmp_path):
             str(somef_file),
             "--skip-somef",
         ],
-    )
+    )  # test_cli_verbose_defaults_to_false
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -194,6 +199,7 @@ def test_cli_branch_passed_to_somef(monkeypatch, tmp_path):
     monkeypatch.setattr(cli_module, "ensure_somef_configured", lambda: True)
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
     monkeypatch.setattr("rsmetacheck.run_somef.subprocess.run", subprocess_run_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -224,6 +230,7 @@ def test_cli_threshold_passed_to_somef(monkeypatch, tmp_path):
     monkeypatch.setattr(cli_module, "ensure_somef_configured", lambda: True)
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
     monkeypatch.setattr("rsmetacheck.run_somef.subprocess.run", subprocess_run_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -252,6 +259,7 @@ def test_cli_notes_output_passed_to_run_analysis(monkeypatch, tmp_path):
         ],
     )
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -279,6 +287,7 @@ def test_cli_custom_pitfalls_output_dir(monkeypatch, tmp_path):
         ],
     )
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -306,6 +315,7 @@ def test_cli_custom_analysis_output_path(monkeypatch, tmp_path):
         ],
     )
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -333,6 +343,7 @@ def test_cli_custom_somef_output_dir(monkeypatch, tmp_path):
     monkeypatch.setattr(cli_module, "ensure_somef_configured", lambda: True)
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
     monkeypatch.setattr(cli_module, "run_somef_single", run_somef_single_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -358,6 +369,7 @@ def test_cli_input_url_triggers_run_somef_single(monkeypatch):
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
     monkeypatch.setattr(cli_module, "run_somef_single", run_somef_single_mock)
     monkeypatch.setattr(cli_module, "run_somef_batch", run_somef_batch_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -386,6 +398,7 @@ def test_cli_input_file_triggers_run_somef_batch(monkeypatch, tmp_path):
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
     monkeypatch.setattr(cli_module, "run_somef_single", run_somef_single_mock)
     monkeypatch.setattr(cli_module, "run_somef_batch", run_somef_batch_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -436,6 +449,7 @@ def test_cli_multiple_inputs_triggers_multiple_calls(monkeypatch, tmp_path):
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
     monkeypatch.setattr(cli_module, "run_somef_single", run_somef_single_mock)
     monkeypatch.setattr(cli_module, "run_somef_batch", run_somef_batch_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
@@ -505,6 +519,7 @@ def test_cli_config_profile_forwarded_to_run_analysis(monkeypatch, tmp_path):
     )
     monkeypatch.setattr(cli_module, "load_analysis_config", load_config_mock)
     monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
 
     cli_module.cli()
 
