@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.1 Comparison</title>
+    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.3 Comparison</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -94,7 +94,10 @@
         .cell-only-030 {
             background-color: #ffebee !important;
         }
-        .cell-only-031 {
+        .cell-only-033 {
+            background-color: #e8f5e9 !important;
+        }
+        .cell-new-033 {
             background-color: #e8f5e9 !important;
         }
         .cell-missing {
@@ -108,90 +111,26 @@
             max-width: 95%;
             margin: 40px auto 20px auto;
         }
-        .charts-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            max-width: 95%;
-            margin: 0 auto 40px auto;
-        }
-        .chart-box {
-            flex: 1 1 500px;
-            max-width: 700px;
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 16px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-        }
-        .chart-box h3 {
-            text-align: center;
-            color: #2c3e50;
-            margin: 0 0 12px 0;
-            font-size: 1.05em;
-        }
-        canvas { width: 100% !important; height: auto !important; }
     </style>
 </head>
 <body>
 
     <div class="nav">
-        <a href="index.html">&larr; Ground Truth Report</a>
+        <a href="home.html">&larr; Home</a>
+        <a href="index.html">Ground Truth Report</a>
+        <a href="charts.html">Charts</a>
     </div>
 
-    <h1>0.3.0 vs 0.3.1 &mdash; Comparison</h1>
+    <h1>0.3.0 vs 0.3.3 &mdash; Comparison</h1>
 
     <p style="text-align: center; color: #555; font-size: 0.95em; line-height: 1.5; max-width: 800px; margin: 0 auto 20px auto;">
         This page compares the detection results of RsMetaCheck version 0.3.0 and
-        version 0.3.1 on the ground truth dataset, highlighting improvements and
-        corrections in pitfall and warning detection across the 85 openAIRE
-        repositories.
+        version 0.3.3 across 150 repositories. What is highlighed in red is what was previously falsly flagged and fixed in the latest
+        release, and what is highlighted in green is what was not being detected in the ealier version of RSMetaCheck and fixed in the latest
+        release.
     </p>
 
     <p id="summary-text" style="text-align: center; color: #444; font-size: 1.05em; line-height: 1.4;"></p>
-
-    <hr class="section-divider">
-    <h2>0.3.0 Pitfall &amp; Warning Distribution</h2>
-
-    <div class="charts-row">
-        <div class="chart-box">
-            <h3>Pitfalls (P001&ndash;P019)</h3>
-            <canvas id="pitfallsChart030"></canvas>
-        </div>
-        <div class="chart-box">
-            <h3>Warnings (W001&ndash;W010)</h3>
-            <canvas id="warningsChart030"></canvas>
-        </div>
-    </div>
-
-    <hr class="section-divider">
-    <h2>0.3.1 Pitfall &amp; Warning Distribution</h2>
-
-    <div class="charts-row">
-        <div class="chart-box">
-            <h3>Pitfalls (P001&ndash;P019)</h3>
-            <canvas id="pitfallsChart031"></canvas>
-        </div>
-        <div class="chart-box">
-            <h3>Warnings (W001&ndash;W010)</h3>
-            <canvas id="warningsChart031"></canvas>
-        </div>
-    </div>
-
-    <hr class="section-divider">
-    <h2>The &ldquo;Before &amp; After&rdquo; Comparison</h2>
-
-    <div class="charts-row">
-        <div class="chart-box">
-            <h3>Pitfalls</h3>
-            <canvas id="groupedPitfallsChart"></canvas>
-        </div>
-        <div class="chart-box">
-            <h3>Warnings</h3>
-            <canvas id="groupedWarningsChart"></canvas>
-        </div>
-    </div>
 
     <hr class="section-divider">
     <h2>Repository-Level Comparison</h2>
@@ -204,37 +143,24 @@
                     <th>Code</th>
                     <th>0.3.0 Source</th>
                     <th>0.3.0 Description</th>
-                    <th>0.3.1 Source</th>
-                    <th>0.3.1 Description</th>
+                    <th>0.3.3 Source</th>
+                    <th>0.3.3 Description</th>
                 </tr>
             </thead>
         </table>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const cmpTable = document.querySelector('#comparisonTable');
 
             Promise.all([
-                fetch('summary_pitfalls_warnings.json').then(r => r.json()),
                 fetch('summary_0_3_0.json').then(r => r.json()),
-                fetch('summary_0_3_1.json').then(r => r.json())
+                fetch('summary_0_3_1.json').then(r => r.json()),
+                fetch('summary_pitfalls_warnings.json').then(r => r.json())
             ])
-            .then(([gtData, data030, data031]) => {
-                const gtNames = new Set();
-                for (const entry of Object.values(gtData)) {
-                    const url = (entry.url || '').replace(/\/$/, "").split("/");
-                    if (url.length >= 2) gtNames.add(url.slice(-2).join("/"));
-                }
-                const allThree = new Set(
-                    [...gtNames].filter(r => data030[r] && data031[r])
-                );
-
-                buildCharts(data030, '030');
-                buildCharts(data031, '031');
-                buildGroupedCharts(data030, data031);
-                buildComparisonTable(cmpTable, data030, data031, allThree);
+            .then(([data030, data033, gtData]) => {
+                buildComparisonTable(cmpTable, data030, data033, gtData);
             })
             .catch(err => {
                 console.error('Failed to load data:', err);
@@ -242,222 +168,31 @@
             });
         });
 
-        function buildCharts(data, version) {
-            const pitfallCounts = {};
-            const warningCounts = {};
-
-            for (const repoName of Object.keys(data)) {
-                const repo = data[repoName];
-                for (const code of Object.keys(repo.pitfalls || {})) {
-                    pitfallCounts[code] = (pitfallCounts[code] || 0) + 1;
-                }
-                for (const code of Object.keys(repo.warnings || {})) {
-                    warningCounts[code] = (warningCounts[code] || 0) + 1;
+        function buildComparisonTable(table, data030, data033, gtData) {
+            const gtCommitMap = {};
+            for (const entry of Object.values(gtData)) {
+                const url = (entry.url || '').replace(/\/$/, "").split("/");
+                if (url.length >= 2) {
+                    const name = url.slice(-2).join("/");
+                    gtCommitMap[name] = entry['commit ID'] || '';
                 }
             }
 
-            const sortedPitfalls = Object.keys(pitfallCounts).sort();
-            const sortedWarnings = Object.keys(warningCounts).sort();
+            const gtNames = new Set(Object.keys(gtCommitMap));
+            const commonRepos = new Set(
+                [...Object.keys(data030)].filter(r => data033[r] && gtNames.has(r))
+            );
 
-            const pitfallColor = version === '030'
-                ? { bg: 'rgba(192, 57, 43, 0.7)', border: '#c0392b' }
-                : { bg: 'rgba(46, 134, 193, 0.7)', border: '#2980b9' };
-            const warningColor = version === '030'
-                ? { bg: 'rgba(230, 126, 34, 0.7)', border: '#e67e22' }
-                : { bg: 'rgba(39, 174, 96, 0.7)', border: '#27ae60' };
-
-            new Chart(document.getElementById('pitfallsChart' + version), {
-                type: 'bar',
-                data: {
-                    labels: sortedPitfalls,
-                    datasets: [{
-                        label: 'Repositories affected',
-                        data: sortedPitfalls.map(c => pitfallCounts[c]),
-                        backgroundColor: pitfallColor.bg,
-                        borderColor: pitfallColor.border,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 1, precision: 0 },
-                            title: { display: true, text: 'Number of repositories' }
-                        },
-                        x: {
-                            title: { display: true, text: 'Pitfall code' }
-                        }
-                    }
-                }
-            });
-
-            new Chart(document.getElementById('warningsChart' + version), {
-                type: 'bar',
-                data: {
-                    labels: sortedWarnings,
-                    datasets: [{
-                        label: 'Repositories affected',
-                        data: sortedWarnings.map(c => warningCounts[c]),
-                        backgroundColor: warningColor.bg,
-                        borderColor: warningColor.border,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 1, precision: 0 },
-                            title: { display: true, text: 'Number of repositories' }
-                        },
-                        x: {
-                            title: { display: true, text: 'Warning code' }
-                        }
-                    }
-                }
-            });
-        }
-
-        function buildGroupedCharts(data030, data031) {
-            const allPitfallCodes = new Set();
-            const allWarningCodes = new Set();
-            const p030 = {}, p031 = {}, w030 = {}, w031 = {};
-
-            for (const repoName of Object.keys(data030)) {
-                const repo = data030[repoName];
-                for (const code of Object.keys(repo.pitfalls || {})) {
-                    allPitfallCodes.add(code);
-                    p030[code] = (p030[code] || 0) + 1;
-                }
-                for (const code of Object.keys(repo.warnings || {})) {
-                    allWarningCodes.add(code);
-                    w030[code] = (w030[code] || 0) + 1;
-                }
-            }
-            for (const repoName of Object.keys(data031)) {
-                const repo = data031[repoName];
-                for (const code of Object.keys(repo.pitfalls || {})) {
-                    allPitfallCodes.add(code);
-                    p031[code] = (p031[code] || 0) + 1;
-                }
-                for (const code of Object.keys(repo.warnings || {})) {
-                    allWarningCodes.add(code);
-                    w031[code] = (w031[code] || 0) + 1;
-                }
-            }
-
-            const sortedPitfalls = Array.from(allPitfallCodes).sort();
-            const sortedWarnings = Array.from(allWarningCodes).sort();
-
-            new Chart(document.getElementById('groupedPitfallsChart'), {
-                type: 'bar',
-                data: {
-                    labels: sortedPitfalls,
-                    datasets: [
-                        {
-                            label: '0.3.0',
-                            data: sortedPitfalls.map(c => p030[c] || 0),
-                            backgroundColor: 'rgba(192, 57, 43, 0.75)',
-                            borderColor: '#c0392b',
-                            borderWidth: 1
-                        },
-                        {
-                            label: '0.3.1',
-                            data: sortedPitfalls.map(c => p031[c] || 0),
-                            backgroundColor: 'rgba(46, 134, 193, 0.75)',
-                            borderColor: '#2980b9',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: { usePointStyle: true, padding: 16 }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 1, precision: 0 },
-                            title: { display: true, text: 'Number of repositories' }
-                        },
-                        x: {
-                            title: { display: true, text: 'Pitfall code' }
-                        }
-                    }
-                }
-            });
-
-            new Chart(document.getElementById('groupedWarningsChart'), {
-                type: 'bar',
-                data: {
-                    labels: sortedWarnings,
-                    datasets: [
-                        {
-                            label: '0.3.0',
-                            data: sortedWarnings.map(c => w030[c] || 0),
-                            backgroundColor: 'rgba(230, 126, 34, 0.75)',
-                            borderColor: '#e67e22',
-                            borderWidth: 1
-                        },
-                        {
-                            label: '0.3.1',
-                            data: sortedWarnings.map(c => w031[c] || 0),
-                            backgroundColor: 'rgba(39, 174, 96, 0.75)',
-                            borderColor: '#27ae60',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: { usePointStyle: true, padding: 16 }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { stepSize: 1, precision: 0 },
-                            title: { display: true, text: 'Number of repositories' }
-                        },
-                        x: {
-                            title: { display: true, text: 'Warning code' }
-                        }
-                    }
-                }
-            });
-        }
-
-        function buildComparisonTable(table, data030, data031, allThree) {
             for (const repoName of Object.keys(data030).sort()) {
                 const r030 = data030[repoName];
-                const r031 = data031[repoName];
-                if (!r031) continue;
-                if (!allThree.has(repoName)) continue;
+                const r033 = data033[repoName];
+                if (!r033) continue;
+                if (!commonRepos.has(repoName)) continue;
 
-                const codes030 = Object.assign(
-                    {}, r030.pitfalls || {}, r030.warnings || {}
-                );
-                const codes031 = Object.assign(
-                    {}, r031.pitfalls || {}, r031.warnings || {}
-                );
+                const codes030 = Object.assign({}, r030.pitfalls || {}, r030.warnings || {});
+                const codes033 = Object.assign({}, r033.pitfalls || {}, r033.warnings || {});
                 const allCodes = Array.from(
-                    new Set([...Object.keys(codes030), ...Object.keys(codes031)])
+                    new Set([...Object.keys(codes030), ...Object.keys(codes033)])
                 ).sort((a, b) => {
                     const ta = a.startsWith('P') ? 0 : 1;
                     const tb = b.startsWith('P') ? 0 : 1;
@@ -468,13 +203,14 @@
                 if (allCodes.length === 0) continue;
 
                 const tbody = document.createElement('tbody');
-                const url = r030.url || r031.url;
+                const url = r030.url || r033.url;
+                const isNew033 = !gtCommitMap[repoName];
 
                 allCodes.forEach((code, i) => {
                     const entry030 = codes030[code];
-                    const entry031 = codes031[code];
-                    const only030 = entry030 && !entry031;
-                    const only031 = entry031 && !entry030;
+                    const entry033 = codes033[code];
+                    const only030 = entry030 && !entry033;
+                    const only033 = entry033 && !entry030;
                     const type = code.startsWith('P') ? 'p' : 'w';
 
                     const tr = document.createElement('tr');
@@ -488,6 +224,7 @@
                         aRepo.target = '_blank';
                         tdRepo.appendChild(aRepo);
                         tdRepo.rowSpan = allCodes.length;
+                        if (isNew033) tdRepo.classList.add('cell-new-033');
                         tr.appendChild(tdRepo);
                     }
 
@@ -501,8 +238,8 @@
                     const cellDefs = [
                         { data: entry030, key: 'source_file', ver: only030 ? '030' : '' },
                         { data: entry030, key: 'description', ver: only030 ? '030' : '' },
-                        { data: entry031, key: 'source_file', ver: only031 ? '031' : '' },
-                        { data: entry031, key: 'description', ver: only031 ? '031' : '' }
+                        { data: entry033, key: 'source_file', ver: only033 ? '033' : '' },
+                        { data: entry033, key: 'description', ver: only033 ? '033' : '' }
                     ];
 
                     for (const { data, key, ver } of cellDefs) {
@@ -514,7 +251,7 @@
                             td.classList.add('cell-missing');
                         }
                         if (ver === '030') td.classList.add('cell-only-030');
-                        if (ver === '031') td.classList.add('cell-only-031');
+                        if (ver === '033') td.classList.add('cell-only-033');
                         tr.appendChild(td);
                     }
 

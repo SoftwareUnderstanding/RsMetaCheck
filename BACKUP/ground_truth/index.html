@@ -81,7 +81,7 @@
         .cell-only-030 {
             background-color: #ffebee !important;
         }
-        .cell-only-033 {
+        .cell-only-032 {
             background-color: #e8f5e9 !important;
         }
         .cell-missing {
@@ -111,7 +111,6 @@
             padding: 6px 14px;
             border: 1px solid #3498db;
             border-radius: 4px;
-            margin: 0 6px;
         }
         .nav a:hover {
             background-color: #3498db;
@@ -122,17 +121,13 @@
 <body>
 
     <div class="nav">
-        <a href="home.html">&larr; Home</a>
-        <a href="comparison.html">0.3.0 vs 0.3.3 Comparison &rarr;</a>
-        <a href="charts.html">Charts</a>
+        <a href="comparison.html">0.3.0 vs 0.3.1 Comparison &rarr;</a>
     </div>
 
     <h1>Ground Truth Report</h1>
     
     <p style="text-align: center; color: #555; font-size: 0.95em; line-height: 1.5; max-width: 800px; margin: 0 auto 20px auto;">
-        This ground truth study evaluated sample of 150 software repositories from 
-        <a href="https://github.com/TheOSSci/InnovationSprint2025_Extending_Software_Metadata">InnovationSprint2025</a>
-        and a small sample from openAIRE from the original 1500 repositories.
+        This ground truth study evaluated 84 software repositories from the openAIRE graph.
         All repositories contain a <code>codemeta.json</code> file and were examined across
         multiple metadata sources including package manifests (e.g., <code>setup.py</code>,
         <code>package.json</code>, <code>DESCRIPTION</code>), citation files
@@ -163,10 +158,9 @@
             Promise.all([
                 fetch('summary_pitfalls_warnings.json').then(r => r.json()),
                 fetch('summary_0_3_0.json').then(r => r.json()),
-                fetch('summary_0_3_1.json').then(r => r.json()),
-                fetch('summary_0_3_3.json').then(r => r.json())
+                fetch('summary_0_3_1.json').then(r => r.json())
             ])
-            .then(([gtData, data030, data031, data033]) => {
+            .then(([gtData, data030, data031]) => {
                 const gtNames = new Set();
                 for (const entry of Object.values(gtData)) {
                     const url = (entry.url || '').replace(/\/$/, "").split("/");
@@ -176,7 +170,7 @@
                     [...gtNames].filter(r => data030[r] && data031[r])
                 );
 
-                buildGroundTruthTable(gtTable, gtData, data030, data031, data033, allThree);
+                buildGroundTruthTable(gtTable, gtData, data030, data031, allThree);
             })
             .catch(err => {
                 console.error('Failed to load data:', err);
@@ -184,7 +178,7 @@
             });
         });
 
-        function buildGroundTruthTable(table, gtData, data030, data031, data033, allThree) {
+        function buildGroundTruthTable(table, gtData, data030, data031, allThree) {
             for (const [repoId, repoData] of Object.entries(gtData)) {
                 const url = repoData.url || 'Unknown URL';
                 const repoName = url.replace(/\/$/, "").split("/").slice(-2).join("/");
@@ -193,18 +187,15 @@
 
                 const r030 = data030[repoName] || {};
                 const r031 = data031[repoName] || {};
-                const r033 = data033[repoName] || {};
-                const isNew033 = !repoData['commit ID'];
 
                 const matchedPitfalls = {};
                 for (const [code, info] of Object.entries(repoData.pitfalls || {})) {
                     const r031Code = r031.pitfalls && r031.pitfalls[code];
                     const r030Code = r030.pitfalls && r030.pitfalls[code];
-                    const r033Code = r033.pitfalls && r033.pitfalls[code];
-                    if (r031Code || r030Code || r033Code) {
+                    if (r031Code || r030Code) {
                         const gtInfo = { source_file: info.source_file, description: info.description };
                         if (gtInfo.source_file === 'Metadata files (codemeta.json, setup.py, pom.xml etc...)') {
-                            const resCode = r031Code || r030Code || r033Code;
+                            const resCode = r031Code || r030Code;
                             if (resCode && resCode.source_file) {
                                 gtInfo.source_file = resCode.source_file;
                             }
@@ -218,11 +209,10 @@
                     if (code === 'W003') continue;
                     const r031Code = r031.warnings && r031.warnings[code];
                     const r030Code = r030.warnings && r030.warnings[code];
-                    const r033Code = r033.warnings && r033.warnings[code];
-                    if (r031Code || r030Code || r033Code) {
+                    if (r031Code || r030Code) {
                         const gtInfo = { source_file: info.source_file, description: info.description };
                         if (gtInfo.source_file === 'Metadata files (codemeta.json, setup.py, pom.xml etc...)') {
-                            const resCode = r031Code || r030Code || r033Code;
+                            const resCode = r031Code || r030Code;
                             if (resCode && resCode.source_file) {
                                 gtInfo.source_file = resCode.source_file;
                             }
@@ -241,11 +231,11 @@
                 let isFirstContext = true;
 
                 for (const [code, info] of pEntries) {
-                    addGTRow(tbody, url, repoName, code, info, 'p', isFirstContext, totalRows, repoData, isNew033);
+                    addGTRow(tbody, url, repoName, code, info, 'p', isFirstContext, totalRows, repoData, allThree);
                     isFirstContext = false;
                 }
                 for (const [code, info] of wEntries) {
-                    addGTRow(tbody, url, repoName, code, info, 'w', isFirstContext, totalRows, repoData, isNew033);
+                    addGTRow(tbody, url, repoName, code, info, 'w', isFirstContext, totalRows, repoData, allThree);
                     isFirstContext = false;
                 }
 
@@ -253,7 +243,7 @@
             }
         }
 
-        function addGTRow(tbody, url, repoName, code, info, type, isFirstContext, totalRows, repoData, isNew033) {
+        function addGTRow(tbody, url, repoName, code, info, type, isFirstContext, totalRows, repoData, allThree) {
             const tr = document.createElement('tr');
 
             if (isFirstContext) {
@@ -265,7 +255,6 @@
                 aRepo.target = '_blank';
                 tdRepo.appendChild(aRepo);
                 tdRepo.rowSpan = totalRows;
-                if (isNew033) tdRepo.classList.add('cell-only-033');
                 tr.appendChild(tdRepo);
 
                 const tdCommit = document.createElement('td');
@@ -282,12 +271,9 @@
                     aCommit.target = '_blank';
                     tdCommit.appendChild(aCommit);
                 } else {
-                    tdCommit.textContent = 'TBD';
-                    tdCommit.style.fontStyle = 'italic';
-                    tdCommit.style.color = '#999';
+                    tdCommit.textContent = 'Unknown';
                 }
                 tdCommit.rowSpan = totalRows;
-                if (isNew033) tdCommit.classList.add('cell-only-033');
                 tr.appendChild(tdCommit);
             }
 
