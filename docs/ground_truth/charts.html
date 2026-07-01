@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.3 Charts</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            margin: 0;
+            padding: 20px;
+        }
+        .nav {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.95em;
+            padding: 6px 14px;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            margin: 0 6px;
+        }
+        .nav a:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h1 { margin-bottom: 10px; }
+        h2 { margin-bottom: 20px; }
+        .charts-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 95%;
+            margin: 0 auto 40px auto;
+        }
+        .chart-box {
+            flex: 1 1 500px;
+            max-width: 700px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+        .chart-box h3 {
+            text-align: center;
+            color: #2c3e50;
+            margin: 0 0 12px 0;
+            font-size: 1.05em;
+        }
+        .section-divider {
+            border: none;
+            border-top: 3px solid #e0e0e0;
+            max-width: 95%;
+            margin: 40px auto 20px auto;
+        }
+        canvas { width: 100% !important; height: auto !important; }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <a href="home.html">&larr; Home</a>
+        <a href="index.html">Ground Truth Report</a>
+        <a href="comparison.html">Version Comparison</a>
+    </div>
+
+    <h1>0.3.0 vs 0.3.3 &mdash; Charts</h1>
+
+    <p style="text-align: center; color: #555; font-size: 0.95em; line-height: 1.5; max-width: 800px; margin: 0 auto 20px auto;">
+        Pitfall and warning detection distributions across 150 repositories evaluated by
+        RsMetaCheck versions 0.3.0 and 0.3.3.
+    </p>
+
+    <hr class="section-divider">
+    <h2>0.3.0 Pitfall &amp; Warning Distribution</h2>
+
+    <div class="charts-row">
+        <div class="chart-box">
+            <h3>Pitfalls (P001&ndash;P019)</h3>
+            <canvas id="pitfallsChart030"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Warnings (W001&ndash;W010)</h3>
+            <canvas id="warningsChart030"></canvas>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+    <h2>0.3.3 Pitfall &amp; Warning Distribution</h2>
+
+    <div class="charts-row">
+        <div class="chart-box">
+            <h3>Pitfalls (P001&ndash;P019)</h3>
+            <canvas id="pitfallsChart033"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Warnings (W001&ndash;W010)</h3>
+            <canvas id="warningsChart033"></canvas>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+    <h2>0.3.0 vs 0.3.3 &mdash; Side-by-Side</h2>
+
+    <div class="charts-row">
+        <div class="chart-box">
+            <h3>Pitfalls</h3>
+            <canvas id="groupedPitfallsChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Warnings</h3>
+            <canvas id="groupedWarningsChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            Promise.all([
+                fetch('summary_0_3_0.json').then(r => r.json()),
+                fetch('summary_0_3_1.json').then(r => r.json())
+            ])
+            .then(([data030, data033]) => {
+                buildDistribution(data030, '030', {
+                    p: 'rgba(192, 57, 43, 0.7)', pBorder: '#c0392b',
+                    w: 'rgba(230, 126, 34, 0.7)', wBorder: '#e67e22'
+                });
+                buildDistribution(data033, '033', {
+                    p: 'rgba(142, 68, 173, 0.7)', pBorder: '#8e44ad',
+                    w: 'rgba(41, 128, 185, 0.7)', wBorder: '#2980b9'
+                });
+                buildGrouped(data030, data033);
+            })
+            .catch(err => {
+                console.error('Failed to load data:', err);
+            });
+        });
+
+        function buildDistribution(data, version, colors) {
+            const pitfallCounts = {};
+            const warningCounts = {};
+
+            for (const repoName of Object.keys(data)) {
+                const repo = data[repoName];
+                for (const code of Object.keys(repo.pitfalls || {})) {
+                    pitfallCounts[code] = (pitfallCounts[code] || 0) + 1;
+                }
+                for (const code of Object.keys(repo.warnings || {})) {
+                    warningCounts[code] = (warningCounts[code] || 0) + 1;
+                }
+            }
+
+            const sortedPitfalls = Object.keys(pitfallCounts).sort();
+            const sortedWarnings = Object.keys(warningCounts).sort();
+
+            new Chart(document.getElementById('pitfallsChart' + version), {
+                type: 'bar',
+                data: {
+                    labels: sortedPitfalls,
+                    datasets: [{
+                        label: 'Repositories affected',
+                        data: sortedPitfalls.map(c => pitfallCounts[c]),
+                        backgroundColor: colors.p,
+                        borderColor: colors.pBorder,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 }, title: { display: true, text: 'Number of repositories' } },
+                        x: { title: { display: true, text: 'Pitfall code' } }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('warningsChart' + version), {
+                type: 'bar',
+                data: {
+                    labels: sortedWarnings,
+                    datasets: [{
+                        label: 'Repositories affected',
+                        data: sortedWarnings.map(c => warningCounts[c]),
+                        backgroundColor: colors.w,
+                        borderColor: colors.wBorder,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 }, title: { display: true, text: 'Number of repositories' } },
+                        x: { title: { display: true, text: 'Warning code' } }
+                    }
+                }
+            });
+        }
+
+        function buildGrouped(data030, data033) {
+            const allPitfallCodes = new Set();
+            const allWarningCodes = new Set();
+            const p030 = {}, p033 = {}, w030 = {}, w033 = {};
+
+            for (const repoName of Object.keys(data030)) {
+                const repo = data030[repoName];
+                for (const code of Object.keys(repo.pitfalls || {})) {
+                    allPitfallCodes.add(code);
+                    p030[code] = (p030[code] || 0) + 1;
+                }
+                for (const code of Object.keys(repo.warnings || {})) {
+                    allWarningCodes.add(code);
+                    w030[code] = (w030[code] || 0) + 1;
+                }
+            }
+            for (const repoName of Object.keys(data033)) {
+                const repo = data033[repoName];
+                for (const code of Object.keys(repo.pitfalls || {})) {
+                    allPitfallCodes.add(code);
+                    p033[code] = (p033[code] || 0) + 1;
+                }
+                for (const code of Object.keys(repo.warnings || {})) {
+                    allWarningCodes.add(code);
+                    w033[code] = (w033[code] || 0) + 1;
+                }
+            }
+
+            const sortedPitfalls = Array.from(allPitfallCodes).sort();
+            const sortedWarnings = Array.from(allWarningCodes).sort();
+
+            new Chart(document.getElementById('groupedPitfallsChart'), {
+                type: 'bar',
+                data: {
+                    labels: sortedPitfalls,
+                    datasets: [
+                        {
+                            label: '0.3.0',
+                            data: sortedPitfalls.map(c => p030[c] || 0),
+                            backgroundColor: 'rgba(192, 57, 43, 0.75)',
+                            borderColor: '#c0392b',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '0.3.3',
+                            data: sortedPitfalls.map(c => p033[c] || 0),
+                            backgroundColor: 'rgba(142, 68, 173, 0.75)',
+                            borderColor: '#8e44ad',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 }, title: { display: true, text: 'Number of repositories' } },
+                        x: { title: { display: true, text: 'Pitfall code' } }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('groupedWarningsChart'), {
+                type: 'bar',
+                data: {
+                    labels: sortedWarnings,
+                    datasets: [
+                        {
+                            label: '0.3.0',
+                            data: sortedWarnings.map(c => w030[c] || 0),
+                            backgroundColor: 'rgba(230, 126, 34, 0.75)',
+                            borderColor: '#e67e22',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '0.3.3',
+                            data: sortedWarnings.map(c => w033[c] || 0),
+                            backgroundColor: 'rgba(41, 128, 185, 0.75)',
+                            borderColor: '#2980b9',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 }, title: { display: true, text: 'Number of repositories' } },
+                        x: { title: { display: true, text: 'Warning code' } }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

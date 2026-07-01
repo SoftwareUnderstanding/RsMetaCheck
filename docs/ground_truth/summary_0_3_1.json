@@ -28,25 +28,6 @@
       }
     }
   },
-  "CardiacModelling/protocol-design-hERG": {
-    "url": "https://github.com/CardiacModelling/protocol-design-hERG",
-    "pitfalls": {
-      "P016": {
-        "source_file": "",
-        "description": "the correct URL is https://github.com/CardiacModelling/protocol-design-hERG, and the one found in codemeta.json is https://github.com/SALib/SALib"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "requirements.txt",
-        "description": "contains software requirements without versions: pints, myokit"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2016-10-18T00:00:00' is outdated compared to repository date '2025-07-10T09:56:55'"
-      }
-    }
-  },
   "ComputationalBiomechanicsLab/opensim-creator": {
     "url": "https://github.com/ComputationalBiomechanicsLab/opensim-creator",
     "pitfalls": {
@@ -99,29 +80,6 @@
       }
     }
   },
-  "Duke-GCB/calrissian": {
-    "url": "https://github.com/Duke-GCB/calrissian",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '0.16.0' does not match release version '0.18.1'"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "pyproject.toml",
-        "description": "contains software requirements without versions: hatchling"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2023-10-23T00:00:00' is outdated compared to repository date '2026-02-12T01:16:54'"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: Python"
-      }
-    }
-  },
   "EDIorg/ecocomDP": {
     "url": "https://github.com/EDIorg/ecocomDP",
     "pitfalls": {
@@ -134,53 +92,6 @@
       "W001": {
         "source_file": "DESCRIPTION",
         "description": "contains software requirements without versions: RColorBrewer, data.table, dplyr, geosphere, ggplot2, httr, lubridate, magrittr, methods, rlang, rmarkdown, stats, stringr, tidyr, tools, utils, uuid, xml2, neonOS"
-      }
-    }
-  },
-  "ElektraInitiative/libelektra": {
-    "url": "https://github.com/ElektraInitiative/libelektra",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json; package.json; pom.xml",
-        "description": "version '0.8.17' does not match release version '0.10.0'; version '2.0.0' does not match release version '0.10.0'; version '0.0.1-SNAPSHOT' does not match release version '0.10.0'"
-      },
-      "P006": {
-        "source_file": "package.json",
-        "description": "License points to local file instead of license name: 'SEE LICENSE IN ../../../LICENSE.md'"
-      },
-      "P009": {
-        "source_file": "setup.py",
-        "description": "codeRepository points to homepage instead of repository: https://www.libelektra.org"
-      },
-      "P013": {
-        "source_file": "codemeta.json",
-        "description": "License does not specify version: 'BSD'"
-      },
-      "P016": {
-        "source_file": "",
-        "description": "the correct URL is https://github.com/ElektraInitiative/libelektra, and the one found in codemeta.json is https://www.libelektra.org"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '0.8.17' does not match version '2.0.0' in package.json"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "package.json",
-        "description": "contains software requirements without versions: wheel"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2016-07-23T00:00:00' is outdated compared to repository date '2026-05-11T09:01:19'"
-      },
-      "W007": {
-        "source_file": "codemeta.json",
-        "description": "identifier field is empty or missing"
-      },
-      "W010": {
-        "source_file": "package.json",
-        "description": "codeRepository uses Git shorthand instead of full URL: 'github:ElektraInitiative/libelektra'"
       }
     }
   },
@@ -311,28 +222,6 @@
       "W001": {
         "source_file": "pyproject.toml",
         "description": "contains software requirements without versions: numpy, scipy, ipython, matplotlib, sphinx, nbsphinx, python_docs_theme"
-      }
-    }
-  },
-  "LanguageMachines/foliautils": {
-    "url": "https://github.com/LanguageMachines/foliautils",
-    "pitfalls": {},
-    "warnings": {
-      "W001": {
-        "source_file": "codemeta.json",
-        "description": "contains software requirements without versions: icu, libxml2, ticcutils, libfolia"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: C++"
-      },
-      "W006": {
-        "source_file": "metadata files",
-        "description": "Identifier is a name instead of valid unique identifier: 'foliautils'"
-      },
-      "W009": {
-        "source_file": "codemeta.json",
-        "description": "developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
       }
     }
   },
@@ -527,16 +416,6 @@
       }
     }
   },
-  "Pakillo/grateful": {
-    "url": "https://github.com/Pakillo/grateful",
-    "pitfalls": {},
-    "warnings": {
-      "W001": {
-        "source_file": "DESCRIPTION",
-        "description": "contains software requirements without versions: desc, knitr, remotes, renv, rmarkdown, rstudioapi, utils"
-      }
-    }
-  },
   "ParaStation/psmpi": {
     "url": "https://github.com/ParaStation/psmpi",
     "pitfalls": {
@@ -644,74 +523,6 @@
       }
     }
   },
-  "Unknown": {
-    "url": "https://gricad-gitlab.univ-grenoble-alpes.fr/bidegarb/nautil",
-    "pitfalls": {},
-    "warnings": {
-      "W001": {
-        "source_file": "codemeta.json",
-        "description": "contains software requirements without versions: Maple"
-      },
-      "W004": {
-        "source_file": "",
-        "description": "Programming languages in metadata do not have version specifications"
-      }
-    }
-  },
-  "aaronmck/Badread": {
-    "url": "https://github.com/aaronmck/Badread",
-    "pitfalls": {
-      "P002": {
-        "source_file": "LICENSE",
-        "description": "file contains unreplaced template placeholders"
-      },
-      "P013": {
-        "source_file": "codemeta.json",
-        "description": "License does not specify version: 'GPL v3.0'"
-      },
-      "P016": {
-        "source_file": "",
-        "description": "the correct URL is https://github.com/aaronmck/Badread, and the one found in codemeta.json is https://github.com/rrwick/Badread"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "requirements.txt",
-        "description": "contains software requirements without versions: edlib, numpy, matplotlib, scipy"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2019-03-01T00:00:00' is outdated compared to repository date '2021-11-20T03:09:52'"
-      },
-      "W007": {
-        "source_file": "codemeta.json",
-        "description": "identifier field is empty or missing"
-      }
-    }
-  },
-  "ajpelu/likelihoodTools": {
-    "url": "https://github.com/ajpelu/likelihoodTools",
-    "pitfalls": {
-      "P002": {
-        "source_file": "LICENSE",
-        "description": "file contains unreplaced template placeholders"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '0.1.0' does not match version '1.0.0' in DESCRIPTION"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "DESCRIPTION",
-        "description": "contains software requirements without versions: dplyr, ggplot2, rlang"
-      },
-      "W003": {
-        "source_file": "",
-        "description": "Repository has multiple licenses but metadata files only lists one. Found in: https://raw.githubusercontent.com/ajpelu/likelihoodTools/e0d8fdb5b69d27a641ffc4731e8c2e5b6a21b67c/LICENSE.md"
-      }
-    }
-  },
   "amd/mumps-build": {
     "url": "https://github.com/amd/mumps-build",
     "pitfalls": {
@@ -734,33 +545,6 @@
       "W001": {
         "source_file": "pyproject.toml",
         "description": "contains software requirements without versions: wheel"
-      }
-    }
-  },
-  "aravind-j/EvaluateCore": {
-    "url": "https://github.com/aravind-j/EvaluateCore",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json; codemeta.json; DESCRIPTION",
-        "description": "version '0.1.3.9000' does not match release version 'CRAN_0.1.4'; version '0.1.3.9000' does not match release version 'CRAN_0.1.4'; version '0.1.4.9000' does not match release version 'CRAN_0.1.4'"
-      },
-      "P009": {
-        "source_file": "DESCRIPTION",
-        "description": "codeRepository points to homepage instead of repository: https://github.com/aravind-j/EvaluateCore\n     https://CRAN.R-project.org/package=EvaluateCore\n     https://aravind-j.github.io/EvaluateCore/\n     https://doi.org/10.5281/zenodo.3875930"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '0.1.3.9000' does not match version '0.1.4.9000' in DESCRIPTION"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "DESCRIPTION",
-        "description": "contains software requirements without versions: agricolae, boot, car, cluster, dplyr, entropy, ggcorrplot, ggplot2, ggtext, grDevices, gridExtra, kSamples, mathjaxr, missMDA, psych, reshape2, Rdpack, stats, tibble, vegan"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: R"
       }
     }
   },
@@ -806,41 +590,6 @@
       }
     }
   },
-  "bernd-mueller/snoke": {
-    "url": "https://github.com/bernd-mueller/snoke",
-    "pitfalls": {
-      "P001": {
-        "source_file": "pom.xml",
-        "description": "version '1.0-SNAPSHOT' does not match release version '1.1'"
-      },
-      "P013": {
-        "source_file": "codemeta.json",
-        "description": "License does not specify version: 'https://spdx.org/licenses/CC-BY-NC-SA-4.0'"
-      },
-      "P014": {
-        "source_file": "codemeta.json",
-        "description": "Identifier uses bare DOI instead of full URL: '10.5281/zenodo.4680086\t'"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '1.1' does not match version '1.0-SNAPSHOT' in pom.xml"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "codemeta.json",
-        "description": "contains software requirements without versions: Java 8"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2021-02-19T00:00:00' is outdated compared to repository date '2026-02-06T13:12:05'"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: Java"
-      }
-    }
-  },
   "bioconductor-source/treeio": {
     "url": "https://github.com/bioconductor-source/treeio",
     "pitfalls": {
@@ -854,40 +603,6 @@
         "source_file": "DESCRIPTION",
         "description": "contains software requirements without versions: ape, ape, dplyr, dplyr, jsonlite, jsonlite, magrittr, magrittr, methods, methods, rlang, stats, tibble, tibble, utils, rvcheck"
       },
-      "W004": {
-        "source_file": "",
-        "description": "Programming languages in metadata do not have version specifications"
-      }
-    }
-  },
-  "brmanuel/calliope": {
-    "url": "https://github.com/brmanuel/calliope",
-    "pitfalls": {
-      "P009": {
-        "source_file": "setup.py",
-        "description": "codeRepository points to homepage instead of repository: https://www.callio.pe/"
-      },
-      "P016": {
-        "source_file": "",
-        "description": "the correct URL is https://github.com/brmanuel/calliope, and the one found in codemeta.json is https://github.com/calliope-project/calliope"
-      }
-    },
-    "warnings": {
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2018-06-04T00:00:00' is outdated compared to repository date '2022-11-23T01:55:35'"
-      }
-    }
-  },
-  "c-torre/replication-recanatesi-2015": {
-    "url": "https://github.com/c-torre/replication-recanatesi-2015",
-    "pitfalls": {
-      "P002": {
-        "source_file": "LICENSE",
-        "description": "file contains unreplaced template placeholders"
-      }
-    },
-    "warnings": {
       "W004": {
         "source_file": "",
         "description": "Programming languages in metadata do not have version specifications"
@@ -909,29 +624,6 @@
       "W004": {
         "source_file": "codemeta.json",
         "description": "Programming languages without versions: Bash, Make"
-      }
-    }
-  },
-  "capstone-insper/drone-swarm-search": {
-    "url": "https://github.com/capstone-insper/drone-swarm-search",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '1.0.3' does not match release version '0.2.6'"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "package.json",
-        "description": "contains software requirements without versions: wheel, h5py, xarray, python-dotenv"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2024-04-25T00:00:00' is outdated compared to repository date '2026-05-15T17:16:03'"
-      },
-      "W007": {
-        "source_file": "codemeta.json",
-        "description": "identifier field is empty or missing"
       }
     }
   },
@@ -987,56 +679,6 @@
       "W009": {
         "source_file": "codemeta.json",
         "description": "developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
-      }
-    }
-  },
-  "dbbs-lab/bsb": {
-    "url": "https://github.com/dbbs-lab/bsb",
-    "pitfalls": {
-      "P001": {
-        "source_file": "pyproject.toml",
-        "description": "version '1.0.0' does not match release version '7.3.1'"
-      },
-      "P002": {
-        "source_file": "LICENSE",
-        "description": "file contains unreplaced template placeholders"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '7.3.1' does not match version '1.0.0' in pyproject.toml"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "codemeta.json",
-        "description": "contains software requirements without versions: hatchling"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2026-04-16T00:00:00' is outdated compared to repository date '2026-05-05T18:14:57'"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: Python"
-      }
-    }
-  },
-  "dynamicslab/pysindy": {
-    "url": "https://github.com/dynamicslab/pysindy",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '1.2.3' does not match release version '2.1.0'"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "pyproject.toml",
-        "description": "contains software requirements without versions: scipy, typing_extensions, setuptools, setuptools-scm"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2021-10-21T00:00:00' is outdated compared to repository date '2026-05-21T17:35:55'"
       }
     }
   },
@@ -1161,25 +803,6 @@
       }
     }
   },
-  "geospace-code/pymap3d": {
-    "url": "https://github.com/geospace-code/pymap3d",
-    "pitfalls": {
-      "P014": {
-        "source_file": "codemeta.json",
-        "description": "Identifier uses bare DOI instead of full URL: '10.21105/joss.00580'"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "pyproject.toml",
-        "description": "contains software requirements without versions: wheel"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: Python"
-      }
-    }
-  },
   "grycap/im-client": {
     "url": "https://github.com/grycap/im-client",
     "pitfalls": {
@@ -1196,34 +819,6 @@
       "W001": {
         "source_file": "pyproject.toml",
         "description": "contains software requirements without versions: radl, netaddr, requests"
-      }
-    }
-  },
-  "iljah/hdintegrator": {
-    "url": "https://github.com/iljah/hdintegrator",
-    "pitfalls": {},
-    "warnings": {}
-  },
-  "instatdealii/idealii": {
-    "url": "https://github.com/instatdealii/idealii",
-    "pitfalls": {
-      "P008": {
-        "source_file": "codemeta.json",
-        "description": "Software requirements contain invalid URLs: www.github.com/dealii/dealii"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "codemeta.json",
-        "description": "contains software requirements without versions: www.github.com/dealii/dealii"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2024-08-15T00:00:00' is outdated compared to repository date '2025-10-13T13:52:44'"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: C++, CMake, Hack"
       }
     }
   },
@@ -1249,29 +844,6 @@
       "W001": {
         "source_file": "requirements.txt",
         "description": "contains software requirements without versions: fiona, pandas, wheel, autodocsumm, dask[array], esgf-pyclient, humanfriendly, importlib_resources, isodate, jinja2, netCDF4, numpy, pillow, prov, pybtex, pyyaml, scipy, shapely[vectorized], yamale"
-      }
-    }
-  },
-  "khinsen/MMTK": {
-    "url": "https://github.com/khinsen/MMTK",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '2.7.13' does not match release version 'rel2.7.13'"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "codemeta.json",
-        "description": "contains software requirements without versions: https://numpy.org/, https://github.com/khinsen/ScientificPython/"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2023-02-17T00:00:00' is outdated compared to repository date '2025-12-09T04:15:15'"
-      },
-      "W004": {
-        "source_file": "",
-        "description": "Programming languages in metadata do not have version specifications"
       }
     }
   },
@@ -1324,16 +896,6 @@
       }
     }
   },
-  "mdstephenserdc/network_representativeness": {
-    "url": "https://github.com/mdstephenserdc/network_representativeness",
-    "pitfalls": {
-      "P002": {
-        "source_file": "LICENSE",
-        "description": "file contains unreplaced template placeholders"
-      }
-    },
-    "warnings": {}
-  },
   "megasanjay/testrepository": {
     "url": "https://github.com/megasanjay/testrepository",
     "pitfalls": {},
@@ -1362,66 +924,6 @@
       }
     }
   },
-  "mikldk/mitolina": {
-    "url": "https://github.com/mikldk/mitolina",
-    "pitfalls": {
-      "P002": {
-        "source_file": "LICENSE",
-        "description": "file contains unreplaced template placeholders"
-      },
-      "P013": {
-        "source_file": "codemeta.json",
-        "description": "License does not specify version: 'GPL v2.0'"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "DESCRIPTION",
-        "description": "contains software requirements without versions: methods"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2019-02-18T00:00:00' is outdated compared to repository date '2022-01-19T12:39:43'"
-      },
-      "W007": {
-        "source_file": "codemeta.json",
-        "description": "identifier field is empty or missing"
-      }
-    }
-  },
-  "ms609/Quartet": {
-    "url": "https://github.com/ms609/Quartet",
-    "pitfalls": {},
-    "warnings": {
-      "W001": {
-        "source_file": "DESCRIPTION",
-        "description": "contains software requirements without versions: ape, lifecycle, PlotTools, viridisLite"
-      },
-      "W006": {
-        "source_file": "metadata files",
-        "description": "Identifier is a name instead of valid unique identifier: 'Quartet'"
-      }
-    }
-  },
-  "ms609/TreeDist": {
-    "url": "https://github.com/ms609/TreeDist",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json; DESCRIPTION",
-        "description": "version '2.14.0.9000' does not match release version '2.14.0'; version '2.14.0.9000' does not match release version '2.14.0'"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "DESCRIPTION",
-        "description": "contains software requirements without versions: stats, colorspace, shiny, shinyjs"
-      },
-      "W006": {
-        "source_file": "metadata files",
-        "description": "Identifier is a name instead of valid unique identifier: 'TreeDist'"
-      }
-    }
-  },
   "ms609/TreeSearch": {
     "url": "https://github.com/ms609/TreeSearch",
     "pitfalls": {
@@ -1438,25 +940,6 @@
       "W006": {
         "source_file": "metadata files",
         "description": "Identifier is a name instead of valid unique identifier: 'TreeSearch'"
-      }
-    }
-  },
-  "munich-quantum-toolkit/core": {
-    "url": "https://github.com/munich-quantum-toolkit/core",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '3.0.0' does not match release version '3.6.1'"
-      }
-    },
-    "warnings": {
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2024-11-07T00:00:00' is outdated compared to repository date '2026-05-21T12:30:23'"
-      },
-      "W007": {
-        "source_file": "codemeta.json",
-        "description": "identifier field is empty or missing"
       }
     }
   },
@@ -1531,56 +1014,6 @@
       }
     }
   },
-  "phreppo/bait": {
-    "url": "https://github.com/phreppo/bait",
-    "pitfalls": {
-      "P002": {
-        "source_file": "LICENSE",
-        "description": "file contains unreplaced template placeholders"
-      },
-      "P016": {
-        "source_file": "",
-        "description": "the correct URL is https://github.com/phreppo/bait, and the one found in codemeta.json is git+https://github.com/parof/bait"
-      }
-    },
-    "warnings": {
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2021-04-26T00:00:00' is outdated compared to repository date '2022-05-17T04:25:30'"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: Java"
-      }
-    }
-  },
-  "proycon/colibri-core": {
-    "url": "https://github.com/proycon/colibri-core",
-    "pitfalls": {
-      "P002": {
-        "source_file": "LICENSE",
-        "description": "file contains unreplaced template placeholders"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "pyproject.toml",
-        "description": "contains software requirements without versions: wheel, Cython"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: C++, Cython"
-      },
-      "W006": {
-        "source_file": "metadata files",
-        "description": "Identifier is a name instead of valid unique identifier: 'colibricore'"
-      },
-      "W009": {
-        "source_file": "codemeta.json",
-        "description": "developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
-      }
-    }
-  },
   "r-spatialecology/landscapemetrics": {
     "url": "https://github.com/r-spatialecology/landscapemetrics",
     "pitfalls": {
@@ -1604,39 +1037,6 @@
       }
     }
   },
-  "rOpenGov/r311": {
-    "url": "https://github.com/rOpenGov/r311",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '0.4.3' does not match release version '0.4.4'"
-      },
-      "P010": {
-        "source_file": "LICENSE",
-        "description": "file only contains copyright information without actual license terms"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '0.4.3' does not match version '0.4.4' in DESCRIPTION"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "DESCRIPTION",
-        "description": "contains software requirements without versions: curl, jsonlite, tools, utils"
-      }
-    }
-  },
-  "rcsb/py-rcsbsearchapi": {
-    "url": "https://github.com/rcsb/py-rcsbsearchapi",
-    "pitfalls": {},
-    "warnings": {
-      "W001": {
-        "source_file": "requirements.txt",
-        "description": "contains software requirements without versions: tqdm"
-      }
-    }
-  },
   "riatelab/tanaka": {
     "url": "https://github.com/riatelab/tanaka",
     "pitfalls": {},
@@ -1646,86 +1046,6 @@
         "description": "contains software requirements without versions: terra, sf, mapiso, maplegend, grDevices, graphics"
       }
     }
-  },
-  "rism-digital/verovio": {
-    "url": "https://github.com/rism-digital/verovio",
-    "pitfalls": {
-      "P001": {
-        "source_file": "pyproject.toml",
-        "description": "version '0.1.0' does not match release version 'ersion-6.2.0'"
-      },
-      "P009": {
-        "source_file": "setup.py",
-        "description": "codeRepository points to homepage instead of repository: https://www.verovio.org"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '6.3.0-dev' does not match version '0.1.0' in pyproject.toml"
-      }
-    },
-    "warnings": {
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: C++, Python, JavaScript, Java"
-      },
-      "W006": {
-        "source_file": "metadata files",
-        "description": "Identifier is a name instead of valid unique identifier: 'Verovio'"
-      }
-    }
-  },
-  "ropensci/CoordinateCleaner": {
-    "url": "https://github.com/ropensci/CoordinateCleaner",
-    "pitfalls": {
-      "P001": {
-        "source_file": "DESCRIPTION; codemeta.json",
-        "description": "version '3.0.1' does not match release version '2.0-4'; version '2.0.20' does not match release version '2.0-4'"
-      },
-      "P008": {
-        "source_file": "codemeta.json",
-        "description": "Software requirements contain invalid URLs: https://sysreqs.r-hub.io/get/gdal"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '2.0.20' does not match version '3.0.1' in DESCRIPTION"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "DESCRIPTION",
-        "description": "contains software requirements without versions: dplyr, dplyr, geosphere, geosphere, ggplot2, ggplot2, graphics, graphics, grDevices, grDevices, methods, methods, rgbif, rgbif, stats, stats, terra, tidyselect, tidyselect, utils, utils, raster, rgeos, rgdal, rnaturalearth, sp, https://sysreqs.r-hub.io/get/gdal, https://sysreqs.r-hub.io/get/libgdal"
-      },
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: R"
-      },
-      "W006": {
-        "source_file": "metadata files",
-        "description": "Identifier is a name instead of valid unique identifier: 'CoordinateCleaner'"
-      },
-      "W009": {
-        "source_file": "codemeta.json",
-        "description": "developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
-      }
-    }
-  },
-  "ropensci/USAboundariesData": {
-    "url": "https://github.com/ropensci/USAboundariesData",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '0.5.0' does not match release version '0.5.1'"
-      },
-      "P013": {
-        "source_file": "DESCRIPTION",
-        "description": "License does not specify version: 'CC BY-NC-SA 4.0'"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version '0.5.0' does not match version '0.5.1' in DESCRIPTION"
-      }
-    },
-    "warnings": {}
   },
   "ropensci/geojson": {
     "url": "https://github.com/ropensci/geojson",
@@ -1807,16 +1127,6 @@
       }
     }
   },
-  "sje30/rescience-hor": {
-    "url": "https://github.com/sje30/rescience-hor",
-    "pitfalls": {},
-    "warnings": {
-      "W004": {
-        "source_file": "codemeta.json",
-        "description": "Programming languages without versions: R"
-      }
-    }
-  },
   "sorokinvld/LLFn": {
     "url": "https://github.com/sorokinvld/LLFn",
     "pitfalls": {},
@@ -1824,33 +1134,6 @@
       "W001": {
         "source_file": "pyproject.toml",
         "description": "contains software requirements without versions: poetry-core"
-      }
-    }
-  },
-  "sourmash-bio/sourmash": {
-    "url": "https://github.com/sourmash-bio/sourmash",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '1.0.0' does not match release version '4.9.4'"
-      },
-      "P017": {
-        "source_file": "codemeta.json",
-        "description": "version 'v1.0.0' does not match version '4.9.5-dev' in pyproject.toml"
-      }
-    },
-    "warnings": {
-      "W001": {
-        "source_file": "pyproject.toml",
-        "description": "contains software requirements without versions: numpy, matplotlib, scipy, cffi, -e .[all]"
-      },
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2016-06-07T00:00:00' is outdated compared to repository date '2026-05-18T20:38:45'"
-      },
-      "W007": {
-        "source_file": "codemeta.json",
-        "description": "identifier field is empty or missing"
       }
     }
   },
@@ -2002,25 +1285,6 @@
       }
     }
   },
-  "vc1492a/PyNomaly": {
-    "url": "https://github.com/vc1492a/PyNomaly",
-    "pitfalls": {
-      "P001": {
-        "source_file": "codemeta.json",
-        "description": "version '0.2.0' does not match release version '0.3.5'"
-      }
-    },
-    "warnings": {
-      "W002": {
-        "source_file": "metadata files",
-        "description": "dateModified '2018-05-07T00:00:00' is outdated compared to repository date '2026-05-16T16:32:24'"
-      },
-      "W007": {
-        "source_file": "codemeta.json",
-        "description": "identifier field is empty or missing"
-      }
-    }
-  },
   "viznuv/transforEmotion": {
     "url": "https://github.com/viznuv/transforEmotion",
     "pitfalls": {
@@ -2066,5 +1330,1428 @@
         "description": "identifier field is empty or missing"
       }
     }
+  },
+  "Duke-GCB/calrissian": {
+    "url": "https://github.com/Duke-GCB/calrissian",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.16.0' does not match release version '0.18.1'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "pyproject.toml",
+        "description": "W001 detected: pyproject.toml contains software requirements without versions: hatchling"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2023-10-23T00:00:00' is outdated compared to repository date '2026-06-24T14:23:37'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Python"
+      }
+    }
+  },
+  "aravind-j/EvaluateCore": {
+    "url": "https://github.com/aravind-j/EvaluateCore",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.1.5', codemeta.json version '0.1.5' and DESCRIPTION version '0.1.5.900' does not match release version 'CRAN_0.1.5'"
+      },
+      "P009": {
+        "source_file": "DESCRIPTION",
+        "description": "P009 detected: DESCRIPTION codeRepository points to homepage instead of repository: https://github.com/aravind-j/EvaluateCore\n     https://CRAN.R-project.org/package=EvaluateCore\n     https://aravind-j.github.io/EvaluateCore/\n     https://doi.org/10.5281/zenodo.3875930"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '0.1.5' does not match DESCRIPTION version '0.1.5.900'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: agricolae, boot, car, cluster, dplyr, entropy, ggcorrplot, ggplot2, ggtext, grDevices, gridExtra, kSamples, mathjaxr, missMDA, psych, reshape2, Rdpack, stats, tibble, vegan"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "ms609/Quartet": {
+    "url": "https://github.com/ms609/Quartet",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: ape, PlotTools"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W006": {
+        "source_file": "metadata files",
+        "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'Quartet'"
+      }
+    }
+  },
+  "rOpenGov/r311": {
+    "url": "https://github.com/rOpenGov/r311",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.4.3' does not match release version '0.4.4'"
+      },
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '0.4.3' does not match DESCRIPTION version '0.4.4'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: curl, jsonlite, tools, utils"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "A-Klingenberg/VIPER": {
+    "url": "https://github.com/A-Klingenberg/VIPER",
+    "pitfalls": {
+      "P014": {
+        "source_file": "codemeta.json",
+        "description": "P014 detected: codemeta.json Identifier uses bare DOI instead of full URL: '10.1089/cmb.2024.0866'"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-03-27T00:00:00' is outdated compared to repository date '2025-05-15T15:50:26'"
+      }
+    }
+  },
+  "AI4LAM/awesome-ai4lam": {
+    "url": "https://github.com/AI4LAM/awesome-ai4lam",
+    "pitfalls": {
+      "P016": {
+        "source_file": "",
+        "description": "P016 detected: the correct URL is https://github.com/AI4LAM/awesome-ai4lam, and the ones found in codemeta.json are mismatched: codemeta.json: https://github.com/mhucka/awesome-ai4lam"
+      }
+    },
+    "warnings": {
+      "W003": {
+        "source_file": "README.md",
+        "description": "W003 detected: Repository has multiple licenses but metadata files only lists one. Found in: https://raw.githubusercontent.com/AI4LAM/awesome-ai4lam/main/README.md"
+      }
+    }
+  },
+  "AgrDataSci/gosset": {
+    "url": "https://github.com/AgrDataSci/gosset",
+    "pitfalls": {
+      "P009": {
+        "source_file": "codemeta.json",
+        "description": "P009 detected: codemeta.json codeRepository points to homepage instead of repository: https://agrdatasci.github.io/gosset/"
+      },
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      },
+      "P016": {
+        "source_file": "",
+        "description": "P016 detected: the correct URL is https://github.com/AgrDataSci/gosset, and the ones found in codemeta.json are mismatched: codemeta.json: https://agrdatasci.github.io/gosset/"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: methods, BradleyTerry2, DescTools, ggplot2, ggparty, ggrepel, lifecycle, partykit, PlackettLuce, psychotools, qvcalc, stats, tidyr, utils, patchwork, parallel"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W006": {
+        "source_file": "metadata files",
+        "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'gosset'"
+      }
+    }
+  },
+  "CSCfi/PID-MS-API": {
+    "url": "https://github.com/CSCfi/PID-MS-API",
+    "pitfalls": {
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and pom.xml version '1.1.' does not match pom.xml version '1.1.7'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "pom.xml",
+        "description": "W001 detected: pom.xml contains software requirements without versions: quarkus-hibernate-orm-rest-data-panache, quarkus-jdbc-mariadb, quarkus-config-yaml, quarkus-resteasy-jackson, quarkus-agroal, quarkus-smallrye-health, quarkus-micrometer-registry-prometheus, quarkus-arc, quarkus-junit5, rest-assured, quarkus-smallrye-openapi"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2023-05-24T00:00:00' is outdated compared to repository date '2025-04-22T10:09:05'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Java"
+      }
+    }
+  },
+  "FC4E-CAT/fc4e-cat-ui": {
+    "url": "https://github.com/FC4E-CAT/fc4e-cat-ui",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '1.3.1' does not match release version '3.2.0'"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and package.json version '1.3.1' does not match package.json version '3.2.0'"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-09-11T00:00:00' is outdated compared to repository date '2025-09-23T11:10:28'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Typescript"
+      }
+    }
+  },
+  "INM-6/beaverdam": {
+    "url": "https://github.com/INM-6/beaverdam",
+    "pitfalls": {},
+    "warnings": {}
+  },
+  "IPBES-Data/IPBES.R": {
+    "url": "https://github.com/IPBES-Data/IPBES.R",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: DESCRIPTION version '0.4.2' and codemeta.json version '0.2.8' does not match release version '0.4.0'"
+      },
+      "P016": {
+        "source_file": "",
+        "description": "P016 detected: the correct URL is https://github.com/IPBES-Data/IPBES.R, and the ones found in codemeta.json are mismatched: codemeta.json: https://github.com/rkrug/IPBES.R"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '0.2.8' does not match DESCRIPTION version '0.4.2'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: openalexR, dplyr, writexl, tidygraph, ggplot2, ggraph, networkD3, httr2, tibble, tidyterra, terra, countrycode, geodata, DT"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "JeffreyRStevens/cocoon": {
+    "url": "https://github.com/JeffreyRStevens/cocoon",
+    "pitfalls": {
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: cli, dplyr, lifecycle"
+      },
+      "W003": {
+        "source_file": "metadata files",
+        "description": "W003 detected: Repository has multiple licenses but metadata files only lists one. Found in: https://raw.githubusercontent.com/JeffreyRStevens/cocoon/main/LICENSE.md"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "JeremyGelb/geocmeans": {
+    "url": "https://github.com/JeremyGelb/geocmeans",
+    "pitfalls": {
+      "P001": {
+        "source_file": "DESCRIPTION",
+        "description": "P001 detected: DESCRIPTION version '0.3.4.1.9000' does not match release version '0.3.4'"
+      }
+    },
+    "warnings": {}
+  },
+  "LEEF-UZH/LEEF.archive.default": {
+    "url": "https://github.com/LEEF-UZH/LEEF.archive.default",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '1.0.0' and DESCRIPTION version '1.0.0' does not match release version '1.1.0'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: openssl, yaml"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "LEEF-UZH/LEEF.measurement.flowcam": {
+    "url": "https://github.com/LEEF-UZH/LEEF.measurement.flowcam",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '1.0.0' and DESCRIPTION version '1.0.0' does not match release version '1.1.0'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: data.table, yaml, utils, plyr, dplyr, purrr, magrittr, e1071, tidyselect, stats, loggit, randomForest"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "LanguageMachines/dimbl": {
+    "url": "https://github.com/LanguageMachines/dimbl",
+    "pitfalls": {},
+    "warnings": {}
+  },
+  "LanguageMachines/mbt": {
+    "url": "https://github.com/LanguageMachines/mbt",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "codemeta.json",
+        "description": "W001 detected: codemeta.json contains software requirements without versions: libxml2, ticcutils, timbl"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: C++"
+      },
+      "W006": {
+        "source_file": "metadata files",
+        "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'mbt'"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
+      }
+    }
+  },
+  "LanguageMachines/timbl": {
+    "url": "https://github.com/LanguageMachines/timbl",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "codemeta.json",
+        "description": "W001 detected: codemeta.json contains software requirements without versions: libxml2, ticcutils"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: C++"
+      },
+      "W006": {
+        "source_file": "metadata files",
+        "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'timbl'"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
+      }
+    }
+  },
+  "MITDDC/plnr-1971-1982": {
+    "url": "https://github.com/MITDDC/plnr-1971-1982",
+    "pitfalls": {},
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Micro-Planner"
+      }
+    }
+  },
+  "OneFineStarstuff/OneFineStarstuff.github.io": {
+    "url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io",
+    "pitfalls": {
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json, Dockerfile and package.json version '1.2.0' does not match metadata files version '1.0.0', package.json version '1.0.0', metadata files version '1.0.0'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "requirements.txt",
+        "description": "W001 detected: requirements.txt contains software requirements without versions: fastapi, uvicorn, torch, transformers, Pillow, whisper, ultralytics, pyttsx3, loguru, nest_asyncio, setuptools, wheel"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-12-18T00:00:00' is outdated compared to repository date '2026-06-23T06:29:43'"
+      }
+    }
+  },
+  "R-Lum/xlum": {
+    "url": "https://github.com/R-Lum/xlum",
+    "pitfalls": {
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: utils, methods"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W006": {
+        "source_file": "metadata files",
+        "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'xlum'"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.repostatus.org/#Concept"
+      }
+    }
+  },
+  "R3BRootGroup/frs": {
+    "url": "https://github.com/R3BRootGroup/frs",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version 'dec25' does not match release version 'jun26'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "codemeta.json",
+        "description": "W001 detected: codemeta.json contains software requirements without versions: FairRoot, FairSoft, R3BRoot"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2025-12-22T00:00:00' is outdated compared to repository date '2026-06-03T15:22:25'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: C, C++"
+      },
+      "W005": {
+        "source_file": "codemeta.json",
+        "description": "W005 detected: codemeta.json Multiple requirements written as single string: 'FairRoot, FairSoft, R3BRoot'"
+      }
+    }
+  },
+  "adamhsparks/ChickpeaAscoDispersal": {
+    "url": "https://github.com/adamhsparks/ChickpeaAscoDispersal",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: graphics, mgcViz"
+      },
+      "W003": {
+        "source_file": "README.md",
+        "description": "W003 detected: Repository has multiple licenses but metadata files only lists one. Found in: https://raw.githubusercontent.com/adamhsparks/ChickpeaAscoDispersal/master/README.md"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W006": {
+        "source_file": "metadata files",
+        "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'ChickpeaAscoDispersal'"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.tidyverse.org/lifecycle/#stable"
+      }
+    }
+  },
+  "adeverse/adephylo": {
+    "url": "https://github.com/adeverse/adephylo",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '1.1.17' does not match release version '1.1-17'"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '1.1.17' does not match DESCRIPTION version '1.1-17'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: methods, phylobase, ape, adegenet"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
+      }
+    }
+  },
+  "adrijmz/os_group_project": {
+    "url": "https://github.com/adrijmz/os_group_project",
+    "pitfalls": {
+      "P014": {
+        "source_file": "codemeta.json",
+        "description": "P014 detected: codemeta.json Identifier uses bare DOI instead of full URL: '10.5281/zenodo.11200165'"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-04-20T00:00:00' is outdated compared to repository date '2024-05-21T19:16:01'"
+      }
+    }
+  },
+  "amasson84/costcalc": {
+    "url": "https://github.com/amasson84/costcalc",
+    "pitfalls": {
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      },
+      "P014": {
+        "source_file": "codemeta.json",
+        "description": "P014 detected: CODEMETA.json Identifier uses bare DOI instead of full URL: '10.5281/zenodo.1469035'"
+      },
+      "P016": {
+        "source_file": "",
+        "description": "P016 detected: the correct URL is https://github.com/amasson84/costcalc, and the ones found in codemeta.json are mismatched: CODEMETA.json: https://github.com/epfllibrary/costcalc"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and package.json version '2.4' does not match package.json version '1.0.0'"
+      }
+    },
+    "warnings": {}
+  },
+  "aravind-j/rpcss": {
+    "url": "https://github.com/aravind-j/rpcss",
+    "pitfalls": {
+      "P009": {
+        "source_file": "DESCRIPTION",
+        "description": "P009 detected: DESCRIPTION codeRepository points to homepage instead of repository: https://github.com/aravind-j/rpcss\n   https://cran.r-project.org/package=rpcss\n   https://aravind-j.github.io/rpcss/\n   https://doi.org/10.5281/zenodo.14889174"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json, DESCRIPTION and CITATION.cff version '0.1.1' does not match DESCRIPTION version '0.1.1.9000', metadata files version '0.1.1.9000'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: dplyr, FactoMineR, ggplot2, ggrepel, gslnls, mathjaxr, methods, Rdpack, stats, tidyr, utils"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "atsyplenkov/rp5pik": {
+    "url": "https://github.com/atsyplenkov/rp5pik",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.0.2' does not match release version '0.0.2.2'"
+      },
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '0.0.2' does not match DESCRIPTION version '0.0.2.2'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: cli, dplyr, lifecycle, lubridate, purrr, rvest, stringr, terra, tibble, tidyr"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://lifecycle.r-lib.org/articles/stages.html#experimental"
+      }
+    }
+  },
+  "bihealth/vcfpy": {
+    "url": "https://github.com/bihealth/vcfpy",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.7.0' and pyproject.toml version '0.14.2' does not match release version '0.14.1'"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and pyproject.toml version 'v0.7.0' does not match pyproject.toml version '0.14.2'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "pyproject.toml",
+        "description": "W001 detected: pyproject.toml contains software requirements without versions: hatchling"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2016-09-28T00:00:00' is outdated compared to repository date '2026-04-25T08:19:41'"
+      }
+    }
+  },
+  "biogo/biogo": {
+    "url": "https://github.com/biogo/biogo",
+    "pitfalls": {
+      "P013": {
+        "source_file": "codemeta.json",
+        "description": "P013 detected: codemeta.json License does not specify version: 'BSD-3 like'"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2017-01-05T00:00:00' is outdated compared to repository date '2026-06-12T09:49:10'"
+      },
+      "W007": {
+        "source_file": "codemeta.json",
+        "description": "W007 detected: codemeta.json identifier field is empty or missing"
+      }
+    }
+  },
+  "boydorr/TraitExtraction.jl": {
+    "url": "https://github.com/boydorr/TraitExtraction.jl",
+    "pitfalls": {
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and Project.toml version 'v0.1.0' does not match Project.toml version '0.1.0'"
+      }
+    },
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: julia"
+      }
+    }
+  },
+  "caltechlibrary/irdm_harvester": {
+    "url": "https://github.com/caltechlibrary/irdm_harvester",
+    "pitfalls": {
+      "P008": {
+        "source_file": "requirements.txt",
+        "description": "P008 detected: requirements.txt Software requirements contain invalid URLs: https://github.com/caltechlibrary/dimcli@cris-auth"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "requirements.txt",
+        "description": "W001 detected: requirements.txt contains software requirements without versions: dimcli  @ git+https://github.com/caltechlibrary/dimcli@cris-auth"
+      }
+    }
+  },
+  "cetoolbox/cetoolbox": {
+    "url": "https://github.com/cetoolbox/cetoolbox",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '1.6.0' does not match release version '1.6.1'"
+      }
+    },
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Java"
+      }
+    }
+  },
+  "daliwang/kmELM": {
+    "url": "https://github.com/daliwang/kmELM",
+    "pitfalls": {},
+    "warnings": {}
+  },
+  "destination-earth/DestinE_ESA_GFTS": {
+    "url": "https://github.com/destination-earth/DestinE_ESA_GFTS",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "codemeta.json",
+        "description": "W001 detected: codemeta.json contains software requirements without versions: https://github.com/destination-earth/DestinE_ESA_GFTS/blob/main/.binder/environment.yml, chartpress, click, conda-lock"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: Programming languages in metadata do not have version specifications"
+      }
+    }
+  },
+  "donomii/quon-jupyter": {
+    "url": "https://github.com/donomii/quon-jupyter",
+    "pitfalls": {
+      "P013": {
+        "source_file": "codemeta.json",
+        "description": "P013 detected: codemeta.json License does not specify version: 'GPL v3.0'"
+      },
+      "P016": {
+        "source_file": "",
+        "description": "P016 detected: the correct URL is https://github.com/donomii/quon-jupyter, and the ones found in codemeta.json are mismatched: codemeta.json: https://github.com/gopherdata/gophernotes"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2017-12-13T00:00:00' is outdated compared to repository date '2020-12-22T00:42:25'"
+      },
+      "W007": {
+        "source_file": "codemeta.json",
+        "description": "W007 detected: codemeta.json identifier field is empty or missing"
+      }
+    }
+  },
+  "dutta-alankar/AstroPlasma": {
+    "url": "https://github.com/dutta-alankar/AstroPlasma",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "pyproject.toml",
+        "description": "W001 detected: pyproject.toml contains software requirements without versions: hatchling"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: C++"
+      }
+    }
+  },
+  "elipousson/bingmapr": {
+    "url": "https://github.com/elipousson/bingmapr",
+    "pitfalls": {
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: httr2, magick, sf, utils"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "elipousson/sharepointr": {
+    "url": "https://github.com/elipousson/sharepointr",
+    "pitfalls": {
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '0.1.0' does not match DESCRIPTION version '0.1.0.9000'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: AzureGraph, cli, glue, httr, httr2, lifecycle, Microsoft365R, rlang, stringr, utils, vctrs"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://lifecycle.r-lib.org/articles/stages.html#experimental"
+      }
+    }
+  },
+  "epfllibrary/costcalc": {
+    "url": "https://github.com/epfllibrary/costcalc",
+    "pitfalls": {
+      "P001": {
+        "source_file": "package.json",
+        "description": "P001 detected: package.json version '1.0.0' does not match release version '2.4'"
+      },
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      },
+      "P014": {
+        "source_file": "codemeta.json",
+        "description": "P014 detected: CODEMETA.json Identifier uses bare DOI instead of full URL: '10.5281/zenodo.1469035'"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and package.json version '2.4' does not match package.json version '1.0.0'"
+      }
+    },
+    "warnings": {}
+  },
+  "explore-platform/s-disco": {
+    "url": "https://github.com/explore-platform/s-disco",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "codemeta.json",
+        "description": "W001 detected: codemeta.json contains software requirements without versions: Visualiser"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2023-07-01T00:00:00' is outdated compared to repository date '2024-05-21T13:59:28'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Python, Java"
+      }
+    }
+  },
+  "fairdataihub/SODA-for-SPARC": {
+    "url": "https://github.com/fairdataihub/SODA-for-SPARC",
+    "pitfalls": {},
+    "warnings": {}
+  },
+  "fchuffar/gse2study": {
+    "url": "https://github.com/fchuffar/gse2study",
+    "pitfalls": {
+      "P016": {
+        "source_file": "",
+        "description": "P016 detected: the correct URL is https://github.com/fchuffar/gse2study, and the ones found in codemeta.json are mismatched: codemeta.json: https://github.com/fchuffar/ptlmapper"
+      }
+    },
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "fospald/heamd": {
+    "url": "https://github.com/fospald/heamd",
+    "pitfalls": {
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      },
+      "P013": {
+        "source_file": "codemeta.json",
+        "description": "P013 detected: codemeta.json License does not specify version: 'GPL'"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2018-10-02T00:00:00' is outdated compared to repository date '2025-04-21T09:24:58'"
+      },
+      "W007": {
+        "source_file": "codemeta.json",
+        "description": "W007 detected: codemeta.json identifier field is empty or missing"
+      }
+    }
+  },
+  "gabrielblain/SPIChanges": {
+    "url": "https://github.com/gabrielblain/SPIChanges",
+    "pitfalls": {
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: gamlss, gamlss.dist, lubridate, MuMIn, rlang, spsUtil, stats, brglm2, zoo"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "heuermh/sea-eagle": {
+    "url": "https://github.com/heuermh/sea-eagle",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.10', codemeta.json version '0.10' and pom.xml version '1.0-SNAPSHOT' does not match release version 'sea-eagle-0.10'"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and pom.xml version '0.10' does not match pom.xml version '1.0-SNAPSHOT'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "pom.xml",
+        "description": "W001 detected: pom.xml contains software requirements without versions: tamboui-toolkit, tamboui-jline3-backend, picocli, dsh-compress, duckdb_jdbc, slf4j-api, slf4j-simple, athena, guava"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2026-06-26T00:00:00' is outdated compared to repository date '2026-06-30T01:43:38'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Java"
+      }
+    }
+  },
+  "hykelvinlee42/RRLeo-Photometry": {
+    "url": "https://github.com/hykelvinlee42/RRLeo-Photometry",
+    "pitfalls": {
+      "P014": {
+        "source_file": "codemeta.json",
+        "description": "P014 detected: codemeta.json Identifier uses bare DOI instead of full URL: '10.5281/zenodo.8190781'"
+      }
+    },
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Python"
+      }
+    }
+  },
+  "interTwin-eu/dcnios": {
+    "url": "https://github.com/interTwin-eu/dcnios",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '1.0.0' and package.json version '0.0.0' does not match release version '0.0.1'"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and package.json version '1.0.0' does not match package.json version '0.0.0'"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-02-01T00:00:00' is outdated compared to repository date '2025-12-11T14:27:54'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Python"
+      },
+      "W007": {
+        "source_file": "codemeta.json",
+        "description": "W007 detected: codemeta.json identifier field is empty or missing"
+      }
+    }
+  },
+  "janelia-kicad/trinamic-wiring": {
+    "url": "https://github.com/janelia-kicad/trinamic-wiring",
+    "pitfalls": {},
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-07-31T00:00:00' is outdated compared to repository date '2025-05-14T07:09:57'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: KiCad"
+      }
+    }
+  },
+  "jimbrig/RPkg": {
+    "url": "https://github.com/jimbrig/RPkg",
+    "pitfalls": {
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: DBI, fs, glue, jsonlite, lubridate, plumber, pool, safer, sessioninfo, stringr, tibble, urltools, utils"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "justinbois/bebi103": {
+    "url": "https://github.com/justinbois/bebi103",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.1.28' does not match release version '0.1.26'"
+      },
+      "P013": {
+        "source_file": "setup.py",
+        "description": "P013 detected: setup.py License does not specify version: 'BSD'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "requirements.txt",
+        "description": "W001 detected: requirements.txt contains software requirements without versions: contourpy, numpy, numba, xarray, scipy, pandas, polars, tqdm, matplotlib, colorcet, holoviews"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Python"
+      }
+    }
+  },
+  "karthik/wesanderson": {
+    "url": "https://github.com/karthik/wesanderson",
+    "pitfalls": {
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      }
+    },
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "leonawicz/rtrek": {
+    "url": "https://github.com/leonawicz/rtrek",
+    "pitfalls": {
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: downloader, dplyr, ggplot2, jpeg, jsonlite, memoise, png, purrr, rvest, tibble, tidyr, xml2"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "lifewatch/eva": {
+    "url": "https://github.com/lifewatch/eva",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.0.1' does not match release version '0.1.0'"
+      }
+    },
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Python, R"
+      }
+    }
+  },
+  "lionandjelka/QhX1": {
+    "url": "https://github.com/lionandjelka/QhX1",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "requirements.txt",
+        "description": "W001 detected: requirements.txt contains software requirements without versions: numpy, pandas, scipy, scikit-learn, scikit-optimize, libwwz, colorednoise, tqdm, panel, hvplot, bokeh, datashader, pyarrow, dask[dataframe], traitlets, wheel"
+      }
+    }
+  },
+  "meng630/GMD_E3SM_SCM": {
+    "url": "https://github.com/meng630/GMD_E3SM_SCM",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "requirements.txt",
+        "description": "W001 detected: requirements.txt contains software requirements without versions: sphinx, sphinx_rtd_theme, nbsphinx, sphinx-reload"
+      }
+    }
+  },
+  "meng630/e3sm_maint-2.0": {
+    "url": "https://github.com/meng630/e3sm_maint-2.0",
+    "pitfalls": {},
+    "warnings": {}
+  },
+  "mikemahoney218/mvdf": {
+    "url": "https://github.com/mikemahoney218/mvdf",
+    "pitfalls": {
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "codemeta.json",
+        "description": "W001 detected: codemeta.json contains software requirements without versions: methods, rlang, glue, proceduralnames"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "mlr-org/mcboost": {
+    "url": "https://github.com/mlr-org/mcboost",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: DESCRIPTION version '0.4.4.9000' and codemeta.json version '0.4.0' does not match release version '0.4.3'"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '0.4.0' does not match DESCRIPTION version '0.4.4.9000'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: backports, rmarkdown, rpart, glmnet"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W006": {
+        "source_file": "metadata files",
+        "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'mcboost'"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://lifecycle.r-lib.org/articles/stages.html#experimental"
+      }
+    }
+  },
+  "mscroggs/pyfax": {
+    "url": "https://github.com/mscroggs/pyfax",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "pyproject.toml",
+        "description": "W001 detected: pyproject.toml contains software requirements without versions: requests, feedparser, sphinx-autoapi"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-02-06T00:00:00' is outdated compared to repository date '2025-02-13T11:09:23'"
+      },
+      "W007": {
+        "source_file": "codemeta.json",
+        "description": "W007 detected: codemeta.json identifier field is empty or missing"
+      }
+    }
+  },
+  "nkrofta/Topological-Groups": {
+    "url": "https://github.com/nkrofta/Topological-Groups",
+    "pitfalls": {},
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Isabelle"
+      }
+    }
+  },
+  "riatelab/cartography": {
+    "url": "https://github.com/riatelab/cartography",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: classInt, curl, graphics, methods, png, raster, Rcpp, sf, sp, stats, utils, grDevices"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      },
+      "W006": {
+        "source_file": "metadata files",
+        "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'cartography'"
+      }
+    }
+  },
+  "riatelab/flows": {
+    "url": "https://github.com/riatelab/flows",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: igraph, graphics, mapsf, utils, stats"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "ropensci/ReLTER": {
+    "url": "https://github.com/ropensci/ReLTER",
+    "pitfalls": {
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: dplyr, dtplyr, ggforce, ggspatial, geojsonsf, ggplot2, httr2, jqr, jsonlite, lifecycle, lubridate, magrittr, purrr, qrcode, utils, units, tibble, stringr, terra"
+      },
+      "W003": {
+        "source_file": "metadata files",
+        "description": "W003 detected: Repository has multiple licenses but metadata files only lists one. Found in: https://raw.githubusercontent.com/ropensci/ReLTER/main/LICENSE.md"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "ropensci/sofa": {
+    "url": "https://github.com/ropensci/sofa",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.4.0' does not match release version '0.4.1'"
+      },
+      "P010": {
+        "source_file": "LICENSE",
+        "description": "P010 detected: LICENSE file only contains copyright information without actual license terms"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '0.4.0' does not match DESCRIPTION version '0.4.1'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: mime"
+      },
+      "W009": {
+        "source_file": "codemeta.json",
+        "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: http://www.repostatus.org/#active"
+      }
+    }
+  },
+  "rreinecke/global-gradient-based-groundwater-model": {
+    "url": "https://github.com/rreinecke/global-gradient-based-groundwater-model",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '1.0.0' does not match release version '1.1'"
+      },
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      },
+      "P009": {
+        "source_file": "codemeta.json",
+        "description": "P009 detected: codemeta.json codeRepository points to homepage instead of repository: http://globalgroundwatermodel.org/"
+      },
+      "P013": {
+        "source_file": "codemeta.json",
+        "description": "P013 detected: codemeta.json License does not specify version: 'GPL v3.0'"
+      },
+      "P016": {
+        "source_file": "",
+        "description": "P016 detected: the correct URL is https://github.com/rreinecke/global-gradient-based-groundwater-model, and the ones found in codemeta.json are mismatched: codemeta.json: http://globalgroundwatermodel.org/"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2018-01-02T00:00:00' is outdated compared to repository date '2026-03-11T10:32:43'"
+      },
+      "W007": {
+        "source_file": "codemeta.json",
+        "description": "W007 detected: codemeta.json identifier field is empty or missing"
+      }
+    }
+  },
+  "rsdoiel/gameset": {
+    "url": "https://github.com/rsdoiel/gameset",
+    "pitfalls": {
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      }
+    },
+    "warnings": {
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: Go"
+      }
+    }
+  },
+  "slugb0t/FlaskBlog": {
+    "url": "https://github.com/slugb0t/FlaskBlog",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.1.2' and codemeta.json version '0.1.2' does not match release version '111.973987.123'"
+      },
+      "P014": {
+        "source_file": "codemeta.json",
+        "description": "P014 detected: codemeta.json Identifier uses bare DOI instead of full URL: '10.5281/zenodo.13942931'"
+      }
+    },
+    "warnings": {}
+  },
+  "usa-npn/rnpn": {
+    "url": "https://github.com/usa-npn/rnpn",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '1.4.0', codemeta.json version '1.4.0' and DESCRIPTION version '1.4.1.9000' does not match release version '1.4.1'"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and DESCRIPTION version '1.4.0' does not match DESCRIPTION version '1.4.1.9000'"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: dplyr, jsonlite, lifecycle, magrittr, readr, rlang, tibble, tidyr, xml2"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "vrineau/Agatta": {
+    "url": "https://github.com/vrineau/Agatta",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: codemeta.json version '0.8.1' does not match release version '1.0.2'"
+      },
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "codemeta.json",
+        "description": "W001 detected: codemeta.json contains software requirements without versions: https://github.com/vrineau/Agatta/blob/main/requirements.txt"
+      },
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-03-08T00:00:00' is outdated compared to repository date '2026-02-27T10:33:21'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: Programming languages in metadata do not have version specifications"
+      }
+    }
+  },
+  "willgryan/PAVER": {
+    "url": "https://github.com/willgryan/PAVER",
+    "pitfalls": {
+      "P001": {
+        "source_file": "codemeta.json",
+        "description": "P001 detected: DESCRIPTION version '0.0.0.9000' and codemeta.json version '0.0.0.9000' does not match release version 'pre-release'"
+      },
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      },
+      "P016": {
+        "source_file": "",
+        "description": "P016 detected: the correct URL is https://github.com/willgryan/PAVER, and the ones found in codemeta.json are mismatched: codemeta.json: https://github.com/AliSajid/PAVER"
+      }
+    },
+    "warnings": {
+      "W001": {
+        "source_file": "DESCRIPTION",
+        "description": "W001 detected: DESCRIPTION contains software requirements without versions: circlize, ComplexHeatmap, dplyr, dynamicTreeCut, forcats, ggplot2, ggplotify, ggprism, ggpubr, ggrepel, grid, magrittr, purrr, randomcoloR, rlang, smacof, stringr, tibble, tidyr, umap"
+      },
+      "W003": {
+        "source_file": "metadata files",
+        "description": "W003 detected: Repository has multiple licenses but metadata files only lists one. Found in: https://raw.githubusercontent.com/willgryan/PAVER/main/LICENSE.md"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: R"
+      }
+    }
+  },
+  "ybarborini/jdev-t5A02": {
+    "url": "https://github.com/ybarborini/jdev-t5A02",
+    "pitfalls": {
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      },
+      "P017": {
+        "source_file": "codemeta.json",
+        "description": "P017 detected: codemeta.json and bower.json version '1.0.0' does not match bower.json version '0.0.1'"
+      }
+    },
+    "warnings": {
+      "W002": {
+        "source_file": "metadata files",
+        "description": "W002 detected: metadata files dateModified '2024-10-10T00:00:00' is outdated compared to repository date '2024-11-22T13:47:13'"
+      },
+      "W004": {
+        "source_file": "codemeta.json",
+        "description": "W004 detected: codemeta.json Programming languages without versions: PHP, JS"
+      }
+    }
+  },
+  "ypwong22/ELM_SPRUCE": {
+    "url": "https://github.com/ypwong22/ELM_SPRUCE",
+    "pitfalls": {},
+    "warnings": {
+      "W001": {
+        "source_file": "requirements.txt",
+        "description": "W001 detected: requirements.txt contains software requirements without versions: numpy, xarray, zarr, netCDF4, cftime"
+      }
+    }
+  },
+  "zbmed-semtec/doc2vec-doc-relevance": {
+    "url": "https://github.com/zbmed-semtec/doc2vec-doc-relevance",
+    "pitfalls": {
+      "P002": {
+        "source_file": "LICENSE",
+        "description": "P002 detected: LICENSE file contains unreplaced template placeholders"
+      },
+      "P018": {
+        "source_file": "codemeta.json",
+        "description": "P018 detected: codemeta.json Identifier uses raw SWHID without resolvable URL: 'swh:1:dir:5939540bdda33571b0969e520360b80d98b2bf2b'"
+      }
+    },
+    "warnings": {}
   }
 }

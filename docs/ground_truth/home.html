@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RsMetaCheck Ground Truth</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            max-width: 700px;
+            padding: 40px 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        .subtitle {
+            color: #777;
+            font-size: 1.05em;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+        .card {
+            flex: 1 1 280px;
+            max-width: 340px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 28px 22px;
+            text-decoration: none;
+            color: inherit;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: box-shadow 0.2s, transform 0.15s;
+        }
+        .card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        .card h2 {
+            color: #2c3e50;
+            margin: 0 0 12px 0;
+            font-size: 1.2em;
+        }
+        .card p {
+            color: #666;
+            font-size: 0.92em;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .card .arrow {
+            display: inline-block;
+            margin-top: 12px;
+            color: #3498db;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.78em;
+            font-weight: 600;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .badge-new {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RsMetaCheck Study</h1>
+        <p class="subtitle">
+            This is an automated tool to detect metadata quality pitfalls in software repositories,
+            from version mismatches, license issues, broken URLs. To verify the performance of our tool
+            we made this study we are building a ground truth dataset that was manually annotated from evaluating a sample of 150 repositories 
+            from <a href="https://github.com/TheOSSci/InnovationSprint2025_Extending_Software_Metadata">InnovationSprint2025</a> and 
+            a small sample of openAIRE, then we tested RSMetaCheck across versions 0.3.0 and 0.3.3 with comparison to the ground truth that we established.
+        </p>
+        <div class="cards">
+            <a href="index.html" class="card">
+                <h2>Ground Truth Report</h2>
+                <p>Full pitfall and warning detection results from manual annotation across all 150 evaluated repositories.</p>
+                <span class="arrow">&rarr; View Report</span>
+            </a>
+            <a href="comparison.html" class="card">
+                <h2>Version Comparison</h2>
+                <p>Side-by-side repository-level comparison of pitfall and warning detection between 0.3.0 and 0.3.3.</p>
+                <span class="arrow">&rarr; View Comparison</span>
+            </a>
+            <a href="charts.html" class="card">
+                <h2>Charts</h2>
+                <p>Distribution charts and grouped comparison of pitfall and warning detection across 0.3.0 and 0.3.3.</p>
+                <span class="arrow">&rarr; View Charts</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
