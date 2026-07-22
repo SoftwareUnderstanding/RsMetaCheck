@@ -21,6 +21,8 @@ jobs:
           python-version: "3.11"
       - name: Install Poetry
         run: curl -sSL https://install.python-poetry.org | python3 -
+      - name: Check version consistency
+        run: python check_version.py
       - name: Update version
         run: python update_version.py
       - name: Install dependencies
