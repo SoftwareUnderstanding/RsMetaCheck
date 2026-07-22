@@ -21,13 +21,15 @@ def ensure_somef_configured():
     return True
 
 
-def run_somef(repo_url, output_file, threshold, branch=None, codemeta_file=None):
+def run_somef(repo_url, output_file, threshold, branch=None, codemeta_file=None, requirements_v=False):
     """Run SoMEF on a given repository and save results."""
     cmd = ["somef", "describe", "-r", repo_url, "-o", output_file, "-t", str(threshold)]
     if branch:
         cmd.extend(["-b", branch])
     if codemeta_file:
         cmd.extend(["-c", codemeta_file])
+    if requirements_v:
+        cmd.extend(["-v"])
     try:
         subprocess.run(cmd, check=True, capture_output=True, text=True)
         print(f"SoMEF finished for: {repo_url}")
@@ -36,6 +38,9 @@ def run_somef(repo_url, output_file, threshold, branch=None, codemeta_file=None)
         stderr = (e.stderr or "").strip()
         stdout = (e.stdout or "").strip()
         combined_output = "\n".join(part for part in [stderr, stdout] if part)
+
+        if combined_output:
+            print(combined_output)
 
         if "GitHub token lacks required permissions or scopes" in combined_output:
             print(
@@ -55,6 +60,7 @@ def run_somef_single(
     threshold=0.8,
     branch=None,
     generate_codemeta=False,
+    requirements_v=False,
 ):
     """Run SoMEF for a single repository."""
     os.makedirs(output_dir, exist_ok=True)
@@ -69,6 +75,7 @@ def run_somef_single(
         threshold,
         branch,
         codemeta_file=codemeta_file if generate_codemeta else None,
+        requirements_v=requirements_v,
     )
     return bool(success)
 
@@ -79,6 +86,7 @@ def run_somef_batch(
     threshold=0.8,
     branch=None,
     generate_codemeta=False,
+    requirements_v=False,
 ):
     """Run SoMEF for all repositories listed in a JSON file."""
     os.makedirs(output_dir, exist_ok=True)
@@ -108,6 +116,7 @@ def run_somef_batch(
             threshold,
             branch,
             codemeta_file=codemeta_file if generate_codemeta else None,
+            requirements_v=requirements_v,
         ):
             success_count += 1
 

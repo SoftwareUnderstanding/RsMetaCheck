@@ -107,7 +107,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                             "source": "repository/codemeta.json",
                             "technique": "code_parser",
                             "result": {
-                                "name": "JavaScript",
+                                "name": "Kotlin",
                                 "version": None
                             }
                         },
@@ -115,7 +115,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                             "source": "repository/codemeta.json",
                             "technique": "code_parser",
                             "result": {
-                                "name": "Java",
+                                "name": "Swift",
                                 "version": None
                             }
                         }
@@ -123,7 +123,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                 },
                 "test_repo.json",
                 True,
-                ["JavaScript", "Java"]
+                ["Kotlin", "Swift"]
         ),
 
         # All languages without versions (warning)
@@ -219,7 +219,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                             "source": "repository/codemeta.json",
                             "technique": "code_parser",
                             "result": {
-                                "name": "JavaScript",
+                                "name": "Kotlin",
                                 "version": None
                             }
                         }
@@ -227,7 +227,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                 },
                 "test_repo.json",
                 True,
-                ["JavaScript"]
+                ["Kotlin"]
         ),
 
         # Version field exists but is explicitly None
@@ -354,7 +354,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
         assert "source" in result
 
     @pytest.mark.parametrize("language_name", [
-        "Python", "JavaScript", "Java", "C++", "C", "Go",
+        "Python", "C++", "C", "Go",
         "Rust", "Ruby", "PHP", "Swift", "Kotlin", "R"
     ])
     def test_different_programming_languages(self, language_name):
@@ -386,7 +386,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                 {
                     "source": "repository/codemeta.json",
                     "technique": "code_parser",
-                    "result": {"name": "JavaScript", "version": None}
+                    "result": {"name": "Kotlin", "version": None}
                 },
                 {
                     "source": "repository/codemeta.json",
@@ -400,7 +400,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
         assert result["has_warning"] == True
         assert len(result["programming_languages_without_version"]) == 3
         assert "Python" in result["programming_languages_without_version"]
-        assert "JavaScript" in result["programming_languages_without_version"]
+        assert "Kotlin" in result["programming_languages_without_version"]
         assert "C++" in result["programming_languages_without_version"]
 
     def test_only_counts_null_versions_not_with_versions(self):
@@ -415,12 +415,12 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                 {
                     "source": "repository/codemeta.json",
                     "technique": "code_parser",
-                    "result": {"name": "JavaScript", "version": None}
+                    "result": {"name": "Kotlin", "version": None}
                 },
                 {
                     "source": "repository/codemeta.json",
                     "technique": "code_parser",
-                    "result": {"name": "Java", "version": "11"}
+                    "result": {"name": "Swift", "version": "5.9"}
                 }
             ]
         }
@@ -428,9 +428,9 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
         result = detect_programming_language_no_version_pitfall(somef_data, "test.json")
         assert result["has_warning"] == True
         assert len(result["programming_languages_without_version"]) == 1
-        assert "JavaScript" in result["programming_languages_without_version"]
+        assert "Kotlin" in result["programming_languages_without_version"]
         assert "Python" not in result["programming_languages_without_version"]
-        assert "Java" not in result["programming_languages_without_version"]
+        assert "Swift" not in result["programming_languages_without_version"]
 
     def test_source_is_set_from_last_entry(self):
         """Test that source is set from entries (last one wins)"""
@@ -444,7 +444,7 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                 {
                     "source": "repository/codemeta.json",
                     "technique": "code_parser",
-                    "result": {"name": "JavaScript", "version": None}
+                    "result": {"name": "Kotlin", "version": None}
                 }
             ]
         }
@@ -549,6 +549,23 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
                 "technique": "code_parser",
                 "result": {
                     "name": "Python3",
+                    "version": None
+                }
+            }]
+        }
+
+        result = detect_programming_language_no_version_pitfall(somef_data, "test.json")
+        assert result["has_warning"] == False
+
+    @pytest.mark.parametrize("language_name", ["JavaScript", "Java", "XSLT"])
+    def test_non_versioned_languages_not_flagged(self, language_name):
+        """JavaScript, Java, and XSLT should not be flagged even without version."""
+        somef_data = {
+            "programming_languages": [{
+                "source": "repository/codemeta.json",
+                "technique": "code_parser",
+                "result": {
+                    "name": language_name,
                     "version": None
                 }
             }]

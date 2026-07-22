@@ -1,6 +1,12 @@
 import re
 from typing import Dict
 
+NON_VERSIONED_LANGUAGES = {
+    "HTML", "CSS", "Shell", "Makefile",
+    "Dockerfile", "Batchfile", "PowerShell", "CMake",
+    "JavaScript", "Java", "XSLT",
+}
+
 
 def _name_contains_version(name: str) -> bool:
     return bool(re.search(r"\d", name))
@@ -45,11 +51,7 @@ def detect_programming_language_no_version_pitfall(somef_data: Dict, file_name: 
                             if isinstance(lang_name, str) and _name_contains_version(lang_name):
                                 continue
 
-                            non_versioned_languages = {
-                                "HTML", "CSS", "Shell", "Makefile",
-                                "Dockerfile", "Batchfile", "PowerShell", "CMake",
-                            }
-                            if isinstance(lang_name, str) and lang_name in non_versioned_languages:
+                            if isinstance(lang_name, str) and lang_name in NON_VERSIONED_LANGUAGES:
                                 continue
 
                             result["programming_languages_without_version"].append(lang_name)
@@ -69,8 +71,11 @@ def detect_programming_language_no_version_pitfall(somef_data: Dict, file_name: 
 
                         if "version" not in result_data or result_data.get("version") is None:
                             req_name = result_data.get("value", result_data.get("name", "Unknown"))
+
+                            if isinstance(req_name, str) and req_name in NON_VERSIONED_LANGUAGES:
+                                continue
+
                             result["requirements_without_version"].append(req_name)
                             result["source"] = source
-                            result["has_warning"] = True
 
     return result

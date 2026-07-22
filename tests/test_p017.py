@@ -264,7 +264,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
                     0
             ),
 
-            # Mismatched versions (pitfall)
+            # Mismatched versions (pitfall - patch diff > 2)
             (
                     {
                         "version": [
@@ -276,7 +276,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
                             {
                                 "source": "repository/setup.py",
                                 "technique": "code_parser",
-                                "result": {"value": "1.0.1"}
+                                "result": {"value": "1.0.3"}
                             }
                         ]
                     },
@@ -286,7 +286,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
                     1
             ),
 
-            # Multiple mismatched versions
+            # Multiple mismatched versions (major version diffs)
             (
                     {
                         "version": [
@@ -298,12 +298,12 @@ class TestDetectCodemetaVersionMismatchPitfall:
                             {
                                 "source": "repository/setup.py",
                                 "technique": "code_parser",
-                                "result": {"value": "1.0.1"}
+                                "result": {"value": "2.0.0"}
                             },
                             {
                                 "source": "repository/package.json",
                                 "technique": "code_parser",
-                                "result": {"value": "1.0.2"}
+                                "result": {"value": "3.0.0"}
                             }
                         ]
                     },
@@ -313,7 +313,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
                     2
             ),
 
-            # Mixed matching and mismatched
+            # Mixed matching and mismatched (minor diff)
             (
                     {
                         "version": [
@@ -330,7 +330,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
                             {
                                 "source": "repository/package.json",
                                 "technique": "code_parser",
-                                "result": {"value": "1.0.1"}
+                                "result": {"value": "1.5.0"}
                             }
                         ]
                     },
@@ -362,7 +362,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
                     0
             ),
 
-            # Whitespace in mismatch
+            # Whitespace in mismatch (major diff)
             (
                     {
                         "version": [
@@ -374,7 +374,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
                             {
                                 "source": "repository/setup.py",
                                 "technique": "code_parser",
-                                "result": {"value": "1.0.1"}
+                                "result": {"value": "2.0.0"}
                             }
                         ]
                     },
@@ -432,7 +432,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
         assert result["has_pitfall"] is True
 
     def test_version_with_prefix(self):
-        """Test versions with v prefix are treated as different"""
+        """Test versions with v prefix are normalized and match."""
         somef_data = {
             "version": [
                 {
@@ -449,7 +449,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
         }
 
         result = detect_codemeta_version_mismatch_pitfall(somef_data, "test.json")
-        assert result["has_pitfall"] is True
+        assert result["has_pitfall"] is False
 
     def test_case_sensitive_versions(self):
         """Test that version comparison is case sensitive"""
@@ -483,7 +483,7 @@ class TestDetectCodemetaVersionMismatchPitfall:
                 {
                     "source": "repository/setup.py",
                     "technique": "code_parser",
-                    "result": {"value": "1.0.1"}
+                    "result": {"value": "2.0.0"}
                 },
                 {
                     "source": "repository/package.json",
@@ -497,6 +497,146 @@ class TestDetectCodemetaVersionMismatchPitfall:
         assert result["has_pitfall"] is True
         assert len(result["other_versions"]) == 2
         assert len(result["mismatched_versions"]) == 1
+
+    def test_patch_diff_1_tolerated(self):
+        """Patch version difference of 1 should not be flagged."""
+        somef_data = {
+            "version": [
+                {
+                    "source": "repository/codemeta.json",
+                    "technique": "code_parser",
+                    "result": {"value": "1.4.25"}
+                },
+                {
+                    "source": "repository/pom.xml",
+                    "technique": "code_parser",
+                    "result": {"value": "1.4.26"}
+                }
+            ]
+        }
+
+        result = detect_codemeta_version_mismatch_pitfall(somef_data, "test.json")
+        assert result["has_pitfall"] is False
+
+    def test_patch_diff_2_tolerated(self):
+        """Patch version difference of 2 should not be flagged."""
+        somef_data = {
+            "version": [
+                {
+                    "source": "repository/codemeta.json",
+                    "technique": "code_parser",
+                    "result": {"value": "1.4.25"}
+                },
+                {
+                    "source": "repository/pom.xml",
+                    "technique": "code_parser",
+                    "result": {"value": "1.4.27"}
+                }
+            ]
+        }
+
+        result = detect_codemeta_version_mismatch_pitfall(somef_data, "test.json")
+        assert result["has_pitfall"] is False
+
+    def test_patch_diff_3_flagged(self):
+        """Patch version difference of 3 should be flagged."""
+        somef_data = {
+            "version": [
+                {
+                    "source": "repository/codemeta.json",
+                    "technique": "code_parser",
+                    "result": {"value": "1.0.0"}
+                },
+                {
+                    "source": "repository/setup.py",
+                    "technique": "code_parser",
+                    "result": {"value": "1.0.3"}
+                }
+            ]
+        }
+
+        result = detect_codemeta_version_mismatch_pitfall(somef_data, "test.json")
+        assert result["has_pitfall"] is True
+
+    def test_minor_version_diff_flagged(self):
+        """Minor version difference should still be flagged."""
+        somef_data = {
+            "version": [
+                {
+                    "source": "repository/codemeta.json",
+                    "technique": "code_parser",
+                    "result": {"value": "1.4.25"}
+                },
+                {
+                    "source": "repository/pom.xml",
+                    "technique": "code_parser",
+                    "result": {"value": "1.5.25"}
+                }
+            ]
+        }
+
+        result = detect_codemeta_version_mismatch_pitfall(somef_data, "test.json")
+        assert result["has_pitfall"] is True
+
+    def test_major_version_diff_flagged(self):
+        """Major version difference should still be flagged."""
+        somef_data = {
+            "version": [
+                {
+                    "source": "repository/codemeta.json",
+                    "technique": "code_parser",
+                    "result": {"value": "1.4.25"}
+                },
+                {
+                    "source": "repository/pom.xml",
+                    "technique": "code_parser",
+                    "result": {"value": "2.4.25"}
+                }
+            ]
+        }
+
+        result = detect_codemeta_version_mismatch_pitfall(somef_data, "test.json")
+        assert result["has_pitfall"] is True
+
+    def test_v_prefix_with_patch_tolerance(self):
+        """v prefix stripped + patch diff ≤ 2 should not be flagged."""
+        somef_data = {
+            "version": [
+                {
+                    "source": "repository/codemeta.json",
+                    "technique": "code_parser",
+                    "result": {"value": "v1.4.25"}
+                },
+                {
+                    "source": "repository/pom.xml",
+                    "technique": "code_parser",
+                    "result": {"value": "1.4.26"}
+                }
+            ]
+        }
+
+        result = detect_codemeta_version_mismatch_pitfall(somef_data, "test.json")
+        assert result["has_pitfall"] is False
+
+    def test_v_prefix_with_same_version(self):
+        """v prefix should be stripped, same numeric version should match."""
+        somef_data = {
+            "version": [
+                {
+                    "source": "repository/codemeta.json",
+                    "technique": "code_parser",
+                    "result": {"value": "v1.4.25"}
+                },
+                {
+                    "source": "repository/pom.xml",
+                    "technique": "code_parser",
+                    "result": {"value": "1.4.25"}
+                }
+            ]
+        }
+
+        result = detect_codemeta_version_mismatch_pitfall(somef_data, "test.json")
+        assert result["has_pitfall"] is False
 
     def test_all_other_versions_mismatch(self):
         """Test when all other versions mismatch"""

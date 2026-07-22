@@ -83,6 +83,35 @@ class TestDetectMultipleRequirementsInString:
         for req in result:
             assert req == req.strip()
 
+    def test_multiline_string_returns_empty(self):
+        """Multi-line strings are descriptive text, not requirement lists."""
+        test_string = (
+            "Just add the dependency and repository to your `pom.xml` file "
+            "as follows. See the [WIDOCO JitPack]"
+            "(https://jitpack.io/#dgarijo/Widoco) page.\n\n"
+            "```xml\n<dependency>\n  <groupId>com.github.dgarijo</groupId>\n"
+            "  <artifactId>Widoco</artifactId>\n</dependency>\n```"
+        )
+        result = detect_multiple_requirements_in_string(test_string)
+        assert result == []
+
+    def test_long_string_returns_empty(self):
+        """Strings over 500 characters are descriptive text, not requirement lists."""
+        test_string = "x " * 300 + "long descriptive text with many words"
+        assert len(test_string) > 500
+        result = detect_multiple_requirements_in_string(test_string)
+        assert result == []
+
+    @pytest.mark.parametrize("req_string,expected_count", [
+        ("numpy, pandas, scipy", 3),
+        ("flask>=2.0; werkzeug>=2.0", 2),
+        ("package1  package2", 2),
+    ])
+    def test_short_singleline_requirements_still_detected(self, req_string, expected_count):
+        """Short, single-line strings with legitimate multi-requirements are still flagged."""
+        result = detect_multiple_requirements_in_string(req_string)
+        assert len(result) == expected_count
+
 
 class TestDetectMultipleRequirementsStringWarning:
     """Test suite for detect_multiple_requirements_string_warning function"""

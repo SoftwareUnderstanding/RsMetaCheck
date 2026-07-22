@@ -239,6 +239,63 @@ def test_cli_threshold_passed_to_somef(monkeypatch, tmp_path):
     assert "0.5" in command
 
 
+def test_cli_requirements_v_passed_to_somef(monkeypatch, tmp_path):
+    """-v / --requirements-v should be forwarded to the somef command."""
+    somef_output_dir = tmp_path / "somef_outputs"
+
+    run_analysis_mock = MagicMock()
+    subprocess_run_mock = MagicMock()
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "rsmetacheck",
+            "--input",
+            REPO_URL,
+            "--somef-output",
+            str(somef_output_dir),
+            "-v",
+        ],
+    )
+    monkeypatch.setattr(cli_module, "ensure_somef_configured", lambda: True)
+    monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr("rsmetacheck.run_somef.subprocess.run", subprocess_run_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
+
+    cli_module.cli()
+
+    command = subprocess_run_mock.call_args.args[0]
+    assert "-v" in command
+
+
+def test_cli_requirements_v_not_in_command_by_default(monkeypatch, tmp_path):
+    """-v should NOT be in the somef command when --requirements-v is not provided."""
+    somef_output_dir = tmp_path / "somef_outputs"
+
+    run_analysis_mock = MagicMock()
+    subprocess_run_mock = MagicMock()
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "rsmetacheck",
+            "--input",
+            REPO_URL,
+            "--somef-output",
+            str(somef_output_dir),
+        ],
+    )
+    monkeypatch.setattr(cli_module, "ensure_somef_configured", lambda: True)
+    monkeypatch.setattr(cli_module, "run_analysis", run_analysis_mock)
+    monkeypatch.setattr("rsmetacheck.run_somef.subprocess.run", subprocess_run_mock)
+    monkeypatch.setattr(cli_module, "_exit_on_findings", lambda *a: None)
+
+    cli_module.cli()
+
+    command = subprocess_run_mock.call_args.args[0]
+    assert "-v" not in command
+
+
 def test_cli_notes_output_passed_to_run_analysis(monkeypatch, tmp_path):
     """--notes-output should be forwarded to run_analysis."""
     somef_file = tmp_path / "somef_output.json"

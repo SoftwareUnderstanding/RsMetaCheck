@@ -1,5 +1,29 @@
-from typing import Dict
+import re
+from typing import Dict, Optional, Tuple
+
 from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
+
+_SEMVER_RE = re.compile(r"^(\d+)\.(\d+)\.(\d+)")
+
+
+def _parse_semver(version_str: str) -> Optional[Tuple[int, int, int]]:
+    m = _SEMVER_RE.match(version_str)
+    if not m:
+        return None
+    return int(m.group(1)), int(m.group(2)), int(m.group(3))
+
+
+def _versions_match(v1: str, v2: str) -> bool:
+    a = v1.strip().lstrip("vV")
+    b = v2.strip().lstrip("vV")
+    if a == b:
+        return True
+    sv1 = _parse_semver(a)
+    sv2 = _parse_semver(b)
+    if sv1 and sv2:
+        if sv1[0] == sv2[0] and sv1[1] == sv2[1] and sv1[2] != sv2[2] and abs(sv1[2] - sv2[2]) <= 2:
+            return True
+    return False
 
 
 def get_codemeta_version(somef_data: Dict) -> str:
@@ -85,7 +109,7 @@ def detect_codemeta_version_mismatch_pitfall(somef_data: Dict, file_name: str) -
     for other_version_entry in other_versions:
         other_version = other_version_entry["version"]
 
-        if codemeta_version.strip() != other_version.strip():
+        if not _versions_match(codemeta_version, other_version):
             mismatched_versions.append(other_version_entry)
             mismatched_source_files.append(
                 extract_metadata_source_filename(other_version_entry.get("source", ""))

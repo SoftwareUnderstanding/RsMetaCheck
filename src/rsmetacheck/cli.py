@@ -90,6 +90,12 @@ def cli():
         action="store_true",
         help="Generate codemeta files for each repository. Only used when running SoMEF.",
     )
+    parser.add_argument(
+        "-v",
+        "--requirements-v",
+        action="store_true",
+        help="Export only requirements from structured sources (pom.xml, requirements.txt, etc.). Only used when running SoMEF.",
+    )
 
     parser.add_argument(
         "--verbose",
@@ -170,6 +176,7 @@ def cli():
                     threshold,
                     branch=args.branch,
                     generate_codemeta=generate_codemeta,
+                    requirements_v=args.requirements_v,
                 )
                 any_somef_success = any_somef_success or bool(success)
             elif os.path.exists(input_item):
@@ -180,6 +187,7 @@ def cli():
                     threshold,
                     branch=args.branch,
                     generate_codemeta=generate_codemeta,
+                    requirements_v=args.requirements_v,
                 )
                 any_somef_success = any_somef_success or bool(success)
             else:

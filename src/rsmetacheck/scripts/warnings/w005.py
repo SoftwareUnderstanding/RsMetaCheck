@@ -11,6 +11,12 @@ def detect_multiple_requirements_in_string(requirement_string: str) -> List[str]
     if not requirement_string or not isinstance(requirement_string, str):
         return []
 
+    if "\n" in requirement_string:
+        return []
+
+    if len(requirement_string) > 500:
+        return []
+
     # Clean the string
     req_str = requirement_string.strip()
 
