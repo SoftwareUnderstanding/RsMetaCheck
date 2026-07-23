@@ -15,7 +15,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -33,13 +33,13 @@
     "pitfalls": {
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "824222911d158f0ffc6929605f8a925ff08fcf64"
@@ -55,7 +55,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "245b109d77370eec2eb7c4dce0370638887aa7c6"
@@ -100,7 +100,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -133,7 +133,7 @@
       },
       "P006": {
         "source_file": "codemeta.json",
-        "description": "License pointing to a local file instead of stating the name. For example: “license”: LICENSE.MD"
+        "description": "License pointing to a local file instead of stating the name. For example: \u201clicense\u201d: LICENSE.MD"
       }
     },
     "warnings": {},
@@ -144,13 +144,13 @@
     "pitfalls": {
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -174,7 +174,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "9f5357bb55d53c66e9cfc63ef39fddb05c1c1ad7"
@@ -204,13 +204,13 @@
     "pitfalls": {
       "P006": {
         "source_file": "pyproject.toml",
-        "description": "License pointing to a local file instead of stating the name. For example: “license”: LICENSE.MD"
+        "description": "License pointing to a local file instead of stating the name. For example: \u201clicense\u201d: LICENSE.MD"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "d44b74f990c3e2d03d9a3ced3a89ffa619b59d63"
@@ -237,7 +237,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "eb92fb81d422e76c1501d196bf14db6756430d03"
@@ -253,7 +253,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -276,7 +276,7 @@
     "warnings": {
       "W001": {
         "source_file": "codemeta.json",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -315,7 +315,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -337,7 +337,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -375,7 +375,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -427,7 +427,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml ",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -446,7 +446,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "b046bd00569ae3930b51581d559cc5c5afde866a"
@@ -460,13 +460,13 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -484,7 +484,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -496,7 +496,7 @@
       },
       "W005": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "softwareRequirements have more than one req, but it’s written as one string"
+        "description": "softwareRequirements have more than one req, but it\u2019s written as one string"
       }
     },
     "commit ID": "ce7e8f0296333ca952d5f5554c068cc44a500380"
@@ -510,7 +510,7 @@
       },
       "P017": {
         "source_file": "codemeta.json, Cargo.toml",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -527,7 +527,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "a12a44cbc077dbd4c20b5f4764f9d53da5647b86"
@@ -538,7 +538,7 @@
     "warnings": {
       "W001": {
         "source_file": "codemeta.json",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -557,7 +557,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "00a6eff9dcb21f31b8990d232d46fba5d6b18cbf"
@@ -588,7 +588,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "17fbd909db0122eeca39d0c313b11742e7fd8164"
@@ -604,7 +604,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -638,13 +638,13 @@
     "pitfalls": {
       "P017": {
         "source_file": "codemeta.json & DESCRIPTION",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "DESCRIPTION",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "df013a97e144086980317527de6fab39dc54e9fa"
@@ -655,7 +655,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -694,7 +694,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -728,7 +728,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -740,7 +740,7 @@
       },
       "W005": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "softwareRequirements have more than one req, but it’s written as one string"
+        "description": "softwareRequirements have more than one req, but it\u2019s written as one string"
       }
     },
     "commit ID": "fcd2149561ab1796fba4d2500facdd3e532a6b86"
@@ -774,7 +774,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -796,7 +796,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -818,7 +818,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -864,7 +864,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -899,7 +899,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "03eb1c942bf1dc3be98cb30c3592b42e82a94f16"
@@ -941,7 +941,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -956,7 +956,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -996,7 +996,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1038,7 +1038,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "48211f102defdb16d0cd3cf6fc281518a4a96442"
@@ -1049,7 +1049,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "3973da62a683b34548d07acb48e334ac5b4cfe6d"
@@ -1060,7 +1060,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1084,7 +1084,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1108,7 +1108,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirement don’t have versions"
+        "description": "SoftwareRequirement don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1174,13 +1174,13 @@
       },
       "P017": {
         "source_file": "codemeta.json, DESCRIPTION",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W004": {
         "source_file": "codemeta.json",
@@ -1202,7 +1202,7 @@
       },
       "P017": {
         "source_file": "codemeta.json, DESCRIPTION",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
@@ -1224,7 +1224,7 @@
     "warnings": {
       "W001": {
         "source_file": "pyproject.toml",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1255,7 +1255,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "a8ec8da19a3cc5d8207d362add83181bffa18c4e"
@@ -1266,7 +1266,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       }
     },
     "commit ID": "17db2298e25bb439873e3746ddab6aad05b9014f"
@@ -1320,7 +1320,7 @@
     "warnings": {
       "W001": {
         "source_file": "requirements.txt",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1346,7 +1346,7 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       },
       "P018": {
         "source_file": "codemeta.json",
@@ -1356,7 +1356,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1378,7 +1378,7 @@
       },
       "P006": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "License pointing to a local file instead of stating the name. For example: “license”: LICENSE.MD"
+        "description": "License pointing to a local file instead of stating the name. For example: \u201clicense\u201d: LICENSE.MD"
       },
       "P013": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
@@ -1392,7 +1392,7 @@
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1424,13 +1424,13 @@
       },
       "P017": {
         "source_file": "codemeta.json",
-        "description": "version does not match the package’s"
+        "description": "version does not match the package\u2019s"
       }
     },
     "warnings": {
       "W001": {
         "source_file": "Metadata files (codemeta.json, setup.py, pom.xml etc...)",
-        "description": "SoftwareRequirements don’t have versions"
+        "description": "SoftwareRequirements don\u2019t have versions"
       },
       "W002": {
         "source_file": "codemeta.json",
@@ -1457,7 +1457,7 @@
         "description": "W002 detected: metadata files dateModified '2024-03-27T00:00:00' is outdated compared to repository date '2025-05-15T15:50:26'"
       }
     },
-    "commit ID": ""
+    "commit ID": "f306fbc1af70314d9209f20cadeb86a95ed5da5b"
   },
   "repo_78": {
     "url": "https://github.com/AI4LAM/awesome-ai4lam",
@@ -1473,7 +1473,7 @@
         "description": "W003 detected: Repository has multiple licenses but metadata files only lists one. Found in: https://raw.githubusercontent.com/AI4LAM/awesome-ai4lam/main/README.md"
       }
     },
-    "commit ID": ""
+    "commit ID": "c83d50bfe65143797ddeaaee39610b484862acfb"
   },
   "repo_79": {
     "url": "https://github.com/AgrDataSci/gosset",
@@ -1505,7 +1505,7 @@
         "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'gosset'"
       }
     },
-    "commit ID": ""
+    "commit ID": "bb5eb75c08fe3ab0f28931c093dcb66dea7c4185"
   },
   "repo_80": {
     "url": "https://github.com/CSCfi/PID-MS-API",
@@ -1529,7 +1529,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Java"
       }
     },
-    "commit ID": ""
+    "commit ID": "3d5da283f87be3c6a5d2911df46d4ade01e7d838"
   },
   "repo_81": {
     "url": "https://github.com/Duke-GCB/calrissian",
@@ -1553,7 +1553,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Python"
       }
     },
-    "commit ID": ""
+    "commit ID": "a95d87dd213d51b11faea7c6def4ced46d466a4a"
   },
   "repo_82": {
     "url": "https://github.com/FC4E-CAT/fc4e-cat-ui",
@@ -1577,13 +1577,13 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Typescript"
       }
     },
-    "commit ID": ""
+    "commit ID": "2069924a83b2c6f8664ddea9e3240157ef13291e"
   },
   "repo_83": {
     "url": "https://github.com/INM-6/beaverdam",
     "pitfalls": {},
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "50ad2f4854c3d21f698e26d43a1ddc1b8060d683"
   },
   "repo_84": {
     "url": "https://github.com/IPBES-Data/IPBES.R",
@@ -1611,7 +1611,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "d69499cb71f59a4638b9bcc2e7e84800f840fe5d"
   },
   "repo_85": {
     "url": "https://github.com/JeffreyRStevens/cocoon",
@@ -1635,7 +1635,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "169ffabe505c3da3ca3fc2983b44ab547d33e1bf"
   },
   "repo_86": {
     "url": "https://github.com/JeremyGelb/geocmeans",
@@ -1646,7 +1646,7 @@
       }
     },
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "424ab6bc3eedbf1024bec3307572e0be423a8404"
   },
   "repo_87": {
     "url": "https://github.com/LEEF-UZH/LEEF.archive.default",
@@ -1666,7 +1666,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "b8acff4ef9fc08814331775dc2d78c75f5d9dae4"
   },
   "repo_88": {
     "url": "https://github.com/LEEF-UZH/LEEF.measurement.flowcam",
@@ -1686,13 +1686,13 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "a806420c7d6037b0ea4d4720a079b3be3da9dcf9"
   },
   "repo_89": {
     "url": "https://github.com/LanguageMachines/dimbl",
     "pitfalls": {},
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "348d2ceca52945810a683c76dac94f8dc6061217"
   },
   "repo_90": {
     "url": "https://github.com/LanguageMachines/mbt",
@@ -1715,7 +1715,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
       }
     },
-    "commit ID": ""
+    "commit ID": "a0ff3ce688bda8b1cc331d7c78f0a7cce2aecf8f"
   },
   "repo_91": {
     "url": "https://github.com/LanguageMachines/timbl",
@@ -1738,7 +1738,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
       }
     },
-    "commit ID": ""
+    "commit ID": "c3d82c3de0f6b223a143320c0687220e0d8be8ae"
   },
   "repo_92": {
     "url": "https://github.com/MITDDC/plnr-1971-1982",
@@ -1749,7 +1749,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Micro-Planner"
       }
     },
-    "commit ID": ""
+    "commit ID": "a103cdf9809e126a7aa660ffd490ef83da1c447b"
   },
   "repo_93": {
     "url": "https://github.com/OneFineStarstuff/OneFineStarstuff.github.io",
@@ -1769,7 +1769,7 @@
         "description": "W002 detected: metadata files dateModified '2024-12-18T00:00:00' is outdated compared to repository date '2026-06-23T06:29:43'"
       }
     },
-    "commit ID": ""
+    "commit ID": "e1de8ce6605ec87cf58fbee71dbbeb9744921e47"
   },
   "repo_94": {
     "url": "https://github.com/R-Lum/xlum",
@@ -1797,7 +1797,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.repostatus.org/#Concept"
       }
     },
-    "commit ID": ""
+    "commit ID": "a221321281a3fb600ea0329efe61b61472715834"
   },
   "repo_95": {
     "url": "https://github.com/R3BRootGroup/frs",
@@ -1825,7 +1825,7 @@
         "description": "W005 detected: codemeta.json Multiple requirements written as single string: 'FairRoot, FairSoft, R3BRoot'"
       }
     },
-    "commit ID": ""
+    "commit ID": "311b5a7ef73a0a21b742ca2a504913f32c7ba0eb"
   },
   "repo_96": {
     "url": "https://github.com/adamhsparks/ChickpeaAscoDispersal",
@@ -1852,7 +1852,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.tidyverse.org/lifecycle/#stable"
       }
     },
-    "commit ID": ""
+    "commit ID": "c3c3ef8c0f18ffb39ea1be3668127e27784018c6"
   },
   "repo_97": {
     "url": "https://github.com/adeverse/adephylo",
@@ -1880,7 +1880,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://www.repostatus.org/#active"
       }
     },
-    "commit ID": ""
+    "commit ID": "bc262d7bc6fde9b7231b6129da57a973d11493fb"
   },
   "repo_98": {
     "url": "https://github.com/adrijmz/os_group_project",
@@ -1896,7 +1896,7 @@
         "description": "W002 detected: metadata files dateModified '2024-04-20T00:00:00' is outdated compared to repository date '2024-05-21T19:16:01'"
       }
     },
-    "commit ID": ""
+    "commit ID": "58510833956f79cd9c5e88cc8673f0fdcde846ee"
   },
   "repo_99": {
     "url": "https://github.com/amasson84/costcalc",
@@ -1919,7 +1919,7 @@
       }
     },
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "53c5a210f86cf6a250c90dc7faf743fa5cd3d33b"
   },
   "repo_100": {
     "url": "https://github.com/aravind-j/EvaluateCore",
@@ -1947,7 +1947,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "d11d0c1896f0d3de0b38e1a893053c2a4d680330"
   },
   "repo_101": {
     "url": "https://github.com/aravind-j/rpcss",
@@ -1971,7 +1971,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "449a89832f1e557e2199d8e63d93eb8944ee31cd"
   },
   "repo_102": {
     "url": "https://github.com/atsyplenkov/rp5pik",
@@ -2003,7 +2003,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://lifecycle.r-lib.org/articles/stages.html#experimental"
       }
     },
-    "commit ID": ""
+    "commit ID": "45d6ed2459e4f27108d334dbba8d2bd0ac674161"
   },
   "repo_103": {
     "url": "https://github.com/bihealth/vcfpy",
@@ -2027,7 +2027,7 @@
         "description": "W002 detected: metadata files dateModified '2016-09-28T00:00:00' is outdated compared to repository date '2026-04-25T08:19:41'"
       }
     },
-    "commit ID": ""
+    "commit ID": "a9353cd8351d77966b066279e3a92ab579622d04"
   },
   "repo_104": {
     "url": "https://github.com/biogo/biogo",
@@ -2047,7 +2047,7 @@
         "description": "W007 detected: codemeta.json identifier field is empty or missing"
       }
     },
-    "commit ID": ""
+    "commit ID": "30e848b0470f4431599050392ded77c88037494b"
   },
   "repo_105": {
     "url": "https://github.com/boydorr/TraitExtraction.jl",
@@ -2063,7 +2063,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: julia"
       }
     },
-    "commit ID": ""
+    "commit ID": "bd09a2d401177afc4dc2f368a007bb03f5fc6abd"
   },
   "repo_106": {
     "url": "https://github.com/caltechlibrary/irdm_harvester",
@@ -2079,7 +2079,7 @@
         "description": "W001 detected: requirements.txt contains software requirements without versions: dimcli  @ git+https://github.com/caltechlibrary/dimcli@cris-auth"
       }
     },
-    "commit ID": ""
+    "commit ID": "44adb66f69274fcb6fd1e8ffa96f63fbbc4a022e"
   },
   "repo_107": {
     "url": "https://github.com/cetoolbox/cetoolbox",
@@ -2095,13 +2095,13 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Java"
       }
     },
-    "commit ID": ""
+    "commit ID": "3a5ae52630d3394180894cfc157f41cf659c365b"
   },
   "repo_108": {
     "url": "https://github.com/daliwang/kmELM",
     "pitfalls": {},
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "9c171f84d97fe453665e64af15d77b559c1361e3"
   },
   "repo_109": {
     "url": "https://github.com/destination-earth/DestinE_ESA_GFTS",
@@ -2116,7 +2116,7 @@
         "description": "W004 detected: Programming languages in metadata do not have version specifications"
       }
     },
-    "commit ID": ""
+    "commit ID": "740079e917b65b2b297f83d7b5937a49212b09c1"
   },
   "repo_110": {
     "url": "https://github.com/donomii/quon-jupyter",
@@ -2140,7 +2140,7 @@
         "description": "W007 detected: codemeta.json identifier field is empty or missing"
       }
     },
-    "commit ID": ""
+    "commit ID": "0ef6a8080b6f334949d9b0fc272e5962769d8c32"
   },
   "repo_111": {
     "url": "https://github.com/dutta-alankar/AstroPlasma",
@@ -2155,7 +2155,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: C++"
       }
     },
-    "commit ID": ""
+    "commit ID": "603e088747f66c24de237b8868aa2126e1ef12f9"
   },
   "repo_112": {
     "url": "https://github.com/elipousson/bingmapr",
@@ -2175,7 +2175,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "62295c8f68760dc38d9f3a51a9236e487f18a10d"
   },
   "repo_113": {
     "url": "https://github.com/elipousson/sharepointr",
@@ -2203,7 +2203,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://lifecycle.r-lib.org/articles/stages.html#experimental"
       }
     },
-    "commit ID": ""
+    "commit ID": "fa820ba667bd36cce8cf0f8b682a4273e0a50706"
   },
   "repo_114": {
     "url": "https://github.com/epfllibrary/costcalc",
@@ -2226,7 +2226,7 @@
       }
     },
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "d4905f8fb1dc43066c404ac47b0576e4031d185e"
   },
   "repo_115": {
     "url": "https://github.com/explore-platform/s-disco",
@@ -2245,13 +2245,13 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Python, Java"
       }
     },
-    "commit ID": ""
+    "commit ID": "9813be4bc5c422a8b535a0e2f095eb83d389b5c5"
   },
   "repo_116": {
     "url": "https://github.com/fairdataihub/SODA-for-SPARC",
     "pitfalls": {},
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "0225af5b0f9b6eedd99fc58ba759462e151a7b32"
   },
   "repo_117": {
     "url": "https://github.com/fchuffar/gse2study",
@@ -2267,7 +2267,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "85839d5e2f6b7b5117dc3adf28ae3efdff206e17"
   },
   "repo_118": {
     "url": "https://github.com/fospald/heamd",
@@ -2291,7 +2291,7 @@
         "description": "W007 detected: codemeta.json identifier field is empty or missing"
       }
     },
-    "commit ID": ""
+    "commit ID": "4e6c0482c8f3e1547a4f8be1c41bda68fee2808c"
   },
   "repo_119": {
     "url": "https://github.com/gabrielblain/SPIChanges",
@@ -2311,7 +2311,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "05c1f10586a6f94913928fee94be923d9445ede9"
   },
   "repo_120": {
     "url": "https://github.com/heuermh/sea-eagle",
@@ -2339,7 +2339,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Java"
       }
     },
-    "commit ID": ""
+    "commit ID": "6f2d1edf075bd52a8a01609f2cc6b1dc7490a9e3"
   },
   "repo_121": {
     "url": "https://github.com/hykelvinlee42/RRLeo-Photometry",
@@ -2355,7 +2355,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Python"
       }
     },
-    "commit ID": ""
+    "commit ID": "2c54b71a8432366ea166d3182206f9aadbde748e"
   },
   "repo_122": {
     "url": "https://github.com/interTwin-eu/dcnios",
@@ -2383,7 +2383,7 @@
         "description": "W007 detected: codemeta.json identifier field is empty or missing"
       }
     },
-    "commit ID": ""
+    "commit ID": "8b529f1e38b1a6a434a62a5838e0960d146d4e9d"
   },
   "repo_123": {
     "url": "https://github.com/janelia-kicad/trinamic-wiring",
@@ -2398,7 +2398,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: KiCad"
       }
     },
-    "commit ID": ""
+    "commit ID": "c237e7745cbc3da6b64cf50e65062036f379d2fc"
   },
   "repo_124": {
     "url": "https://github.com/jimbrig/RPkg",
@@ -2418,7 +2418,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "72558620c6f27f82f5ade86a2de80a0986e612bd"
   },
   "repo_125": {
     "url": "https://github.com/justinbois/bebi103",
@@ -2442,7 +2442,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Python"
       }
     },
-    "commit ID": ""
+    "commit ID": "525f50ff933cf065b3a253af2267d18fc8e5c512"
   },
   "repo_126": {
     "url": "https://github.com/karthik/wesanderson",
@@ -2458,7 +2458,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "02e4129c185e9d3c49b05b580717f35be2eef5c3"
   },
   "repo_127": {
     "url": "https://github.com/leonawicz/rtrek",
@@ -2478,7 +2478,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "57f3e544ec3f79c66f616cae7cd817808302b3d5"
   },
   "repo_128": {
     "url": "https://github.com/lifewatch/eva",
@@ -2494,7 +2494,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Python, R"
       }
     },
-    "commit ID": ""
+    "commit ID": "e10e93f671d4a30d3d490efa85a9d4384ea26678"
   },
   "repo_129": {
     "url": "https://github.com/lionandjelka/QhX1",
@@ -2505,7 +2505,7 @@
         "description": "W001 detected: requirements.txt contains software requirements without versions: numpy, pandas, scipy, scikit-learn, scikit-optimize, libwwz, colorednoise, tqdm, panel, hvplot, bokeh, datashader, pyarrow, dask[dataframe], traitlets, wheel"
       }
     },
-    "commit ID": ""
+    "commit ID": "fb7f98241119eef963880b957909edf171280a3c"
   },
   "repo_130": {
     "url": "https://github.com/meng630/GMD_E3SM_SCM",
@@ -2516,13 +2516,13 @@
         "description": "W001 detected: requirements.txt contains software requirements without versions: sphinx, sphinx_rtd_theme, nbsphinx, sphinx-reload"
       }
     },
-    "commit ID": ""
+    "commit ID": "990f84598b79f9b4763c3a825a7d25f4e0f5a565"
   },
   "repo_131": {
     "url": "https://github.com/meng630/e3sm_maint-2.0",
     "pitfalls": {},
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "0211bafff5ea86870993d3090caebcde9e1240d6"
   },
   "repo_132": {
     "url": "https://github.com/mikemahoney218/mvdf",
@@ -2542,7 +2542,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "22a299354846376a1d0013771d6c26090a112899"
   },
   "repo_133": {
     "url": "https://github.com/mlr-org/mcboost",
@@ -2574,7 +2574,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: https://lifecycle.r-lib.org/articles/stages.html#experimental"
       }
     },
-    "commit ID": ""
+    "commit ID": "651e24d9578538f695c572a96d4f6593be670860"
   },
   "repo_134": {
     "url": "https://github.com/ms609/Quartet",
@@ -2593,7 +2593,7 @@
         "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'Quartet'"
       }
     },
-    "commit ID": ""
+    "commit ID": "638f980dc31c845d26dbf0247261291a1ff50dde"
   },
   "repo_135": {
     "url": "https://github.com/mscroggs/pyfax",
@@ -2612,7 +2612,7 @@
         "description": "W007 detected: codemeta.json identifier field is empty or missing"
       }
     },
-    "commit ID": ""
+    "commit ID": "14f8e8d552dc28231e660d910a23647c5b2dd8d2"
   },
   "repo_136": {
     "url": "https://github.com/nkrofta/Topological-Groups",
@@ -2623,7 +2623,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Isabelle"
       }
     },
-    "commit ID": ""
+    "commit ID": "13575494c933bd7d300f7c27f4ae6f2fbd78a095"
   },
   "repo_137": {
     "url": "https://github.com/rOpenGov/r311",
@@ -2651,7 +2651,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "1273245299f477b47754319cf0e22b8cdf4995a8"
   },
   "repo_138": {
     "url": "https://github.com/riatelab/cartography",
@@ -2670,7 +2670,7 @@
         "description": "W006 detected: codemeta.json Identifier is a name instead of valid unique identifier: 'cartography'"
       }
     },
-    "commit ID": ""
+    "commit ID": "f6fd10ddca00931f642192d1fdd77e7b3dfbfeb9"
   },
   "repo_139": {
     "url": "https://github.com/riatelab/flows",
@@ -2685,7 +2685,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "7cd4f726e23242d7eda870e2c6d833d01bfd0ce4"
   },
   "repo_140": {
     "url": "https://github.com/ropensci/ReLTER",
@@ -2709,7 +2709,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "023bc15b846d24c647f79e3b71eae264871aa7f9"
   },
   "repo_141": {
     "url": "https://github.com/ropensci/sofa",
@@ -2737,7 +2737,7 @@
         "description": "W009 detected: codemeta.json developmentStatus is a URL instead of status string: http://www.repostatus.org/#active"
       }
     },
-    "commit ID": ""
+    "commit ID": "df360007287022c0760c77bf115e53d2ab17e8e1"
   },
   "repo_142": {
     "url": "https://github.com/rreinecke/global-gradient-based-groundwater-model",
@@ -2773,7 +2773,7 @@
         "description": "W007 detected: codemeta.json identifier field is empty or missing"
       }
     },
-    "commit ID": ""
+    "commit ID": "8e7f6031d3244181b3eaa6c5fa12d979f28a7533"
   },
   "repo_143": {
     "url": "https://github.com/rsdoiel/gameset",
@@ -2789,7 +2789,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: Go"
       }
     },
-    "commit ID": ""
+    "commit ID": "9db188e54053ef1b81da27cd2b34bec1cf898ef6"
   },
   "repo_144": {
     "url": "https://github.com/slugb0t/FlaskBlog",
@@ -2804,7 +2804,7 @@
       }
     },
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "6a65813e8c1e981254f4c2a45e38255c07edbb99"
   },
   "repo_145": {
     "url": "https://github.com/usa-npn/rnpn",
@@ -2828,7 +2828,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "b7d5b8b20ce6dffb6febf7525573872aa3eede91"
   },
   "repo_146": {
     "url": "https://github.com/vrineau/Agatta",
@@ -2856,7 +2856,7 @@
         "description": "W004 detected: Programming languages in metadata do not have version specifications"
       }
     },
-    "commit ID": ""
+    "commit ID": "641f7e45a909b3b44f4622293b043be31be48d21"
   },
   "repo_147": {
     "url": "https://github.com/willgryan/PAVER",
@@ -2888,7 +2888,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: R"
       }
     },
-    "commit ID": ""
+    "commit ID": "9b74c6403f985e7a76e80354f7aaa4a0ee24e4d7"
   },
   "repo_148": {
     "url": "https://github.com/ybarborini/jdev-t5A02",
@@ -2912,7 +2912,7 @@
         "description": "W004 detected: codemeta.json Programming languages without versions: PHP, JS"
       }
     },
-    "commit ID": ""
+    "commit ID": "1463f687839e38216093552ad67ec7146ea7ea36"
   },
   "repo_149": {
     "url": "https://github.com/ypwong22/ELM_SPRUCE",
@@ -2923,7 +2923,7 @@
         "description": "W001 detected: requirements.txt contains software requirements without versions: numpy, xarray, zarr, netCDF4, cftime"
       }
     },
-    "commit ID": ""
+    "commit ID": "cc9a4f29ae0f3148a5c113cf9dd7c1f2ede5523c"
   },
   "repo_150": {
     "url": "https://github.com/zbmed-semtec/doc2vec-doc-relevance",
@@ -2938,6 +2938,6 @@
       }
     },
     "warnings": {},
-    "commit ID": ""
+    "commit ID": "7489914cc0e34f654321a5c70a74866fb3dd48bb"
   }
 }
