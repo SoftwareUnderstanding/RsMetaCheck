@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.3 Charts</title>
+    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.5 Charts</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -71,15 +71,16 @@
 
     <div class="nav">
         <a href="../index.html">&larr; Home</a>
+        <a href="../catalog.html">Catalog</a>
         <a href="index.html">Ground Truth Report</a>
         <a href="comparison.html">Version Comparison</a>
     </div>
 
-    <h1>0.3.0 vs 0.3.3 &mdash; Charts</h1>
+    <h1>0.3.0 vs 0.3.5 &mdash; Charts</h1>
 
     <p style="text-align: center; color: #555; font-size: 0.95em; line-height: 1.5; max-width: 800px; margin: 0 auto 20px auto;">
         Pitfall and warning detection distributions across 150 repositories evaluated by
-        RsMetaCheck versions 0.3.0 and 0.3.3.
+        RsMetaCheck versions 0.3.0 and 0.3.5.
     </p>
 
     <hr class="section-divider">
@@ -97,7 +98,7 @@
     </div>
 
     <hr class="section-divider">
-    <h2>0.3.3 Pitfall &amp; Warning Distribution</h2>
+    <h2>0.3.5 Pitfall &amp; Warning Distribution</h2>
 
     <div class="charts-row">
         <div class="chart-box">
@@ -111,7 +112,7 @@
     </div>
 
     <hr class="section-divider">
-    <h2>0.3.0 vs 0.3.3 &mdash; Side-by-Side</h2>
+    <h2>0.3.0 vs 0.3.5 &mdash; Side-by-Side</h2>
 
     <div class="charts-row">
         <div class="chart-box">
@@ -129,7 +130,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             Promise.all([
                 fetch('summary_0_3_0.json').then(r => r.json()),
-                fetch('summary_0_3_1.json').then(r => r.json())
+                fetch('summary_0_3_5.json').then(r => r.json())
             ])
             .then(([data030, data033]) => {
                 buildDistribution(data030, '030', {
@@ -253,7 +254,7 @@
                             borderWidth: 1
                         },
                         {
-                            label: '0.3.3',
+                            label: '0.3.5',
                             data: sortedPitfalls.map(c => p033[c] || 0),
                             backgroundColor: 'rgba(142, 68, 173, 0.75)',
                             borderColor: '#8e44ad',
@@ -284,7 +285,7 @@
                             borderWidth: 1
                         },
                         {
-                            label: '0.3.3',
+                            label: '0.3.5',
                             data: sortedWarnings.map(c => w033[c] || 0),
                             backgroundColor: 'rgba(41, 128, 185, 0.75)',
                             borderColor: '#2980b9',

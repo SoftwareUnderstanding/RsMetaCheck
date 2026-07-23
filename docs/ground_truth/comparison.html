@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.3 Comparison</title>
+    <title>RsMetaCheck &mdash; 0.3.0 vs 0.3.5 Comparison</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -117,15 +117,16 @@
 
     <div class="nav">
         <a href="../index.html">&larr; Home</a>
+        <a href="../catalog.html">Catalog</a>
         <a href="index.html">Ground Truth Report</a>
         <a href="charts.html">Charts</a>
     </div>
 
-    <h1>0.3.0 vs 0.3.3 &mdash; Comparison</h1>
+    <h1>0.3.0 vs 0.3.5 &mdash; Comparison</h1>
 
     <p style="text-align: center; color: #555; font-size: 0.95em; line-height: 1.5; max-width: 800px; margin: 0 auto 20px auto;">
         This page compares the detection results of RsMetaCheck version 0.3.0 and
-        version 0.3.3 across 150 repositories. What is highlighed in red is what was previously falsly flagged and fixed in the latest
+        version 0.3.5 across 150 repositories. What is highlighed in red is what was previously falsly flagged and fixed in the latest
         release, and what is highlighted in green is what was not being detected in the ealier version of RSMetaCheck and fixed in the latest
         release.
     </p>
@@ -143,8 +144,8 @@
                     <th>Code</th>
                     <th>0.3.0 Source</th>
                     <th>0.3.0 Description</th>
-                    <th>0.3.3 Source</th>
-                    <th>0.3.3 Description</th>
+                    <th>0.3.5 Source</th>
+                    <th>0.3.5 Description</th>
                 </tr>
             </thead>
         </table>
@@ -156,7 +157,7 @@
 
             Promise.all([
                 fetch('summary_0_3_0.json').then(r => r.json()),
-                fetch('summary_0_3_1.json').then(r => r.json()),
+                fetch('summary_0_3_5.json').then(r => r.json()),
                 fetch('summary_pitfalls_warnings.json').then(r => r.json())
             ])
             .then(([data030, data033, gtData]) => {
@@ -169,25 +170,25 @@
         });
 
         function buildComparisonTable(table, data030, data033, gtData) {
+            const gtRepoOrder = [];
             const gtCommitMap = {};
             for (const entry of Object.values(gtData)) {
                 const url = (entry.url || '').replace(/\/$/, "").split("/");
                 if (url.length >= 2) {
                     const name = url.slice(-2).join("/");
+                    gtRepoOrder.push(name);
                     gtCommitMap[name] = entry['commit ID'] || '';
                 }
             }
 
-            const gtNames = new Set(Object.keys(gtCommitMap));
             const commonRepos = new Set(
-                [...Object.keys(data030)].filter(r => data033[r] && gtNames.has(r))
+                [...Object.keys(data030)].filter(r => data033[r] && gtCommitMap[r])
             );
 
-            for (const repoName of Object.keys(data030).sort()) {
+            for (const repoName of gtRepoOrder) {
+                if (!commonRepos.has(repoName)) continue;
                 const r030 = data030[repoName];
                 const r033 = data033[repoName];
-                if (!r033) continue;
-                if (!commonRepos.has(repoName)) continue;
 
                 const codes030 = Object.assign({}, r030.pitfalls || {}, r030.warnings || {});
                 const codes033 = Object.assign({}, r033.pitfalls || {}, r033.warnings || {});

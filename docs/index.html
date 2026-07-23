@@ -98,32 +98,33 @@
     <div class="container">
         <h1>RsMetaCheck Study</h1>
         <p class="subtitle">
-            This is an automated tool to detect metadata quality pitfalls in software repositories,
-            from version mismatches, license issues, broken URLs. To verify the performance of our tool
-            we made this study we are building a ground truth dataset that was manually annotated from evaluating a sample of 150 repositories 
-            from <a href="https://github.com/TheOSSci/InnovationSprint2025_Extending_Software_Metadata">InnovationSprint2025</a> and 
-            a small sample of openAIRE, then had RSMetaCheck tested across versions 0.3.0 and 0.3.3 with comparison to the ground truth that we have established.
+            <a href="https://github.com/SoftwareUnderstanding/RsMetaCheck">RsMetaCheck</a> is an automated tool built to detect metadata quality pitfalls in software repositories, from version mismatches, license issues, 
+            broken URLs using <a href="https://github.com/KnowledgeCaptureAndDiscovery/somef">SoMEF</a> extraction  capabilities. We built a catalog of the issues we documented 
+            throughout our study, classsifed in two categories: <b>Pitfalls</b> and <b>Warnings</b> based on the severity of the issue and the consensus reached between domain experts. To verify 
+            the performance of our tool we made for this study, we built a ground truth dataset based on a sample of 150 repositories sampled from a dataset of repositories that consists of  
+            <a href="https://github.com/TheOSSci/InnovationSprint2025_Extending_Software_Metadata">InnovationSprint2025</a> and a small sample of openAIRE, amounting to a total of 1500 repositories, then had 
+            RSMetaCheck tested using version 0.3.0 and 0.3.5 (To evaluate the progress of our perfromance) with comparison to the ground truth that we have established.
         </p>
         <div class="cards">
+            <a href="catalog.html" class="card">
+                <h2>Pitfalls &amp; Warnings Catalog</h2>
+                <p>Complete catalog of all detected metadata pitfalls and warnings with descriptions, suggestions, and examples.</p>
+                <span class="arrow">&rarr; View Catalog</span>
+            </a>
             <a href="ground_truth/index.html" class="card">
                 <h2>Ground Truth Report</h2>
                 <p>Full pitfall and warning detection results from manual annotation across all 150 evaluated repositories.</p>
                 <span class="arrow">&rarr; View Report</span>
             </a>
             <a href="ground_truth/comparison.html" class="card">
-                <h2>Version Comparison</h2>
-                <p>Side-by-side repository-level comparison of pitfall and warning detection between 0.3.0 and 0.3.3.</p>
+                <h2>Detection Comparison</h2>
+                <p>Side-by-side repository-level comparison of pitfall and warning detection between 0.3.0 and 0.3.5.</p>
                 <span class="arrow">&rarr; View Comparison</span>
             </a>
             <a href="ground_truth/charts.html" class="card">
                 <h2>Charts</h2>
-                <p>Distribution charts and grouped comparison of pitfall and warning detection across 0.3.0 and 0.3.3.</p>
+                <p>Distribution charts and grouped comparison of pitfall and warning detection across 0.3.0 and 0.3.5.</p>
                 <span class="arrow">&rarr; View Charts</span>
-            </a>
-            <a href="catalog.html" class="card">
-                <h2>Pitfalls &amp; Warnings Catalog</h2>
-                <p>Complete catalog of all detected metadata pitfalls and warnings with descriptions, suggestions, and examples.</p>
-                <span class="arrow">&rarr; View Catalog</span>
             </a>
         </div>
     </div>
