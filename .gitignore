@@ -137,3 +137,6 @@ uv.lock
 
 # Testing directory thats named results_XXX, for example results_widoco since this is for testing purposes
 results_*/
+
+# Backup directory 
+BACKUP/

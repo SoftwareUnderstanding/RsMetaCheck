@@ -1,155 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>RsMetaCheck Catalog</title>
-
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-  <!-- DataTables JS -->
-  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2em;
-      background: #f9f9f9;
-    }
-    h1 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 1em;
-    }
-    .intro {
-      text-align: center;
-      margin-bottom: 2em;
-      color: #555;
-      font-size: 1.3em;
-      line-height: 1.2;
-      max-width: 1400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .table-container {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    #myTable {
-      width: 100%;
-    }
-    .dataTables_wrapper {
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RsMetaCheck</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            max-width: 700px;
+            padding: 40px 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        .subtitle {
+            color: #777;
+            font-size: 1.05em;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+        .card {
+            flex: 1 1 280px;
+            max-width: 340px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 28px 22px;
+            text-decoration: none;
+            color: inherit;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: box-shadow 0.2s, transform 0.15s;
+        }
+        .card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        .card h2 {
+            color: #2c3e50;
+            margin: 0 0 12px 0;
+            font-size: 1.2em;
+        }
+        .card p {
+            color: #666;
+            font-size: 0.92em;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .card .arrow {
+            display: inline-block;
+            margin-top: 12px;
+            color: #3498db;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.78em;
+            font-weight: 600;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .badge-new {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+    </style>
 </head>
 <body>
-
-  <h1>Metadata Pitfalls & Warnings Catalog</h1>
-
-<div class="intro">
-  <p>
-    This is a catalog of the pitfalls and warnings we have come across during our research on software metadata quality.
-    Based on these findings, we at <a href="https://oeg.fi.upm.es/" target="_blank">Ontology Engineering Group (OEG)</a>
-    have developed our tool <strong><a href="https://github.com/SoftwareUnderstanding/RsMetaCheck" target="_blank">RSMetaCheck</a></strong> to automatically diagnose and identify these common issues in software metadata files.
-    Warnings do not have a severity level because originally they were opted due to their low severity and classified as "Warnings" instead of "Pitfalls"
-  </p>
-</div>
-
-  <!-- TABLE -->
-  <div class="table-container">
-    <table id="myTable" class="display">
-    <thead>
-      <tr>
-        <th>Identifier</th>
-        <th>Source</th>
-        <th>Pitfall</th>
-        <th>Description</th>
-        <th>Suggestion</th>
-        <th>Examples</th>
-        <th>Importance</th>
-      </tr>
-    </thead>
-    <tbody>
-
-     </tbody>
-   </table>
-  </div>
-
-  <script>
-    function loadTableData() {
-        const timestamp = new Date().getTime();
-        fetch(`catalog.md?v=${timestamp}`)
-          .then(response => response.text())
-          .then(markdown => {
-            const lines = markdown.trim().split('\n');
-            const tableBody = $('#myTable tbody');
-
-            for (let i = 2; i < lines.length; i++) {
-              const line = lines[i].trim();
-              if (line.startsWith('|') && line.endsWith('|')) {
-                const cells = line.split('|').slice(1, -1).map(cell => cell.trim());
-                if (cells.length >= 7) {
-                  const [identifier, source, pitfall, description, suggestion, examples, importance] = cells;
-
-                  let exampleCell = examples;
-                  if (examples.startsWith('http')) {
-                    exampleCell = `<a href="${examples}" target="_blank">${examples}</a>`;
-                  }
-
-                  const row = `<tr id="${identifier}">
-                    <td><a href="https://w3id.org/rsmetacheck/catalog/#${identifier}" target="_blank">${identifier}</a></td>
-                    <td>${source}</td>
-                    <td>${pitfall}</td>
-                    <td>${description}</td>
-                    <td>${suggestion}</td>
-                    <td>${exampleCell}</td>
-                    <td>${importance}</td>
-                  </tr>`;
-                  tableBody.append(row);
-                }
-              }
+    <script>
+        (function () {
+            var hash = window.location.hash;
+            if (hash && /^#(P|W)\d{3}$/.test(hash)) {
+                window.location.replace('catalog.html' + hash);
             }
-
-            const table = $('#myTable').DataTable({
-              pageLength: 25,
-              order: [[0, 'asc']],
-              initComplete: function(settings, json) {
-                if (window.location.hash) {
-                  const targetId = window.location.hash;
-                  const api = this.api();
-                  
-                  const rowIndex = api.row(targetId).index();
-                  
-                  if (rowIndex !== undefined) {
-                    const pageInfo = api.page.info();
-                    const targetPage = Math.floor(rowIndex / pageInfo.length);
-                    api.page(targetPage).draw(false);
-                    
-                    setTimeout(() => {
-                      $('html, body').animate({
-                        scrollTop: $(targetId).offset().top - 20
-                      }, 500);
-                      
-                      $(targetId).css('background-color', '#ffff99');
-                      setTimeout(() => $(targetId).css('background-color', ''), 2000);
-                    }, 100);
-                  }
-                }
-              }
-            });
-          })
-          .catch(error => console.error('Error loading table data:', error));
-    }
-
-    $(document).ready(function () {
-      loadTableData();
-    });
-  </script>
+        })();
+    </script>
+    <div class="container">
+        <h1>RsMetaCheck Study</h1>
+        <p class="subtitle">
+            This is an automated tool to detect metadata quality pitfalls in software repositories,
+            from version mismatches, license issues, broken URLs. To verify the performance of our tool
+            we made this study we are building a ground truth dataset that was manually annotated from evaluating a sample of 150 repositories 
+            from <a href="https://github.com/TheOSSci/InnovationSprint2025_Extending_Software_Metadata">InnovationSprint2025</a> and 
+            a small sample of openAIRE, then had RSMetaCheck tested across versions 0.3.0 and 0.3.3 with comparison to the ground truth that we have established.
+        </p>
+        <div class="cards">
+            <a href="ground_truth/index.html" class="card">
+                <h2>Ground Truth Report</h2>
+                <p>Full pitfall and warning detection results from manual annotation across all 150 evaluated repositories.</p>
+                <span class="arrow">&rarr; View Report</span>
+            </a>
+            <a href="ground_truth/comparison.html" class="card">
+                <h2>Version Comparison</h2>
+                <p>Side-by-side repository-level comparison of pitfall and warning detection between 0.3.0 and 0.3.3.</p>
+                <span class="arrow">&rarr; View Comparison</span>
+            </a>
+            <a href="ground_truth/charts.html" class="card">
+                <h2>Charts</h2>
+                <p>Distribution charts and grouped comparison of pitfall and warning detection across 0.3.0 and 0.3.3.</p>
+                <span class="arrow">&rarr; View Charts</span>
+            </a>
+            <a href="catalog.html" class="card">
+                <h2>Pitfalls &amp; Warnings Catalog</h2>
+                <p>Complete catalog of all detected metadata pitfalls and warnings with descriptions, suggestions, and examples.</p>
+                <span class="arrow">&rarr; View Catalog</span>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

@@ -2,6 +2,9 @@
 
 import json
 from pathlib import Path
+from unittest.mock import patch
+
+import pytest
 
 from rsmetacheck.config import AnalysisConfig
 from rsmetacheck.detect_pitfalls_main import detect_all_pitfalls
@@ -41,6 +44,15 @@ def _find_issue_count(summary_data, code):
         if current_code == code:
             return item["count"]
     raise AssertionError(f"Code not found in summary: {code}")
+
+
+@pytest.fixture(autouse=True)
+def _mock_commit_id():
+    with patch(
+        "rsmetacheck.utils.json_ld_utils.fetch_latest_commit_id",
+        return_value="abc123",
+    ):
+        yield
 
 
 class TestSingleRepoPipeline:

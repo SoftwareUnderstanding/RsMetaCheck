@@ -26,8 +26,7 @@ def _fetch_gitlab_commit_id(host: str, project_path: str) -> str:
             data = json.loads(response.read().decode("utf-8"))
             if isinstance(data, list) and len(data) > 0:
                 return data[0].get("id", "Unknown")
-    except (URLError, HTTPError, json.JSONDecodeError):
-        pass
+    except (URLError, HTTPError, json.JSONDecodeError, TimeoutError):        pass
     return "Unknown"
 
 
@@ -56,8 +55,7 @@ def fetch_latest_commit_id(repo_url: str) -> str:
                 with urllib.request.urlopen(req, timeout=10) as response:
                     data = json.loads(response.read().decode('utf-8'))
                     return data.get('sha', 'Unknown')
-            except (URLError, HTTPError, json.JSONDecodeError):
-                pass
+            except (URLError, HTTPError, json.JSONDecodeError, TimeoutError):                pass
 
     elif repo_url.startswith("https://"):
         # Handles gitlab.com and any self-hosted GitLab instance.
