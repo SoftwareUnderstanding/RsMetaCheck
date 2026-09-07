@@ -473,7 +473,7 @@ def detect_all_pitfalls(
                                     if "result" in item and "value" in item["result"]:
                                         repo_name = item["result"]["value"]
                                         break
-                            w3id_code = f"https://softwareunderstanding.github.io/RsMetaCheck/#{pitfall_code}"
+                            w3id_code = f"https://softwareunderstanding.github.io/rsmetacheck/#{pitfall_code}"
                             notes = pitfall_result.get("notes", [])
                             if notes:
                                 for note_entry in notes:

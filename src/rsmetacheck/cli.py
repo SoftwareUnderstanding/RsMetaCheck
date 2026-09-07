@@ -105,7 +105,7 @@ def cli():
     parser.add_argument(
         "--config",
         default=None,
-        help="Path to RsMetaCheck TOML config file (default: auto-detect .rsmetacheck.toml at repository root).",
+        help="Path to rsmetacheck TOML config file (default: auto-detect .rsmetacheck.toml at repository root).",
     )
     parser.add_argument(
         "--config-profile",

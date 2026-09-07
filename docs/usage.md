@@ -1,6 +1,6 @@
 # Usage
 
-RSMetaCheck can be used as a local command-line tool or integrated into your CI/CD pipeline as a GitHub Action or a GitLab CI/CD job.
+rsmetacheck can be used as a local command-line tool or integrated into your CI/CD pipeline as a GitHub Action or a GitLab CI/CD job.
 
 ## Command Line Interface
 
@@ -43,7 +43,7 @@ poetry run rsmetacheck --input repositories.json
 
 ### Customize Output Paths
 
-By default RSMetaCheck writes its output to the current working directory. Use the flags below to redirect any of the outputs:
+By default rsmetacheck writes its output to the current working directory. Use the flags below to redirect any of the outputs:
 
 | Flag | Default | Description |
 |------|---------|-------------|
@@ -62,7 +62,7 @@ poetry run rsmetacheck --input repositories.json \
 
 ### Version Discrepancy Notes
 
-When a metadata version differs from the release version only slightly (every component differs by less than 2, e.g. `0.4.3.dev1` vs `0.4.2` — the pre-release suffix means it is numerically close), RSMetaCheck records a **note** instead of a full pitfall. Notes are only written when `--notes-output` is provided:
+When a metadata version differs from the release version only slightly (every component differs by less than 2, e.g. `0.4.3.dev1` vs `0.4.2` — the pre-release suffix means it is numerically close), rsmetacheck records a **note** instead of a full pitfall. Notes are only written when `--notes-output` is provided:
 
 ```bash
 poetry run rsmetacheck --input https://github.com/example/repo --notes-output ./notes.json
@@ -126,7 +126,7 @@ poetry run rsmetacheck --input https://github.com/example/repo --generate-codeme
 
 ### Configure Analysis Rules
 
-RSMetaCheck automatically detects a `.rsmetacheck.toml` (or `rsmetacheck.toml`) file at the working directory. Alternatively, supply a custom path with `--config`:
+rsmetacheck automatically detects a `.rsmetacheck.toml` (or `rsmetacheck.toml`) file at the working directory. Alternatively, supply a custom path with `--config`:
 
 ```bash
 poetry run rsmetacheck --input https://github.com/example/repo --config ./ci/rsmetacheck.toml
@@ -174,12 +174,12 @@ poetry run rsmetacheck --input https://github.com/example/repo --config-profile 
 
 ## GitHub Action
 
-You can integrate RSMetaCheck into your GitHub workflow to test your own repository and detect issues automatically.
+You can integrate rsmetacheck into your GitHub workflow to test your own repository and detect issues automatically.
 Please refer to our action in the GitHub MarketPlace at [rsmetacheck actions](https://github.com/marketplace/actions/rsmetacheck) for more information.
 
 ## GitLab CI/CD
 
-You can integrate RSMetaCheck into your GitLab pipelines by adding the following snippet to your `.gitlab-ci.yml` file:
+You can integrate rsmetacheck into your GitLab pipelines by adding the following snippet to your `.gitlab-ci.yml` file:
 
 ```yaml
 rsmetacheck:
@@ -220,4 +220,3 @@ rsmetacheck:
     when: always
     expire_in: 1 week
 ```
-
