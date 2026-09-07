@@ -1,14 +1,14 @@
 # Installation
 
-RSMetaCheck requires **Python 3.11**.
+rsmetacheck requires **Python 3.11**.
 
 ## Using Poetry (Recommended)
 
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/SoftwareUnderstanding/RsMetaCheck.git
-   cd RsMetaCheck
+   git clone https://github.com/SoftwareUnderstanding/rsmetacheck.git
+   cd rsmetacheck
    ```
 
 2. **Install with Poetry**:
@@ -30,5 +30,5 @@ RSMetaCheck requires **Python 3.11**.
 Alternatively, you can install directly from GitHub:
 
 ```bash
-pip install git+https://github.com/SoftwareUnderstanding/RsMetaCheck.git
+pip install git+https://github.com/SoftwareUnderstanding/rsmetacheck.git
 ```

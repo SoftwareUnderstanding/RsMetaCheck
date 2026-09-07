@@ -1,6 +1,6 @@
 # Output
 
-When you run RSMetaCheck, it generates several files containing the results of the analysis.
+When you run rsmetacheck, it generates several files containing the results of the analysis.
 
 ## Generated Files
 

@@ -552,6 +552,17 @@ def test_cli_input_required(monkeypatch):
         pass
 
 
+def test_cli_help_mentions_rsmetacheck_config(monkeypatch, capsys):
+    """Help text should reference the lowercase rsmetacheck config name."""
+    monkeypatch.setattr("sys.argv", ["rsmetacheck", "--help"])
+
+    with pytest.raises(SystemExit):
+        cli_module.cli()
+
+    captured = capsys.readouterr()
+    assert "Path to rsmetacheck TOML config file" in captured.out
+
+
 def test_cli_config_profile_forwarded_to_run_analysis(monkeypatch, tmp_path):
     """--config and --config-profile should load and forward analysis config."""
     somef_file = tmp_path / "somef_output.json"

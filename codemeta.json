@@ -14,16 +14,16 @@
       "givenName": "Anas"
     }
   ],
-  "codeRepository": "git+https://github.com/SoftwareUnderstanding/RsMetaCheck.git",
+  "codeRepository": "git+https://github.com/SoftwareUnderstanding/rsmetacheck.git",
   "dateModified": "2026-07-22",
   "description": "Automated tool to detect metadata quality pitfalls in software repositories (Python, Java, C++, etc.). Analyzes SoMEF output files for version mismatches, license issues, broken URLs, and more. ",
-  "downloadUrl": "https://github.com/SoftwareUnderstanding/RsMetaCheck/archive/refs/heads/main.tar.gz",
+  "downloadUrl": "https://github.com/SoftwareUnderstanding/rsmetacheck/archive/refs/heads/main.tar.gz",
   "keywords": ["codemeta", "pitfalls", "metadata", "analysis"],
   "license": "https://spdx.org/licenses/MIT",
-  "name": "RsMetaCheck",
+  "name": "rsmetacheck",
   "operatingSystem": "Linux",
   "programmingLanguage": "Python",
   "version": "0.3.5",
   "developmentStatus": "active",
-  "issueTracker": "https://github.com/SoftwareUnderstanding/RsMetaCheck/issues"
+  "issueTracker": "https://github.com/SoftwareUnderstanding/rsmetacheck/issues"
 }

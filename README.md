@@ -15,7 +15,7 @@ MetaCheck identifies **29 different types of metadata quality issues** across mu
 (Python, Java, C++, C, R, Rust). These pitfalls range from version mismatches and
 license template placeholders to broken URLs and improperly formatted metadata fields.
 
-You can visit our [catalog](https://softwareunderstanding.github.io/RsMetaCheck/) to see in details what these pitfalls are, where are they usually detected and how to fix them.
+You can visit our [catalog](https://softwareunderstanding.github.io/rsmetacheck/) to see in details what these pitfalls are, where are they usually detected and how to fix them.
 
 ### Supported Pitfall Types
 
@@ -45,8 +45,8 @@ The tool detects the following categories of issues:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/SoftwareUnderstanding/RsMetaCheck.git
-   cd RsMetaCheck
+   git clone https://github.com/SoftwareUnderstanding/rsmetacheck.git
+   cd rsmetacheck
    ```
 
 2. **Install with Poetry**:
@@ -67,7 +67,7 @@ The tool detects the following categories of issues:
 Alternatively, you can install directly from GitHub:
 
 ```bash
-pip install git+https://github.com/SoftwareUnderstanding/RsMetaCheck.git
+pip install git+https://github.com/SoftwareUnderstanding/rsmetacheck.git
 ```
 
 ## Usage

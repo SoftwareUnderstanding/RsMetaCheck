@@ -158,7 +158,8 @@ class TestSingleRepoPipeline:
         assert notes_file.exists()
         notes_data = json.loads(notes_file.read_text())
         assert "notes" in notes_data
-        assert notes_data["total_notes"] >= 0
+        assert notes_data["total_notes"] == 1
+        assert notes_data["notes"][0]["code"] == "https://softwareunderstanding.github.io/rsmetacheck/#P001"
 
 
 class TestMultipleRepoPipeline:
