@@ -1,7 +1,7 @@
 import pytest
 from datetime import datetime, timedelta
 from rsmetacheck.scripts.warnings.w002 import (
-    extract_github_api_date_updated,
+    extract_latest_release_date,
     extract_codemeta_date_modified,
     normalize_date_for_comparison,
     calculate_date_difference_days,
@@ -9,61 +9,69 @@ from rsmetacheck.scripts.warnings.w002 import (
 )
 
 
-class TestExtractGithubApiDateUpdated:
-    """Test suite for extract_github_api_date_updated function"""
+class TestExtractLatestReleaseDate:
+    """Test suite for extract_latest_release_date function"""
 
     @pytest.mark.parametrize("somef_data,expected", [
-        # No date_updated key
+        # No releases key
         ({}, None),
         ({"other_key": "value"}, None),
 
-        # date_updated not a list
-        ({"date_updated": "2024-01-01"}, None),
-        ({"date_updated": {}}, None),
+        # releases not a list
+        ({"releases": "not-a-list"}, None),
+        ({"releases": {}}, None),
 
-        # Empty date_updated list
-        ({"date_updated": []}, None),
+        # Empty releases list
+        ({"releases": []}, None),
 
-        # Date from GitHub API
+        # Latest release with date_published
         ({
-             "date_updated": [{
-                 "technique": "GitHub_API",
-                 "result": {"value": "2025-02-05T18:00:24Z"}
-             }]
-         }, "2025-02-05T18:00:24Z"),
-
-        # Multiple entries, only GitHub_API should match
-        ({
-             "date_updated": [
-                 {"technique": "other_method", "result": {"value": "2024-01-01"}},
-                 {"technique": "GitHub_API", "result": {"value": "2025-02-05T18:00:24Z"}}
+             "releases": [
+                 {
+                     "result": {
+                         "tag": "v2.0.0",
+                         "date_published": "2025-02-05T18:00:24Z"
+                     }
+                 }
              ]
          }, "2025-02-05T18:00:24Z"),
 
-        # Missing result or value
+        # Multiple releases, first (latest) should be used
         ({
-             "date_updated": [{
-                 "technique": "GitHub_API"
-             }]
-         }, None),
+             "releases": [
+                 {
+                     "result": {
+                         "tag": "v2.0.0",
+                         "date_published": "2025-02-05T18:00:24Z"
+                     }
+                 },
+                 {
+                     "result": {
+                         "tag": "v1.0.0",
+                         "date_published": "2024-01-01T00:00:00Z"
+                     }
+                 }
+             ]
+         }, "2025-02-05T18:00:24Z"),
+
+        # Release without result
         ({
-             "date_updated": [{
-                 "technique": "GitHub_API",
-                 "result": {}
-             }]
+             "releases": [{"technique": "GitHub_API"}]
          }, None),
 
-        # Wrong technique
+        # Release result without date_published
         ({
-             "date_updated": [{
-                 "technique": "code_parser",
-                 "result": {"value": "2024-01-01"}
-             }]
+             "releases": [{"result": {"tag": "v2.0.0"}}]
+         }, None),
+
+        # Release with null date_published
+        ({
+             "releases": [{"result": {"date_published": None}}]
          }, None),
     ])
-    def test_extract_github_date_scenarios(self, somef_data, expected):
-        """Test various scenarios for GitHub API date extraction"""
-        result = extract_github_api_date_updated(somef_data)
+    def test_extract_latest_release_date_scenarios(self, somef_data, expected):
+        """Test various scenarios for latest release date extraction"""
+        result = extract_latest_release_date(somef_data)
         assert result == expected
 
 
@@ -203,7 +211,7 @@ class TestDetectOutdatedDatemodified:
                 0
         ),
 
-        # Missing GitHub API date
+        # Missing release date
         (
                 {
                     "date_updated": [{
@@ -219,9 +227,8 @@ class TestDetectOutdatedDatemodified:
         # Missing codemeta date
         (
                 {
-                    "date_updated": [{
-                        "technique": "GitHub_API",
-                        "result": {"value": "2025-02-05T18:00:24Z"}
+                    "releases": [{
+                        "result": {"date_published": "2025-02-05T18:00:24Z"}
                     }]
                 },
                 "test_repo.json",
@@ -232,8 +239,8 @@ class TestDetectOutdatedDatemodified:
         # Dates match (no warning)
         (
                 {
+                    "releases": [{"result": {"date_published": "2023-11-17T00:00:00Z"}}],
                     "date_updated": [
-                        {"technique": "GitHub_API", "result": {"value": "2023-11-17T00:00:00Z"}},
                         {"source": "repository/codemeta.json", "result": {"value": "2023-11-17"}}
                     ]
                 },
@@ -242,11 +249,11 @@ class TestDetectOutdatedDatemodified:
                 0
         ),
 
-        # GitHub date newer by 1 day (no warning, threshold is > 1)
+        # Release date newer by 1 day (no warning, threshold is > 1)
         (
                 {
+                    "releases": [{"result": {"date_published": "2023-11-18T00:00:00Z"}}],
                     "date_updated": [
-                        {"technique": "GitHub_API", "result": {"value": "2023-11-18T00:00:00Z"}},
                         {"source": "repository/codemeta.json", "result": {"value": "2023-11-17"}}
                     ]
                 },
@@ -255,11 +262,11 @@ class TestDetectOutdatedDatemodified:
                 1
         ),
 
-        # GitHub date newer by 10 days (warning)
+        # Release date newer by 10 days (warning)
         (
                 {
+                    "releases": [{"result": {"date_published": "2023-11-27T00:00:00Z"}}],
                     "date_updated": [
-                        {"technique": "GitHub_API", "result": {"value": "2023-11-27T00:00:00Z"}},
                         {"source": "repository/codemeta.json", "result": {"value": "2023-11-17"}}
                     ]
                 },
@@ -268,11 +275,11 @@ class TestDetectOutdatedDatemodified:
                 10
         ),
 
-        # GitHub date newer by 80 days (warning)
+        # Release date newer by 80 days (warning)
         (
                 {
+                    "releases": [{"result": {"date_published": "2025-02-05T18:00:24Z"}}],
                     "date_updated": [
-                        {"technique": "GitHub_API", "result": {"value": "2025-02-05T18:00:24Z"}},
                         {"source": "repository/codemeta.json", "result": {"value": "2023-11-17"}}
                     ]
                 },
@@ -281,11 +288,11 @@ class TestDetectOutdatedDatemodified:
                 446
         ),
 
-        # Codemeta date newer than GitHub (no warning)
+        # Codemeta date newer than release (no warning)
         (
                 {
+                    "releases": [{"result": {"date_published": "2023-11-17T00:00:00Z"}}],
                     "date_updated": [
-                        {"technique": "GitHub_API", "result": {"value": "2023-11-17T00:00:00Z"}},
                         {"source": "repository/codemeta.json", "result": {"value": "2023-11-27"}}
                     ]
                 },
@@ -304,7 +311,7 @@ class TestDetectOutdatedDatemodified:
         assert result["difference_days"] == expected_diff_days
 
         if expected_has_warning:
-            assert result["github_api_date"] is not None
+            assert result["latest_release_date"] is not None
             assert result["codemeta_date"] is not None
             assert result["codemeta_source"] is not None
 
@@ -315,27 +322,27 @@ class TestDetectOutdatedDatemodified:
 
         assert "has_warning" in result
         assert "file_name" in result
-        assert "github_api_date" in result
+        assert "latest_release_date" in result
         assert "codemeta_date" in result
         assert "codemeta_source" in result
         assert "difference_days" in result
-        assert "github_api_date_parsed" in result
+        assert "latest_release_date_parsed" in result
         assert "codemeta_date_parsed" in result
 
     def test_parsed_dates_format(self):
         """Test that parsed dates are in ISO format"""
         somef_data = {
+            "releases": [{"result": {"date_published": "2025-02-05T18:00:24Z"}}],
             "date_updated": [
-                {"technique": "GitHub_API", "result": {"value": "2025-02-05T18:00:24Z"}},
                 {"source": "repository/codemeta.json", "result": {"value": "2023-11-17"}}
             ]
         }
 
         result = detect_outdated_datemodified(somef_data, "test.json")
 
-        if result["github_api_date_parsed"]:
+        if result["latest_release_date_parsed"]:
             # Should be parseable as ISO format
-            datetime.fromisoformat(result["github_api_date_parsed"])
+            datetime.fromisoformat(result["latest_release_date_parsed"])
 
         if result["codemeta_date_parsed"]:
             datetime.fromisoformat(result["codemeta_date_parsed"])
@@ -350,13 +357,13 @@ class TestDetectOutdatedDatemodified:
     ])
     def test_warning_threshold(self, days_diff, should_warn):
         """Test that warning threshold is correctly applied (> 1 day)"""
-        github_date = "2024-01-10T00:00:00Z"
+        release_date = "2024-01-10T00:00:00Z"
         codemeta_date_obj = datetime(2024, 1, 10) - timedelta(days=days_diff)
         codemeta_date = codemeta_date_obj.strftime("%Y-%m-%d")
 
         somef_data = {
+            "releases": [{"result": {"date_published": release_date}}],
             "date_updated": [
-                {"technique": "GitHub_API", "result": {"value": github_date}},
                 {"source": "repository/codemeta.json", "result": {"value": codemeta_date}}
             ]
         }

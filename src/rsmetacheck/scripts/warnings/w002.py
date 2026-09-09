@@ -3,23 +3,29 @@ from datetime import datetime
 import re
 
 
-def extract_github_api_date_updated(somef_data: Dict) -> Optional[str]:
+def extract_latest_release_date(somef_data: Dict) -> Optional[str]:
     """
-    Extract date_updated from GitHub API in SoMEF output.
-    Returns the date string or None if not found.
+    Extract the date of the latest release from the releases field in SoMEF output.
+    The latest release is the first element in the releases list.
+    Returns the release date string or None if not found.
     """
-    if "date_updated" not in somef_data:
+    if "releases" not in somef_data:
         return None
 
-    date_entries = somef_data["date_updated"]
-    if not isinstance(date_entries, list):
+    releases = somef_data["releases"]
+    if not isinstance(releases, list) or not releases:
         return None
 
-    # Look for date from GitHub API
-    for entry in date_entries:
-        if "technique" in entry and entry["technique"] == "GitHub_API":
-            if "result" in entry and "value" in entry["result"]:
-                return entry["result"]["value"]
+    latest_release = releases[0]
+    if not isinstance(latest_release, dict):
+        return None
+
+    result = latest_release.get("result")
+    if not isinstance(result, dict):
+        return None
+
+    if "date_published" in result and result["date_published"]:
+        return result["date_published"]
 
     return None
 
@@ -108,43 +114,44 @@ def detect_outdated_datemodified(
 ) -> Dict:
     """
     Detect outdated dateModified in codemeta.json warning for a single repository.
+    Compares codemeta.json dateModified against the date of the latest release.
     Returns detection result with warning info.
     """
     result = {
         "has_warning": False,
         "file_name": file_name,
-        "github_api_date": None,
+        "latest_release_date": None,
         "codemeta_date": None,
         "codemeta_source": None,
         "difference_days": 0,
-        "github_api_date_parsed": None,
+        "latest_release_date_parsed": None,
         "codemeta_date_parsed": None
     }
 
-    github_api_date = extract_github_api_date_updated(somef_data)
+    latest_release_date = extract_latest_release_date(somef_data)
 
     codemeta_data = extract_codemeta_date_modified(somef_data)
 
-    if not github_api_date or not codemeta_data:
+    if not latest_release_date or not codemeta_data:
         return result
 
-    result["github_api_date"] = github_api_date
+    result["latest_release_date"] = latest_release_date
     result["codemeta_date"] = codemeta_data["date"]
     result["codemeta_source"] = codemeta_data["source"]
 
-    github_date_parsed = normalize_date_for_comparison(github_api_date)
+    release_date_parsed = normalize_date_for_comparison(latest_release_date)
     codemeta_date_parsed = normalize_date_for_comparison(codemeta_data["date"])
 
-    if not github_date_parsed or not codemeta_date_parsed:
+    if not release_date_parsed or not codemeta_date_parsed:
         return result
 
-    result["github_api_date_parsed"] = github_date_parsed.isoformat()
+    result["latest_release_date_parsed"] = release_date_parsed.isoformat()
     result["codemeta_date_parsed"] = codemeta_date_parsed.isoformat()
 
-    difference_days = calculate_date_difference_days(github_date_parsed, codemeta_date_parsed)
+    difference_days = calculate_date_difference_days(release_date_parsed, codemeta_date_parsed)
     result["difference_days"] = difference_days
 
-    if github_date_parsed > codemeta_date_parsed and difference_days > stale_after_days:
+    if release_date_parsed > codemeta_date_parsed and difference_days > stale_after_days:
         result["has_warning"] = True
 
     return result

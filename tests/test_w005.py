@@ -112,6 +112,16 @@ class TestDetectMultipleRequirementsInString:
         result = detect_multiple_requirements_in_string(req_string)
         assert len(result) == expected_count
 
+    @pytest.mark.parametrize("req_string", [
+        "rdflib==>=7.0,<8.0",
+        "numpy>=1.20,<2.0",
+        "package==>=1.0,!=1.5",
+    ])
+    def test_version_range_strings_not_flagged(self, req_string):
+        """A single requirement with a PEP 440 version range is not multiple requirements."""
+        result = detect_multiple_requirements_in_string(req_string)
+        assert result == []
+
 
 class TestDetectMultipleRequirementsStringWarning:
     """Test suite for detect_multiple_requirements_string_warning function"""

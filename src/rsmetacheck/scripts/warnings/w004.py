@@ -5,6 +5,7 @@ NON_VERSIONED_LANGUAGES = {
     "HTML", "CSS", "Shell", "Makefile",
     "Dockerfile", "Batchfile", "PowerShell", "CMake",
     "JavaScript", "Java", "XSLT",
+    "Jupyter Notebook", "Jupyter",
 }
 
 

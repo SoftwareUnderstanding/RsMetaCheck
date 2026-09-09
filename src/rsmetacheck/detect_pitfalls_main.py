@@ -304,7 +304,7 @@ def detect_all_pitfalls(
             },
             {
                 "warning_code": "W002",
-                "warning_desc": "The dateModified in codemeta.json is outdated compared to the actual repository last update date",
+                "warning_desc": "The dateModified in codemeta.json is outdated compared to the latest release date",
                 "count": 0,
                 "percentage": 0.0,
                 "languages": {}

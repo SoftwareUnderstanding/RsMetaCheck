@@ -557,9 +557,9 @@ class TestDetectProgrammingLanguageNoVersionPitfall:
         result = detect_programming_language_no_version_pitfall(somef_data, "test.json")
         assert result["has_warning"] == False
 
-    @pytest.mark.parametrize("language_name", ["JavaScript", "Java", "XSLT"])
+    @pytest.mark.parametrize("language_name", ["JavaScript", "Java", "XSLT", "Jupyter Notebook", "Jupyter"])
     def test_non_versioned_languages_not_flagged(self, language_name):
-        """JavaScript, Java, and XSLT should not be flagged even without version."""
+        """JavaScript, Java, XSLT, and Jupyter should not be flagged even without version."""
         somef_data = {
             "programming_languages": [{
                 "source": "repository/codemeta.json",

@@ -151,7 +151,7 @@ def get_pitfall_description(pitfall_code: str) -> str:
 
         # Warnings (W001-W010)
         "W001": "Analyzes software requirements in metadata to see if they lack explicit version constraints.",
-        "W002": "Compares the dateModified field against the last updated date of the actual repository.",
+        "W002": "Compares the dateModified field against the date of the latest release of the actual repository.",
         "W003": "Detects if multiple distinct licenses are found in the repository but only a single license is declared in codemeta.json.",
         "W004": "Checks programming language declarations in codemeta.json to see if they lack specific version numbers.",
         "W005": "Checks if the softwareRequirements field contains multiple dependencies combined into a single continuous string.",
@@ -432,12 +432,12 @@ def format_evidence_text(pitfall_code: str, pitfall_result: Dict) -> str:
         return f"{evidence_base}Software requirements found without version specifications"
 
     elif pitfall_code == "W002":
-        if "codemeta_date_parsed" in pitfall_result and "github_api_date_parsed" in pitfall_result:
+        if "codemeta_date_parsed" in pitfall_result and "latest_release_date_parsed" in pitfall_result:
             metadata_source = get_metadata_sources(pitfall_result)
             codemeta_date = pitfall_result.get('codemeta_date_parsed') or 'unknown'
-            github_date = pitfall_result.get('github_api_date_parsed') or 'unknown'
-            return f"{evidence_base}{metadata_source} dateModified '{codemeta_date}' is outdated compared to repository date '{github_date}'"
-        return f"{evidence_base}dateModified in metadata is outdated compared to actual repository last update"
+            release_date = pitfall_result.get('latest_release_date_parsed') or 'unknown'
+            return f"{evidence_base}{metadata_source} dateModified '{codemeta_date}' is outdated compared to latest release date '{release_date}'"
+        return f"{evidence_base}dateModified in metadata is outdated compared to the latest release date"
 
     elif pitfall_code == "W003":
         if "dual_license_source" in pitfall_result:
@@ -623,9 +623,9 @@ def get_suggestion_text(pitfall_code: str, pitfall_result: Dict = None, somef_da
             return f"Always use the full resolvable SWHID URL (e.g., https://archive.softwareheritage.org/{identifier})."
 
     elif pitfall_code == "W002":
-        github_date = pitfall_result.get("github_api_date_parsed")
-        if github_date:
-            return f"The data in the metadata file should be updated to be aligned with the date of the latest release ({github_date})."
+        release_date = pitfall_result.get("latest_release_date_parsed")
+        if release_date:
+            return f"The data in the metadata file should be updated to be aligned with the date of the latest release ({release_date})."
 
     elif pitfall_code == "W003":
         found_license = None

@@ -3,6 +3,31 @@ import re
 from rsmetacheck.utils.pitfall_utils import extract_metadata_source_filename
 
 
+_VERSION_OPERATOR_RE = re.compile(r'(?:~=|==|!=|<=|>=|<|>|===)')
+_VERSION_SPECIFIER_RE = re.compile(r'^(?:~=|==|!=|<=|>=|<|>|===)\s*\S+$')
+
+
+def _is_version_range_string(req_str: str) -> bool:
+    """
+    Detect a single requirement with a PEP 440 style version range, e.g.
+    "rdflib==>=7.0,<8.0" or "numpy>=1.20,<2.0". A comma inside such a
+    specifier separates version constraints, not multiple dependencies.
+    """
+    parts = re.split(r',\s*', req_str)
+    if len(parts) < 2:
+        return False
+
+    name_part = parts[0].strip()
+    if not _VERSION_OPERATOR_RE.search(name_part):
+        return False
+
+    rest = parts[1:]
+    return all(
+        part and _VERSION_SPECIFIER_RE.match(part) and not re.search(r'\s', part)
+        for part in rest
+    )
+
+
 def detect_multiple_requirements_in_string(requirement_string: str) -> List[str]:
     """
     Detect if a requirement string contains multiple requirements.
@@ -27,6 +52,8 @@ def detect_multiple_requirements_in_string(requirement_string: str) -> List[str]
     detected_requirements = []
 
     if re.search(r',\s*', req_str):
+        if _is_version_range_string(req_str):
+            return []
         parts = re.split(r',\s*', req_str)
         if len(parts) > 1:
             detected_requirements = [part.strip() for part in parts if part.strip()]
